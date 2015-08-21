@@ -5,35 +5,18 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"  
-        xmlns:h="http://java.sun.com/jsf/html"  
-        xmlns:f="http://java.sun.com/jsf/core"  
-        xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>UFMT IC - Institudo de Computação</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link rel="stylesheet" href="css/tablecss.css"/>
-        <link rel="stylesheet" href="css/tabs.css"/>
-        
-        <script src="js/script.js"/>   
-    </h:head>
-    <h:body>
-        <div id="interface">
-           <header id="cabecario">
-                <nav id="menu">
-                    <ul>
-                        <li><a href="index.xhtml">Início</a></li>
-                        <li><a href="tabelaSuj.xhtml">Tabelas</a></li>
-                        <li><a href="formularioSuj.xhtml">Inserir</a></li>
-                        <li><a href="about.xhtml">Quem somos</a></li>
-                        <li><a href="contatos.xhtml">Contato</a></li>
-                    </ul>
-                </nav>
-            </header>
-            <section id="corpo">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="content">
+            <section id="corpo" >
                 <h1>Tabelas</h1>
                 <h1><img src="resources/img/icon/1438827648_View_Details.png"/></h1>
-                 <nav id="form-menu">
+                <nav id="form-menu">
                     <ul>
                         <li><a href="tabelaSuj.xhtml">Sujeito</a></li>
                         <li><a href="tabelaVerb.xhtml">Verbo</a></li>
@@ -41,7 +24,7 @@ and open the template in the editor.
                     </ul>
                 </nav>
                 <section id="conteudo">
-                     <h:form id="tabela">
+                    <h:form id="tabela">
                         <p:growl id="messages" showDetail="true"/>
 
                         <p:dataTable  id="tab" var="list" style="text-align: center" value="#{complementoController.complementoList}" filteredValue="#{complementoController.complementoListFiltred}" paginator="true" rows="5" editable="true">
@@ -52,8 +35,8 @@ and open the template in the editor.
                             <p:column headerText="id" style="width: 42px" >
                                 <h:outputText value="#{list.id}"/>
                             </p:column>
-                            
-                             <p:column headerText="Img"  width="50">
+
+                            <p:column headerText="Img"  width="50">
                                 <p:graphicImage name="uploads/imagemComplemento/#{list.url}" width="50" height="50" style="margin: 0 auto"/>
                             </p:column>
 
@@ -102,15 +85,7 @@ and open the template in the editor.
                 <img id="avatar" src="resources/uploads/imagemSujeito/eu.png"/>
                 <p id="data"></p>
             </aside>
-            <footer id="rodape">
-                <p>Copyright 2015  - by Vicente Júnior<br/>
-                    <a href="https://www.facebook.com/vicentejuniorlive" target="_blank">Facebook</a> | <a href="#" target="_blank">Twitter</a>
-                </p>
-            </footer>
-        </div>
-        <script>
-            var d = new Date();
-            document.getElementById("data").innerHTML = d.toDateString();
-        </script>
-    </h:body>
+        </ui:define>
+    </ui:composition>
 </html>
+

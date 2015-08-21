@@ -19,12 +19,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.net.URL;
+import java.text.Normalizer;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.DragDropEvent;
 
 /**
@@ -33,20 +36,20 @@ import org.primefaces.event.DragDropEvent;
  */
 @ManagedBean
 @ViewScoped
-public class PrincipalController implements Serializable{
-    
+public class PrincipalController implements Serializable {
+
     Sujeito objDropedSuj;
     Verbo objDropedVerb;
     Complemento objDropedComp;
-    JDBCSujeitoDAO  sujeitoController = new JDBCSujeitoDAO();
-    JDBCVerboDAO  verboController = new JDBCVerboDAO();
-    JDBCComplementoDAO  complementoController = new JDBCComplementoDAO();
+    JDBCSujeitoDAO sujeitoController = new JDBCSujeitoDAO();
+    JDBCVerboDAO verboController = new JDBCVerboDAO();
+    JDBCComplementoDAO complementoController = new JDBCComplementoDAO();
     List<Sujeito> sujeitoList;
     List<Verbo> verboList;
     List<Complemento> complementoList;
     InputStream sound;
     String nomeAudio;
-    
+
     public static String FATA_DIR;
 
     static {
@@ -67,52 +70,57 @@ public class PrincipalController implements Serializable{
     public String getFataDir() {
         return FATA_DIR;
     }
-    
+
     @PostConstruct
-    public void init(){
+    public void init() {
         sujeitoList = sujeitoController.listar();
         verboList = verboController.listar();
-        complementoList = complementoController.listar();        
+        complementoList = complementoController.listar();
     }
-     public void fileUpload(String nomeArq){       
-         copyFile(nomeArq+".mp3", sound);
- 
-    }  
+
+    public void fileUpload(String nomeArq) {
+
+        copyFile(nomeArq + ".mp3", sound);
+
+    }
+
     public void copyFile(String fileName, InputStream in) {
-           try {
-               System.out.println(fileName);
-                FileOutputStream out = new FileOutputStream(new File(FATA_DIR + fileName));
-                
-                int read = 0;
-                byte[] bytes = new byte[1024];
-              
-                while ((read = in.read(bytes)) != -1) {
-                    out.write(bytes, 0, read);
-                }
-             
-                in.close();
-                out.flush();
-                out.close();
-              
-                System.out.println("Arquivo Criado!");
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
+        try {
+            System.out.println(fileName);
+            FileOutputStream out = new FileOutputStream(new File(FATA_DIR + fileName));
+
+            int read = 0;
+            byte[] bytes = new byte[1024];
+
+            while ((read = in.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
             }
+
+            in.close();
+            out.flush();
+            out.close();
+
+            System.out.println("Arquivo Criado!");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
-    
-    public void onDropSuj(DragDropEvent event){
-        objDropedSuj = ((Sujeito)event.getData());
+
+    public void onDropSuj(DragDropEvent event) {
+        objDropedSuj = ((Sujeito) event.getData());
         falar();
     }
-    public void onDropVerb(DragDropEvent event){
-        objDropedVerb = ((Verbo)event.getData());
+
+    public void onDropVerb(DragDropEvent event) {
+        objDropedVerb = ((Verbo) event.getData());
         falar();
     }
-    public void onDropComp(DragDropEvent event){
-        objDropedComp = ((Complemento)event.getData());
+
+    public void onDropComp(DragDropEvent event) {
+        objDropedComp = ((Complemento) event.getData());
         falar();
     }
-    
+
     public Sujeito getObjDropedSuj() {
         return objDropedSuj;
     }
@@ -176,25 +184,40 @@ public class PrincipalController implements Serializable{
     public void setNomeAudio(String nomeAudio) {
         this.nomeAudio = nomeAudio;
     }
-    
-    
-    
-    public void falar(){
+
+    public void falar() {
         Audio audio = Audio.getInstance();
         try {
-            if(objDropedSuj != null && objDropedVerb != null && objDropedComp != null){
-                
-                nomeAudio = objDropedSuj.getPalavra()+" "+objDropedVerb.getPalavra()+" "+objDropedComp.getPalavra();
-                sound = audio.getAudio(nomeAudio+"&client=", Language.PORTUGUESE);
-                fileUpload(nomeAudio); 
-                
-            }else if(objDropedSuj != null && objDropedVerb != null){
-                nomeAudio = objDropedSuj.getPalavra()+" "+objDropedVerb.getPalavra();
-                sound = audio.getAudio(nomeAudio+"&client=", Language.PORTUGUESE);
+            if (objDropedSuj != null && objDropedVerb != null) {
+                if (objDropedComp != null) {
+                    nomeAudio = objDropedSuj.getPalavra() + " " + objDropedVerb.getPalavra() + " " + objDropedComp.getPalavra();
+                } else {
+                    nomeAudio = objDropedSuj.getPalavra() + " " + objDropedVerb.getPalavra();
+                }
+                System.out.println(nomeAudio);
+                sound = audio.getAudio(nomeAudio + "&client=", Language.PORTUGUESE);
+
+                nomeAudio = nomeAudio.replaceAll("[ ]+", "");
+                nomeAudio = Normalizer.normalize(nomeAudio, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
                 fileUpload(nomeAudio);
+
             }
         } catch (IOException ex) {
             Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    } 
-} 
+    }
+
+    public static String getRequest() {
+        Object request = FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String path = "";
+        if (request instanceof HttpServletRequest) {
+            HttpServletRequest req = (HttpServletRequest) request;
+            path = req.getRequestURL().toString().replace(req.getRequestURI(), "");
+        }
+        return path + "/fataimg";
+    }
+
+    public String getPath() {
+        return getRequest() + "/";
+    }
+}

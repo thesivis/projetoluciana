@@ -4,90 +4,75 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<html xmlns="http://www.w3.org/1999/xhtml"  
-        xmlns:h="http://java.sun.com/jsf/html"  
-        xmlns:f="http://java.sun.com/jsf/core"  
-        xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>UFMT - IC - Instituto de Computação</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link rel="stylesheet" href="css/tablecss.css"/>
-        <script src="js/script.js"/>   
-    </h:head>
-    <h:body>
-        <div id="interface">
-            <header id="cabecario">
-                <nav id="menu">
-                   <ul>
-                        <li><a href="index.xhtml">Início</a></li>
-                        <li><a href="tabelaSuj.xhtml">Tabelas</a></li>
-                        <li><a href="formularioSuj.xhtml">Inserir</a></li>
-                        <li><a href="about.xhtml">Quem somos</a></li>
-                        <li><a href="contatos.xhtml">Contato</a></li>
-                    </ul>
-                </nav>
-            </header>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="content">
             <section id="corpo">
-                <article id="area-drop">
-                    <h:form>
-                         <p:panelGrid columns="3" style="margin: 0px auto;" layout="grid">
-                             <p:fieldset id="campoSuj" legend="Sujeito">
-                                 <p:graphicImage  styleClass="image-droped" rendered="#{not empty principalController.objDropedSuj}" name="uploads/imagemSujeito/#{principalController.objDropedSuj.url}"/>
-                                 <p:droppable   datasource="j_idt16:tabView:availableSuj" scope="suj" tolerance="fit" activeStyleClass="actDrop" hoverStyleClass="hovDrop"  onDrop="handleDrop">
-                                     <p:ajax listener="#{principalController.onDropSuj}" update="campoSuj j_idt16:tabView:availableSuj j_idt35:botFala"/>
-                                 </p:droppable>
-                             </p:fieldset>
-                             <p:fieldset id="campoVerb" legend="Verbo">
-                                 <p:graphicImage styleClass="image-droped" rendered="#{not empty principalController.objDropedVerb}" name="uploads/imagemVerbo/#{principalController.objDropedVerb.url}"/>
-                                 <p:droppable datasource="j_idt16:tabView:availableVerb" scope="verb" tolerance="fit"  activeStyleClass="actDrop" hoverStyleClass="hovDrop" onDrop="handleDrop">
-                                     <p:ajax listener="#{principalController.onDropVerb}" update="campoVerb j_idt16:tabView:availableVerb j_idt35:botFala"/>
-                                 </p:droppable>
-                             </p:fieldset>  
-                             <p:fieldset id="campoComp" legend="Complemento">    
-                                 <p:graphicImage styleClass="image-droped" rendered="#{not empty principalController.objDropedComp}" name="uploads/imagemComplemento/#{principalController.objDropedComp.url}"/>
-                                 <p:droppable datasource="j_idt16:tabView:availableComp" scope="comp" tolerance="fit"   activeStyleClass="actDrop" hoverStyleClass="hovDrop" onDrop="handleDrop">
-                                     <p:ajax listener="#{principalController.onDropComp}" update="campoComp j_idt16:tabView:availableComp j_idt35:botFala" />
-                                 </p:droppable>
-                             </p:fieldset>
-                         </p:panelGrid>
-                    </h:form>
-                </article>
-                <article id="area-drag">
-                    <h:form>
-                         <p:tabView id="tabView">
-                             <p:tab title="Sujeito">
-                                 <p:dataGrid id="availableSuj" value="#{principalController.sujeitoList}" var="suj"  columns="6" layout="grid">
-                                     <p:panel>
-                                         <p:graphicImage styleClass="image-drag" name="uploads/imagemSujeito/#{suj.url}" width="100px" height="100px">
-                                             <p:draggable revert="true" scope="suj"/>
-                                         </p:graphicImage><br/>
-                                         <h:outputText value="#{suj.palavra}"/>
-                                     </p:panel>
-                                 </p:dataGrid>
-                             </p:tab>
-                             <p:tab title="Verbo">   
-                                 <p:dataGrid id="availableVerb" value="#{principalController.verboList}" var="verb"  columns="6" layout="grid">
-                                     <p:panel>
-                                         <p:graphicImage styleClass="image-drag" name="uploads/imagemVerbo/#{verb.url}">
-                                             <p:draggable revert="true" scope="verb"/>
-                                         </p:graphicImage><br/>
-                                         <h:outputText value="#{verb.palavra}"/>
-                                     </p:panel>
-                                 </p:dataGrid>
-                             </p:tab>
-                             <p:tab title="Complemento">
-                                 <p:dataGrid id="availableComp" value="#{principalController.complementoList}" var="comp"   columns="6" layout="grid">
-                                     <p:panel>
-                                         <p:graphicImage styleClass="image-drag" id="comp" name="uploads/imagemComplemento/#{comp.url}" width="100px" height="100px">
-                                             <p:draggable revert="true" scope="comp"/>
-                                         </p:graphicImage> <br/>
-                                         <h:outputText value="#{comp.palavra}"/>
-                                     </p:panel>   
-                                 </p:dataGrid>
-                             </p:tab>
-                         </p:tabView>
-                    </h:form>
-                </article>
+                <h:form>
+                    <article id="area-drop">
+
+                        <p:panelGrid columns="3" style="margin: 0px auto;" layout="grid">
+                            <p:fieldset id="campoSuj" legend="Sujeito">
+                                <p:graphicImage  styleClass="image-droped" rendered="#{not empty principalController.objDropedSuj}" name="uploads/imagemSujeito/#{principalController.objDropedSuj.url}"/>
+                                <p:droppable   datasource=":#{p:component('availableSuj')}" scope="suj" tolerance="fit" activeStyleClass="actDrop" hoverStyleClass="hovDrop"  onDrop="handleDrop">
+                                    <p:ajax listener="#{principalController.onDropSuj}" update="campoSuj :#{p:component('availableSuj')} :#{p:component('botFala')}"/>
+                                </p:droppable>
+                            </p:fieldset>
+                            <p:fieldset id="campoVerb" legend="Verbo">
+                                <p:graphicImage styleClass="image-droped" rendered="#{not empty principalController.objDropedVerb}" name="uploads/imagemVerbo/#{principalController.objDropedVerb.url}"/>
+                                <p:droppable datasource=":#{p:component('availableVerb')}" scope="verb" tolerance="fit"  activeStyleClass="actDrop" hoverStyleClass="hovDrop" onDrop="handleDrop">
+                                    <p:ajax listener="#{principalController.onDropVerb}" update="campoVerb :#{p:component('availableVerb')} :#{p:component('botFala')}"/>
+                                </p:droppable>
+                            </p:fieldset>  
+                            <p:fieldset id="campoComp" legend="Complemento">    
+                                <p:graphicImage styleClass="image-droped" rendered="#{not empty principalController.objDropedComp}" name="uploads/imagemComplemento/#{principalController.objDropedComp.url}"/>
+                                <p:droppable datasource=":#{p:component('availableComp')}" scope="comp" tolerance="fit"   activeStyleClass="actDrop" hoverStyleClass="hovDrop" onDrop="handleDrop">
+                                    <p:ajax listener="#{principalController.onDropComp}" update="campoComp :#{p:component('availableComp')} :#{p:component('botFala')}" />
+                                </p:droppable>
+                            </p:fieldset>
+                        </p:panelGrid>
+                    </article>
+                    <article id="area-drag">
+                        <p:tabView id="tabView">
+                            <p:tab title="Sujeito">
+                                <p:dataGrid id="availableSuj" value="#{principalController.sujeitoList}" var="suj"  columns="6" layout="grid">
+                                    <p:panel>
+                                        <p:graphicImage styleClass="image-drag" name="uploads/imagemSujeito/#{suj.url}" width="100px" height="100px">
+                                            <p:draggable revert="true" scope="suj"/>
+                                        </p:graphicImage><br/>
+                                        <h:outputText value="#{suj.palavra}"/>
+                                    </p:panel>
+                                </p:dataGrid>
+                            </p:tab>
+                            <p:tab title="Verbo">   
+                                <p:dataGrid id="availableVerb" value="#{principalController.verboList}" var="verb"  columns="6" layout="grid">
+                                    <p:panel>
+                                        <p:graphicImage styleClass="image-drag" name="uploads/imagemVerbo/#{verb.url}">
+                                            <p:draggable revert="true" scope="verb"/>
+                                        </p:graphicImage><br/>
+                                        <h:outputText value="#{verb.palavra}"/>
+                                    </p:panel>
+                                </p:dataGrid>
+                            </p:tab>
+                            <p:tab title="Complemento">
+                                <p:dataGrid id="availableComp" value="#{principalController.complementoList}" var="comp"   columns="6" layout="grid">
+                                    <p:panel>
+                                        <p:graphicImage styleClass="image-drag" id="comp" name="uploads/imagemComplemento/#{comp.url}" width="100px" height="100px">
+                                            <p:draggable revert="true" scope="comp"/>
+                                        </p:graphicImage> <br/>
+                                        <h:outputText value="#{comp.palavra}"/>
+                                    </p:panel>   
+                                </p:dataGrid>
+                            </p:tab>
+                        </p:tabView>
+
+                    </article>
+                </h:form>
             </section>
             <aside id="painel-lateral">
                 <h2> Nome Paciente </h2>
@@ -97,18 +82,9 @@ and open the template in the editor.
                 </h:form>
                 <p id="data"></p>
                 <p:fieldset  id="player" style="visibility: hidden">
-                    <audio controls="" src="resources/uploads/voice/#{principalController.nomeAudio}.mp3" autoplay="true" ></audio>
+                    <audio controls="" src="#{principalController.path}#{principalController.nomeAudio}.mp3" autoplay="true" ></audio>
                 </p:fieldset>
             </aside>
-            <footer id="rodape">
-                <p>Copyright 2015  - by Vicente Júnior<br/>
-                    <a href="https://www.facebook.com/vicentejuniorlive" target="_blank">Facebook</a> | <a href="#" target="_blank">Twitter</a>
-                </p>
-            </footer>
-        </div>
-        <script>
-            var d = new Date();
-            document.getElementById("data").innerHTML = d.toDateString();
-        </script>
-    </h:body>
+        </ui:define>
+    </ui:composition>
 </html>

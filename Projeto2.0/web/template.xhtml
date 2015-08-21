@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"  
+        xmlns:h="http://java.sun.com/jsf/html"  
+        xmlns:f="http://java.sun.com/jsf/core"  
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>UFMT - IC - Instituto de Computação</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="css/tablecss.css"/>
+        <link rel="stylesheet" href="css/tabs.css"/>
+        <script src="js/script.js"/>   
+    </h:head>
+    <h:body>
+        <div id="interface">
+            <header id="cabecario">
+                <nav id="menu">
+                   <ul>
+                       <li><a href="/Projeto2.0/faces/index.xhtml">Início</a></li>
+                        <li><a href="/Projeto2.0/faces/tabelaSuj.xhtml">Tabelas</a></li>
+                        <li><a href="/Projeto2.0/faces/formularioSuj.xhtml">Inserir</a></li>
+                        <li><a href="/Projeto2.0/faces/about.xhtml">Quem somos</a></li>
+                        <li><a href="/Projeto2.0/faces/contatos.xhtml">Contato</a></li>
+                    </ul>
+                </nav>
+            </header>
+            
+            <ui:insert name="content" />
+            
+            <footer id="rodape">
+                <p>Copyright 2015  - by Vicente Júnior<br/>
+                    <a href="https://www.facebook.com/vicentejuniorlive" target="_blank">Facebook</a> | <a href="#" target="_blank">Twitter</a>
+                </p>
+            </footer>
+        </div>
+        <script>
+            var d = new Date();
+            document.getElementById("data").innerHTML = d.toDateString();
+        </script>
+    </h:body>
+</html>

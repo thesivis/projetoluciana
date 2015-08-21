@@ -19,7 +19,7 @@ public class ConnectionFactory{
     public static Connection getConnection(){
         try {
             Class.forName("org.postgresql.Driver");
-            return  DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/projetoUFMT", "fata", "956881");
+            return  DriverManager.getConnection("jdbc:postgresql://localhost:5432/projetoUFMT", "postgres", "123456");
         } catch (SQLException ex) {
             Logger.getLogger(ConnectionFactory.class.getName()).log(Level.SEVERE, null, ex);
             throw new RuntimeException ("Erro SQLException ao abrir a conexao em ConnectionFactory",ex);
