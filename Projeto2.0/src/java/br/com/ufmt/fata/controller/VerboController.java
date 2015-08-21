@@ -5,6 +5,7 @@
  */
 package br.com.ufmt.fata.controller;
 
+import static br.com.ufmt.fata.controller.PrincipalController.FATA_DIR;
 import br.com.ufmt.fata.dao.JDBCVerboDAO;
 import br.com.ufmt.fata.obj.Verbo;
 import java.io.File;
@@ -34,8 +35,7 @@ public class VerboController implements Serializable{
     private final JDBCVerboDAO verboCon = new JDBCVerboDAO();
     private UploadedFile file;
     private Verbo verboFile = new Verbo();
-    private final String destination = "/home/vicentejr/NetBeansProjects/Projeto2.0/web/resources/uploads/imagemVerbo/";
-    
+     
     @PostConstruct
     public void init(){
         verboList = verboCon.listar();
@@ -78,7 +78,7 @@ public class VerboController implements Serializable{
     public void copyFile(String fileName, InputStream in) {
            try {
                System.out.println(fileName);
-               try (OutputStream out = new FileOutputStream(new File(destination + fileName))) {
+               try (OutputStream out = new FileOutputStream(new File(FATA_DIR + fileName))) {
                    int read = 0;
                    byte[] bytes = new byte[1024];
                    

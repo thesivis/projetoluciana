@@ -5,6 +5,7 @@
  */
 package br.com.ufmt.fata.controller;
  
+import static br.com.ufmt.fata.controller.PrincipalController.FATA_DIR;
 import br.com.ufmt.fata.dao.JDBCSujeitoDAO;
 import br.com.ufmt.fata.obj.Sujeito;
 import java.io.File;
@@ -37,8 +38,7 @@ public class SujeitoController  implements Serializable{
     private final JDBCSujeitoDAO sujeitoCon = new JDBCSujeitoDAO();
     private UploadedFile file;
     private Sujeito sujeitoFile = new Sujeito();
-    private final String destination = "/home/vicentejr/NetBeansProjects/Projeto2.0/web/resources/uploads/imagemSujeito/";
-    
+   
     @PostConstruct
     public void init(){
         sujeitoList = sujeitoCon.listar();
@@ -81,7 +81,7 @@ public class SujeitoController  implements Serializable{
     public void copyFile(String fileName, InputStream in) {
            try {
                System.out.println(fileName);
-               try (OutputStream out = new FileOutputStream(new File(destination + fileName))) {
+               try (OutputStream out = new FileOutputStream(new File(FATA_DIR + fileName))) {
                    int read = 0;
                    byte[] bytes = new byte[1024];
                    

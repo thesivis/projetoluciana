@@ -18,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.net.URL;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,7 +46,27 @@ public class PrincipalController implements Serializable{
     List<Complemento> complementoList;
     InputStream sound;
     String nomeAudio;
-    String destination = "/home/vicentejr/NetBeansProjects/Projeto2.0/web/resources/uploads/voice/";
+    
+    public static String FATA_DIR;
+
+    static {
+        FATA_DIR = System.getenv("FATA_DIR");
+        if (FATA_DIR == null) {
+            if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+                FATA_DIR = "C:\\ProgramData\\Fata\\";
+            } else {
+                FATA_DIR = "/opt/fata/";
+            }
+            File dir = new File(FATA_DIR);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+        }
+    }
+
+    public String getFataDir() {
+        return FATA_DIR;
+    }
     
     @PostConstruct
     public void init(){
@@ -60,7 +81,7 @@ public class PrincipalController implements Serializable{
     public void copyFile(String fileName, InputStream in) {
            try {
                System.out.println(fileName);
-                FileOutputStream out = new FileOutputStream(new File(destination + fileName));
+                FileOutputStream out = new FileOutputStream(new File(FATA_DIR + fileName));
                 
                 int read = 0;
                 byte[] bytes = new byte[1024];
