@@ -16,5 +16,6 @@ public interface SujeitoDAO {
     public void inserir(Sujeito sujeito);
     public void remover(Sujeito sujeito);
     public List<Sujeito> listar();
+    public Sujeito listaById(int id);
     public void editar(Sujeito sujeito); 
 }

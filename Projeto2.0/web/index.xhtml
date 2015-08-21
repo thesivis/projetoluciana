@@ -18,19 +18,19 @@ and open the template in the editor.
 
                         <p:panelGrid columns="3" style="margin: 0px auto;" layout="grid">
                             <p:fieldset id="campoSuj" legend="Sujeito">
-                                <p:graphicImage  styleClass="image-droped" rendered="#{not empty principalController.objDropedSuj}" name="uploads/imagemSujeito/#{principalController.objDropedSuj.url}"/>
+                                <p:graphicImage  styleClass="image-droped" rendered="#{not empty principalController.objDropedSuj}" url="#{principalController.path}#{principalController.objDropedSuj.url}"/>
                                 <p:droppable   datasource=":#{p:component('availableSuj')}" scope="suj" tolerance="fit" activeStyleClass="actDrop" hoverStyleClass="hovDrop"  onDrop="handleDrop">
                                     <p:ajax listener="#{principalController.onDropSuj}" update="campoSuj :#{p:component('availableSuj')} :#{p:component('botFala')}"/>
                                 </p:droppable>
                             </p:fieldset>
                             <p:fieldset id="campoVerb" legend="Verbo">
-                                <p:graphicImage styleClass="image-droped" rendered="#{not empty principalController.objDropedVerb}" name="uploads/imagemVerbo/#{principalController.objDropedVerb.url}"/>
+                                <p:graphicImage styleClass="image-droped" rendered="#{not empty principalController.objDropedVerb}" url="#{principalController.path}#{principalController.objDropedVerb.url}"/>
                                 <p:droppable datasource=":#{p:component('availableVerb')}" scope="verb" tolerance="fit"  activeStyleClass="actDrop" hoverStyleClass="hovDrop" onDrop="handleDrop">
                                     <p:ajax listener="#{principalController.onDropVerb}" update="campoVerb :#{p:component('availableVerb')} :#{p:component('botFala')}"/>
                                 </p:droppable>
                             </p:fieldset>  
                             <p:fieldset id="campoComp" legend="Complemento">    
-                                <p:graphicImage styleClass="image-droped" rendered="#{not empty principalController.objDropedComp}" name="uploads/imagemComplemento/#{principalController.objDropedComp.url}"/>
+                                <p:graphicImage styleClass="image-droped" rendered="#{not empty principalController.objDropedComp}" url="#{principalController.path}#{principalController.objDropedComp.url}"/>
                                 <p:droppable datasource=":#{p:component('availableComp')}" scope="comp" tolerance="fit"   activeStyleClass="actDrop" hoverStyleClass="hovDrop" onDrop="handleDrop">
                                     <p:ajax listener="#{principalController.onDropComp}" update="campoComp :#{p:component('availableComp')} :#{p:component('botFala')}" />
                                 </p:droppable>
@@ -42,7 +42,7 @@ and open the template in the editor.
                             <p:tab title="Sujeito">
                                 <p:dataGrid id="availableSuj" value="#{principalController.sujeitoList}" var="suj"  columns="6" layout="grid">
                                     <p:panel>
-                                        <p:graphicImage styleClass="image-drag" name="uploads/imagemSujeito/#{suj.url}" width="100px" height="100px">
+                                        <p:graphicImage styleClass="image-drag" url="#{principalController.path}#{suj.url}" width="100px" height="100px">
                                             <p:draggable revert="true" scope="suj"/>
                                         </p:graphicImage><br/>
                                         <h:outputText value="#{suj.palavra}"/>
@@ -52,7 +52,7 @@ and open the template in the editor.
                             <p:tab title="Verbo">   
                                 <p:dataGrid id="availableVerb" value="#{principalController.verboList}" var="verb"  columns="6" layout="grid">
                                     <p:panel>
-                                        <p:graphicImage styleClass="image-drag" name="uploads/imagemVerbo/#{verb.url}">
+                                        <p:graphicImage styleClass="image-drag" url="#{principalController.path}#{verb.url}">
                                             <p:draggable revert="true" scope="verb"/>
                                         </p:graphicImage><br/>
                                         <h:outputText value="#{verb.palavra}"/>
@@ -62,7 +62,7 @@ and open the template in the editor.
                             <p:tab title="Complemento">
                                 <p:dataGrid id="availableComp" value="#{principalController.complementoList}" var="comp"   columns="6" layout="grid">
                                     <p:panel>
-                                        <p:graphicImage styleClass="image-drag" id="comp" name="uploads/imagemComplemento/#{comp.url}" width="100px" height="100px">
+                                        <p:graphicImage styleClass="image-drag" id="comp" url="#{principalController.path}#{comp.url}" width="100px" height="100px">
                                             <p:draggable revert="true" scope="comp"/>
                                         </p:graphicImage> <br/>
                                         <h:outputText value="#{comp.palavra}"/>

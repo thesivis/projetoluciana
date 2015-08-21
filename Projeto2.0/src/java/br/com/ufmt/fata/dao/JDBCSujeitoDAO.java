@@ -7,6 +7,7 @@ package br.com.ufmt.fata.dao;
 
 import br.com.ufmt.fata.util.ConnectionFactory;
 import br.com.ufmt.fata.obj.Sujeito;
+import java.nio.charset.Charset;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,29 +18,29 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Testando a acentuação
  * @author vicentejr
  */
-public class JDBCSujeitoDAO implements SujeitoDAO{
+public class JDBCSujeitoDAO implements SujeitoDAO {
 
     Connection connection;
-    
+
     public JDBCSujeitoDAO() {
-        
+
     }
-    
+
     @Override
     public void inserir(Sujeito sujeito) {
         try {
             connection = ConnectionFactory.getConnection();
             String SQL = "INSERT INTO sujeito (palavra,sexo,url,conjugacao) VALUES"
-                    +"(?,?,?,?)";
+                    + "(?,?,?,?)";
             try (PreparedStatement ps = connection.prepareStatement(SQL)) {
                 ps.setString(1, sujeito.getPalavra());
                 ps.setString(2, sujeito.getSexo());
                 ps.setString(3, sujeito.getUrl());
                 ps.setString(4, sujeito.getConjugacao());
-                
+
                 ps.executeUpdate();
             }
             connection.close();
@@ -67,36 +68,38 @@ public class JDBCSujeitoDAO implements SujeitoDAO{
 
     @Override
     public List<Sujeito> listar() {
-        List <Sujeito> sujeitos = new ArrayList<>();
+        List<Sujeito> sujeitos = new ArrayList<>();
         try {
             connection = ConnectionFactory.getConnection();
-            String SQL =    "SELECT * FROM sujeito ORDER BY id";
+
+            String SQL = "SELECT * FROM sujeito ORDER BY id";
             ResultSet rs;
             try (PreparedStatement ps = connection.prepareStatement(SQL)) {
                 rs = ps.executeQuery();
-                while(rs.next()){
+
+                while (rs.next()) {
                     Sujeito sujeito = new Sujeito();
                     sujeito.setId(rs.getInt("id"));
                     sujeito.setPalavra(rs.getString("palavra"));
                     sujeito.setSexo(rs.getString("sexo"));
                     sujeito.setUrl(rs.getString("url"));
-                    sujeito.setConjugacao(rs.getString("conjugacao")); 
+                    sujeito.setConjugacao(rs.getString("conjugacao"));
                     sujeitos.add(sujeito);
                 }
             }
             rs.close();
             connection.close();
             return sujeitos;
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(JDBCSujeitoDAO.class.getName()).log(Level.SEVERE, null, ex);
-            throw new RuntimeException("Falha ao listar sujeitos em JDBCSujeitoDAO ",ex);
+            throw new RuntimeException("Falha ao listar sujeitos em JDBCSujeitoDAO ", ex);
         }
     }
 
     @Override
     public void editar(Sujeito sujeito) {
-        
+
         try {
             connection = ConnectionFactory.getConnection();
             String SQL = "UPDATE sujeito SET palavra = ?,sexo = ?,url = ?,conjugacao = ? WHERE id = ?";
@@ -106,7 +109,7 @@ public class JDBCSujeitoDAO implements SujeitoDAO{
                 ps.setString(3, sujeito.getUrl());
                 ps.setString(4, sujeito.getConjugacao());
                 ps.setInt(5, sujeito.getId());
-                
+
                 ps.executeUpdate();
             }
             connection.close();
@@ -114,7 +117,34 @@ public class JDBCSujeitoDAO implements SujeitoDAO{
             Logger.getLogger(JDBCSujeitoDAO.class.getName()).log(Level.SEVERE, null, ex);
             throw new RuntimeException("Erro ao editar registro Sujeito", ex);
         }
-        
-    }    
-     
+
+    }
+
+    @Override
+    public Sujeito listaById(int id) {
+        try {
+            connection = ConnectionFactory.getConnection();
+            String SQL = "SELECT * FROM sujeito WHERE id = '" + id + "' ORDER BY id";
+            ResultSet rs;
+            Sujeito sujeito = new Sujeito();
+            try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+                rs = ps.executeQuery();
+                while (rs.next()) {
+                    sujeito.setId(rs.getInt("id"));
+                    sujeito.setPalavra(rs.getString("palavra"));
+                    sujeito.setSexo(rs.getString("sexo"));
+                    sujeito.setUrl(rs.getString("url"));
+                    sujeito.setConjugacao(rs.getString("conjugacao"));
+                }
+            }
+            rs.close();
+            connection.close();
+            return sujeito;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(JDBCSujeitoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            throw new RuntimeException("Falha ao listar sujeitos em JDBCSujeitoDAO ", ex);
+        }
+    }
+
 }

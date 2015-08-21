@@ -108,6 +108,9 @@ public class PrincipalController implements Serializable {
 
     public void onDropSuj(DragDropEvent event) {
         objDropedSuj = ((Sujeito) event.getData());
+        System.out.println("Sujeito ação:" + objDropedSuj.getPalavra());
+        Sujeito suj = sujeitoController.listaById(objDropedSuj.getId());
+        System.out.println("Novo:" + suj.getPalavra());
         falar();
     }
 
