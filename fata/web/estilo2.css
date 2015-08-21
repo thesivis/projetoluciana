@@ -1,0 +1,124 @@
+
+body{
+    display: table;
+    background:url(imagens/background.jpg);
+    color:#868686;
+    font-family: "Open Sans", Helvetica, sans-serif, arial;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 22px;
+    text-align: left;
+    text-shadow:1px 1px 0px #fff;
+}
+.center{
+    margin: 0 auto;
+    width: 100%;
+}
+.clearfix:before, .clearfix:after {
+    content: " ";
+    display: table;
+}
+.clearfix:after {
+    clear: both;
+}
+.clearfix {
+    *zoom: 1;
+}
+
+header{
+    //border-bottom: 1px solid #E0E0E0; /*borda na base da seção*/
+    height:50px;
+    width:100%; 
+}
+nav{
+    float:left; /*posiciona menu à direita*/
+    margin-top:10px; /*distância do menu à margem superior do navegador*/
+    text-align:left; /*alinha os links à direita*/
+    width:100%;
+}
+nav ul{
+    list-style-type:none; /*retira os marcadores da lista*/
+}
+    nav li {
+        display: inline; /*deixa o menu na horizontal*/
+    }
+        nav ul li a{
+            margin-right: 30px; /*espaço à direita de cada link do menu*/
+        }
+        
+nav a:link, nav a:visited{
+    color:#999;
+    font-size: 22px;
+    font-weight: 300;
+    letter-spacing: -2px; /*espaçamento entre as letras*/
+    line-height: 26px;
+    display:inline-block;
+}
+nav a.ativo:link, nav a:hover{
+    color:#FE9380; /*indica a página ativa e o link:hover*/
+}
+.container{
+    //background-color: #FE9481;
+    //height: 417px;
+    width: 100%;
+    padding: 2.5%;
+    //max-width: 100%;
+}
+
+footer{
+    border-bottom: 2px solid #E0E0E0; 
+    //position: static;
+    clear:both;
+    height: 170px;
+    padding: 2.5%;
+    width:100%;
+}
+#soltaveis{
+    clear:both;
+    margin-bottom: 100%;
+    
+}
+.soltavel{
+    position: relative;
+    //alignment-adjust: auto;    
+    height: 154px;
+    width: 154px;
+    float: left;
+    border: 2px solid #666666;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    -webkit-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 3px #000;
+    -ms-box-shadow: inset 0 0 3px #000;
+    box-shadow: inset 0 0 3px #000;
+    text-align: center;
+}
+.soltavel.over{
+    border: 2px dashed #000;
+}
+
+.arrastavel{
+    height: 154px;
+    width: 154px;
+    float: left;
+    //position:relative;
+    border: 2px solid #666666;
+    //background-color: #ccc;
+    background: url(imagens/comer.jpg) center;
+    background-size: 154px 154px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    -webkit-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 3px #000;
+    -ms-box-shadow: inset 0 0 3px #000;
+    box-shadow: inset 0 0 3px #000;
+    text-align: center;
+    cursor: move;
+}
+

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"  
+        xmlns:h="http://java.sun.com/jsf/html"  
+        xmlns:f="http://java.sun.com/jsf/core"  
+        xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>UFMT IC - Institudo de Computação</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="css/tablecss.css"/>
+        <link rel="stylesheet" href="css/tabs.css"/>
+        
+        <script src="js/script.js"/>   
+    </h:head>
+    <h:body>
+        <div id="interface">
+           <header id="cabecario">
+                <nav id="menu">
+                    <ul>
+                        <li><a href="index.xhtml">Início</a></li>
+                        <li><a href="tabelaSuj.xhtml">Tabelas</a></li>
+                        <li><a href="formularioSuj.xhtml">Inserir</a></li>
+                        <li><a href="about.xhtml">Quem somos</a></li>
+                        <li><a href="contatos.xhtml">Contato</a></li>
+                    </ul>
+                </nav>
+            </header>
+            <section id="corpo">
+                <h1>Tabelas</h1>
+                <h1><img src="resources/img/icon/1438827648_View_Details.png"/></h1>
+                 <nav id="form-menu">
+                    <ul>
+                        <li><a href="tabelaSuj.xhtml">Sujeito</a></li>
+                        <li><a href="tabelaVerb.xhtml">Verbo</a></li>
+                        <li><a href="tabelaComp.xhtml" style="color:  rgba(255, 151, 121, 1)">Complemento</a></li>
+                    </ul>
+                </nav>
+                <section id="conteudo">
+                     <h:form id="tabela">
+                        <p:growl id="messages" showDetail="true"/>
+
+                        <p:dataTable  id="tab" var="list" style="text-align: center" value="#{complementoController.complementoList}" filteredValue="#{complementoController.complementoListFiltred}" paginator="true" rows="5" editable="true">
+
+                            <p:ajax event="rowEdit" listener="#{complementoController.onRowEdit}" update=":tabela:messages"/>
+                            <p:ajax event="rowEditCancel" listener="#{complementoController.onRowCancel}" update=":tabela:messages"/>
+
+                            <p:column headerText="id" style="width: 42px" >
+                                <h:outputText value="#{list.id}"/>
+                            </p:column>
+                            
+                             <p:column headerText="Img"  width="50">
+                                <p:graphicImage name="uploads/imagemComplemento/#{list.url}" width="50" height="50" style="margin: 0 auto"/>
+                            </p:column>
+
+
+                            <p:column headerText="Palavra" filterBy="#{list.palavra}" filterMatchMode="contains">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{list.palavra}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{list.palavra}"/></f:facet>
+                                </p:cellEditor>     
+                            </p:column>
+
+                            <p:column headerText="Sexo" filterBy="#{list.sexo}" filterMatchMode="contains">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{list.sexo}"/></f:facet>
+                                    <f:facet name="input">
+                                        <h:selectOneMenu value="#{list.sexo}">
+                                            <f:selectItem itemLabel="M" itemValue="M"/>
+                                            <f:selectItem itemLabel="F" itemValue="F"/>
+                                        </h:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>     
+                            </p:column>
+
+                            <p:column headerText="Url" filterBy="#{list.url}" filterMatchMode="contains">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{list.url}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{list.url}"/></f:facet>
+                                </p:cellEditor>     
+                            </p:column>
+
+                            <p:column headerText="Editar" style="width: 32px;  font-size: 10px">
+                                <p:rowEditor />
+                            </p:column>
+
+                            <p:column headerText="Excluir" style="width: 32px ; font-size:  10px">
+                                <p:commandButton  icon="ui-icon-trash">
+                                    <p:ajax listener="#{complementoController.onRowDelet(list)}" update="@all"  oncomplete="location.reload()"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable> 
+                    </h:form>
+                </section>
+            </section>
+            <aside id="painel-lateral">
+                <h2> Nome Paciente </h2>
+                <img id="avatar" src="resources/uploads/imagemSujeito/eu.png"/>
+                <p id="data"></p>
+            </aside>
+            <footer id="rodape">
+                <p>Copyright 2015  - by Vicente Júnior<br/>
+                    <a href="https://www.facebook.com/vicentejuniorlive" target="_blank">Facebook</a> | <a href="#" target="_blank">Twitter</a>
+                </p>
+            </footer>
+        </div>
+        <script>
+            var d = new Date();
+            document.getElementById("data").innerHTML = d.toDateString();
+        </script>
+    </h:body>
+</html>

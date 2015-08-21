@@ -1,0 +1,54 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 24/02/2015, 10:16:50
+    Author     : raphael
+*/
+
+.ui-button-icon-left{
+    background-size: 15em 10em !important;
+    width: 15em !important;
+    height: 10em !important;
+    left: 5% !important;
+    top: 8% !important;
+}
+
+.someCustomClass .ui-datagrid-column {width: 16.33%;}
+
+.divDrop{
+    width: 18em; 
+    margin-right: 50px;
+    float:left;
+}
+
+.imagem{
+    height: 11em;
+    width: 16em !important;
+}
+
+.ui-icon-sujeito{
+    background-image: url("#{resource['imagens/sujeito.png']}") !important;
+}
+
+.ui-icon-sujeitodeselected{
+    background-image: url("#{resource['imagens/sujeitodeselected.png']}") !important;
+}
+
+.ui-icon-verbo{
+    background-image: url("#{resource['imagens/verbo.png']}") !important;
+}
+
+.ui-icon-verbodeselected{
+    background-image: url("#{resource['imagens/verbodeselected.png']}") !important;
+}
+
+.ui-icon-complemento{
+    background-image: url("#{resource['imagens/complemento.png']}") !important;
+}
+
+.ui-icon-complementodeselected{
+    background-image: url("#{resource['imagens/complementodeselected.png']}") !important;
+}

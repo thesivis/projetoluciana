@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/template.xhtml">
+
+        <ui:define name="content">
+            <title>Verbo</title>
+        </ui:define>
+
+        <ui:define name="content">
+            <p:fieldset legend="Verbo">
+                <div align="center">
+                    <h:form enctype="multipart/form-data">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="Palavra:" for="palavra"/>
+                            <p:inputText id="palavra" value="#{verboController.entity.palavra}" required="true" requiredMessage="Campo Palavra Obrigatório!"/>
+
+                            <p:outputLabel value="Primeira Pessoa Singular:" for="primeiraPessoaSingular"/>
+                            <p:inputText id="primeiraPessoaSingular" value="#{verboController.entity.primeiraPessoaSingular}"  required="true" requiredMessage="Campo Primeira Pessoa Singular Obrigatório!"/>
+
+                            <p:outputLabel value="Terceira Pessoa Singular:" for="terceiraPessoaSingular"/>
+                            <p:inputText id="terceiraPessoaSingular" value="#{verboController.entity.terceiraPessoaSingular}"  required="true" requiredMessage="Campo Terceira Pessoa Singular Obrigatório!"/>
+
+                            <p:outputLabel value="Terceira Pessoa Plural" for="terceiraPessoaPlural"/>
+                            <p:inputText id="terceiraPessoaPlural" value="#{verboController.entity.terceiraPessoaPlural}"  required="true" requiredMessage="Campo Terceira Pessoa Plural Obrigatório!"/>
+
+                            <p:outputLabel value="Arquivo:" for="url"/>
+                            <h:inputFile id="url" value="#{verboController.file}" required="true" requiredMessage="Campo Arquivo Obrigatório!">
+                                <f:validator validatorId="FileUploadValidator" />
+                            </h:inputFile>
+
+                            <p:growl id="messages" showDetail="true" />
+                            <p:commandButton ajax="false" value="Salvar" action="#{verboController.salvar()}" />
+                        </p:panelGrid>
+                    </h:form>
+                </div>
+                <h:form style="margin-top: 2%">
+                    <p:growl id="messagestabela" showDetail="true" />
+                    <p:dataTable value="#{verboController.list}" var="item" id="tabela" lazy="false" editable="true" filterEvent="enter"
+                                 paginator="true" rows="10" >
+
+                        <f:facet name="header">
+                            #{verboController.list.rowCount} Verbo(s) Cadastrado(s)
+                        </f:facet>
+
+                        <p:ajax event="rowEdit" listener="#{verboController.onRowEdit(item)}" update=":#{p:component('messagestabela')}" />
+                        <p:ajax event="rowEditCancel" listener="#{verboController.onRowCancel}" update=":#{p:component('messagestabela')}" />
+
+                        <p:column headerText="Id">#{item.id}</p:column>
+                        <p:column headerText="Palavra" sortBy="#{item.palavra}" filterBy="#{item.palavra}" filterMatchMode="contains">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{item.palavra}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{item.palavra}" style="alignment-adjust:auto" label="Palavra:"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="1º Pessoa Singular" sortBy="#{item.primeiraPessoaSingular}" filterBy="#{item.primeiraPessoaSingular}" filterMatchMode="contains">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{item.primeiraPessoaSingular}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{item.primeiraPessoaSingular}" style="alignment-adjust:auto" label="Primeira Pessoa Singular:"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        f
+                        <p:column headerText="3º Pessoa Singular" sortBy="#{item.terceiraPessoaSingular}" filterBy="#{item.terceiraPessoaSingular}" filterMatchMode="contains">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{item.terceiraPessoaSingular}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{item.terceiraPessoaSingular}" style="alignment-adjust:auto" label="Terceira Pessoa Singular:"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="3º Pessoa Plural" sortBy="#{item.terceiraPessoaPlural}" filterBy="#{item.terceiraPessoaPlural}" filterMatchMode="contains">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{item.terceiraPessoaPlural}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{item.terceiraPessoaPlural}" style="alignment-adjust:auto" label="Terceira Pessoa Plural:"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column><p:graphicImage value="#{util.verifyImage(item)}" width="100" height="100"/></p:column>
+                        <p:column>
+                            <p:rowEditor />
+                            <p:commandButton title="Remover" icon="ui-icon-trash"  action="#{verboController.delete(item)}" update="@form"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </p:fieldset>
+        </ui:define>
+
+    </ui:composition>
+</html>
+
