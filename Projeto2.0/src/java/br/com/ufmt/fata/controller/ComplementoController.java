@@ -5,6 +5,8 @@
  */
 package br.com.ufmt.fata.controller;
 
+import static br.com.ufmt.fata.controller.PrincipalController.FATA_DIR;
+import static br.com.ufmt.fata.controller.PrincipalController.removerAcentos;
 import br.com.ufmt.fata.dao.JDBCComplementoDAO;
 import br.com.ufmt.fata.obj.Complemento;
 import java.io.File;
@@ -36,7 +38,6 @@ public class ComplementoController implements Serializable{
     private final JDBCComplementoDAO complementoCon = new JDBCComplementoDAO();
     private UploadedFile file;
     private Complemento complementoFile = new Complemento();
-    private final String destination = "/home/vicentejr/NetBeansProjects/Projeto2.0/web/resources/uploads/imagemComplemento/";
     
     @PostConstruct
     public void init(){
@@ -67,11 +68,11 @@ public class ComplementoController implements Serializable{
     }
     
     public void fileUpload(){ 
-        complementoFile.setUrl(file.getFileName());
+        complementoFile.setUrl(removerAcentos(file.getFileName()));
         FacesMessage msg = new FacesMessage("Enviado! ", file.getFileName() + " foi salvo com sucesso!.");  
         FacesContext.getCurrentInstance().addMessage(null, msg);      
         try {
-            copyFile(file.getFileName(), file.getInputstream());
+            copyFile(complementoFile.getUrl(), file.getInputstream());
         } catch (IOException e) {
         }
  
@@ -80,7 +81,7 @@ public class ComplementoController implements Serializable{
     public void copyFile(String fileName, InputStream in) {
            try {
                System.out.println(fileName);
-               try (OutputStream out = new FileOutputStream(new File(destination + fileName))) {
+               try (OutputStream out = new FileOutputStream(new File(FATA_DIR + fileName))) {
                    int read = 0;
                    byte[] bytes = new byte[1024];
                    

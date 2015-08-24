@@ -6,6 +6,7 @@
 package br.com.ufmt.fata.controller;
  
 import static br.com.ufmt.fata.controller.PrincipalController.FATA_DIR;
+import static br.com.ufmt.fata.controller.PrincipalController.removerAcentos;
 import br.com.ufmt.fata.dao.JDBCSujeitoDAO;
 import br.com.ufmt.fata.obj.Sujeito;
 import java.io.File;
@@ -68,11 +69,11 @@ public class SujeitoController  implements Serializable{
     }
     
     public void fileUpload(){ 
-        sujeitoFile.setUrl(file.getFileName());
+        sujeitoFile.setUrl(removerAcentos(file.getFileName()));
         FacesMessage msg = new FacesMessage("Enviado! ", file.getFileName() + " foi salvo com sucesso!.");  
         FacesContext.getCurrentInstance().addMessage(null, msg);      
         try {
-            copyFile(file.getFileName(), file.getInputstream());
+            copyFile(sujeitoFile.getUrl(), file.getInputstream());
         } catch (IOException e) {
         }
  

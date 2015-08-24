@@ -187,6 +187,10 @@ public class PrincipalController implements Serializable {
     public void setNomeAudio(String nomeAudio) {
         this.nomeAudio = nomeAudio;
     }
+    
+    public static String removerAcentos(String str) {
+        return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+    }
 
     public void falar() {
         Audio audio = Audio.getInstance();
@@ -197,11 +201,9 @@ public class PrincipalController implements Serializable {
                 } else {
                     nomeAudio = objDropedSuj.getPalavra() + " " + objDropedVerb.getPalavra();
                 }
-                System.out.println(nomeAudio);
                 sound = audio.getAudio(nomeAudio + "&client=", Language.PORTUGUESE);
-
-                nomeAudio = nomeAudio.replaceAll("[ ]+", "");
-                nomeAudio = Normalizer.normalize(nomeAudio, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+                nomeAudio = removerAcentos(nomeAudio);
+                System.out.println(nomeAudio);
                 fileUpload(nomeAudio);
 
             }
