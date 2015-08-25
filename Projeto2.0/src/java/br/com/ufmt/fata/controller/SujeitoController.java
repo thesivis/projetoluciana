@@ -5,18 +5,12 @@
  */
 package br.com.ufmt.fata.controller;
  
-import static br.com.ufmt.fata.controller.PrincipalController.FATA_DIR;
+import static br.com.ufmt.fata.controller.PrincipalController.copyFile;
 import static br.com.ufmt.fata.controller.PrincipalController.removerAcentos;
 import br.com.ufmt.fata.dao.JDBCSujeitoDAO;
 import br.com.ufmt.fata.obj.Sujeito;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -78,43 +72,6 @@ public class SujeitoController  implements Serializable{
         }
  
     }  
-    
-    public void copyFile(String fileName, InputStream in) {
-           try {
-               System.out.println(fileName);
-               try (OutputStream out = new FileOutputStream(new File(FATA_DIR + fileName))) {
-                   int read = 0;
-                   byte[] bytes = new byte[1024];
-                   
-                   while ((read = in.read(bytes)) != -1) {
-                       out.write(bytes, 0, read);
-                   }
-                   
-                   in.close();
-                   out.flush();
-               }
-              
-                System.out.println("Arquivo Criado!");
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-    }
-    public Collection listaDiretorios(File path) { 
-  
-        Collection listaVolta = new ArrayList();  
-        File[] files = path.listFiles();  
-
-
-        for (File arq : files) {
-            if (arq.isDirectory()) {
-                Collection lista = listaDiretorios(arq);
-                if (lista.size() > 0) listaVolta.addAll(lista);
-            }else{
-                listaVolta.add(arq);
-            }
-        }  
-    return listaVolta;  
-    } 
 
     public List<Sujeito> getSujeitoList() {
         return sujeitoList;

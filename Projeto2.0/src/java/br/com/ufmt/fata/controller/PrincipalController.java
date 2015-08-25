@@ -18,8 +18,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
-import java.net.URL;
 import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -84,7 +85,7 @@ public class PrincipalController implements Serializable {
 
     }
 
-    public void copyFile(String fileName, InputStream in) {
+    public static void copyFile(String fileName, InputStream in) {
         try {
             System.out.println(fileName);
             FileOutputStream out = new FileOutputStream(new File(FATA_DIR + fileName));
@@ -105,7 +106,24 @@ public class PrincipalController implements Serializable {
             System.out.println(e.getMessage());
         }
     }
+    
+    public Collection listaDiretorios(File path) { 
+  
+        Collection listaVolta = new ArrayList();  
+        File[] files = path.listFiles();  
 
+
+        for (File arq : files) {
+            if (arq.isDirectory()) {
+                Collection lista = listaDiretorios(arq);
+                if (lista.size() > 0) listaVolta.addAll(lista);
+            }else{
+                listaVolta.add(arq);
+            }
+        }  
+    return listaVolta;  
+    } 
+    
     public void onDropSuj(DragDropEvent event) {
         objDropedSuj = ((Sujeito) event.getData());
         System.out.println("Sujeito ação:" + objDropedSuj.getPalavra());
@@ -122,6 +140,40 @@ public class PrincipalController implements Serializable {
     public void onDropComp(DragDropEvent event) {
         objDropedComp = ((Complemento) event.getData());
         falar();
+    }
+    
+    public void falar() {
+        Audio audio = Audio.getInstance();
+        try {
+            if (objDropedSuj != null && objDropedVerb != null) {
+                if (objDropedComp != null) {
+                    nomeAudio = objDropedSuj.getPalavra() + " " + objDropedVerb.getPalavra() + " " + objDropedComp.getPalavra();
+                } else {
+                    nomeAudio = objDropedSuj.getPalavra() + " " + objDropedVerb.getPalavra();
+                }
+                sound = audio.getAudio(nomeAudio + "&client=", Language.PORTUGUESE);
+                nomeAudio = removerAcentos(nomeAudio);
+                System.out.println(nomeAudio);
+                fileUpload(nomeAudio);
+
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static String getRequest() {
+        Object request = FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        String path = "";
+        if (request instanceof HttpServletRequest) {
+            HttpServletRequest req = (HttpServletRequest) request;
+            path = req.getRequestURL().toString().replace(req.getRequestURI(), "");
+        }
+        return path + "/fataimg";
+    }
+
+    public String getPath() {
+        return getRequest() + "/";
     }
 
     public Sujeito getObjDropedSuj() {
@@ -190,39 +242,5 @@ public class PrincipalController implements Serializable {
     
     public static String removerAcentos(String str) {
         return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
-    }
-
-    public void falar() {
-        Audio audio = Audio.getInstance();
-        try {
-            if (objDropedSuj != null && objDropedVerb != null) {
-                if (objDropedComp != null) {
-                    nomeAudio = objDropedSuj.getPalavra() + " " + objDropedVerb.getPalavra() + " " + objDropedComp.getPalavra();
-                } else {
-                    nomeAudio = objDropedSuj.getPalavra() + " " + objDropedVerb.getPalavra();
-                }
-                sound = audio.getAudio(nomeAudio + "&client=", Language.PORTUGUESE);
-                nomeAudio = removerAcentos(nomeAudio);
-                System.out.println(nomeAudio);
-                fileUpload(nomeAudio);
-
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public static String getRequest() {
-        Object request = FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        String path = "";
-        if (request instanceof HttpServletRequest) {
-            HttpServletRequest req = (HttpServletRequest) request;
-            path = req.getRequestURL().toString().replace(req.getRequestURI(), "");
-        }
-        return path + "/fataimg";
-    }
-
-    public String getPath() {
-        return getRequest() + "/";
-    }
+    }   
 }
