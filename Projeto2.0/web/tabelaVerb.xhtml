@@ -24,6 +24,50 @@ and open the template in the editor.
                     </ul>
                 </nav>
                 <section id="conteudo">
+                    <h:form enctype="multipart/form-data" acceptcharset="iso-8859-1,utf-8">
+                        <p:growl id="messages" showDetail="true"/>
+                        <p:panelGrid columns="1">
+                            <f:facet name="header" >
+                                    Verbo
+                            </f:facet>
+                            <p:panelGrid columns="2">
+                                <h:outputText value="Palavra:"/>
+                                <h:inputText value="#{verboController.verboFile.palavra}" />
+                                <h:outputText value="Imagem:"/>
+                                <p:fileUpload mode="simple"   value="#{verboController.file}" allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/" invalidFileMessage="Formato invalido"/>
+                            </p:panelGrid>
+                            <p:panelGrid columns="3">
+                                <p:fieldset legend="1ª Pessoa">
+                                    <h:outputText value="PasPrimPessoa:"/>
+                                    <h:inputText value="#{verboController.verboFile.pasPrimPessoa}" />
+                                    <h:outputText value="PrePrimPessoa:"/>
+                                    <h:inputText value="#{verboController.verboFile.prePrimPessoa}" />
+                                    <h:outputText value="FutPrimPessoa:"/>
+                                    <h:inputText value="#{verboController.verboFile.futPrimPessoa}" />
+                                </p:fieldset>
+                                <p:fieldset legend="2ª Pessoa">
+                                    <h:outputText value="PasSegPessoa:"/>
+                                    <h:inputText value="#{verboController.verboFile.pasSegPessoa}" />
+                                    <h:outputText value="PreSegPessoa:"/>
+                                    <h:inputText value="#{verboController.verboFile.preSegPessoa}" />
+                                    <h:outputText value="FutSegPessoa:"/>
+                                    <h:inputText value="#{verboController.verboFile.futSegPessoa}" />
+                                </p:fieldset>
+                                <p:fieldset legend="3ª Pessoa">
+                                    <h:outputText value="PasTercPessoa:"/>
+                                    <h:inputText value="#{verboController.verboFile.pasTercPessoa}" />
+                                    <h:outputText value="PreTercPessoa:"/>
+                                    <h:inputText value="#{verboController.verboFile.preTercPessoa}" />
+                                    <h:outputText value="FutTercPessoa:"/>
+                                    <h:inputText value="#{verboController.verboFile.futTercPessoa}" />
+                                </p:fieldset>
+                            </p:panelGrid>
+                            <p:panelGrid columns="2">
+                                <p:commandButton action="#{verboController.gravar}" value="Gravar" update="messages" ajax="false"/>
+                                <p:commandButton type="reset" value="Limpar formulario"/>
+                            </p:panelGrid>
+                        </p:panelGrid>
+                    </h:form>
                     <h:form id="tabela">
                         <p:growl id="messages" showDetail="true"/>
 
@@ -48,33 +92,43 @@ and open the template in the editor.
                                 </p:cellEditor>     
                             </p:column>
 
-                            <p:column headerText="Url" filterBy="#{list.url}" filterMatchMode="contains">
+                            <p:column headerText="PasPrimPessoa" filterBy="#{list.pasPrimPessoa}" filterMatchMode="contains">
                                 <p:cellEditor>
-                                    <f:facet name="output"><h:outputText value="#{list.url}"/></f:facet>
-                                    <f:facet name="input"><p:inputText value="#{list.url}"/></f:facet>
+                                    <f:facet name="output"><h:outputText value="#{list.pasPrimPessoa}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{list.pasPrimPessoa}"/></f:facet>
+                                </p:cellEditor>     
+                            </p:column>
+                            <p:column headerText="PrePrimPessoa" filterBy="#{list.prePrimPessoa}" filterMatchMode="contains">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{list.prePrimPessoa}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{list.prePrimPessoa}"/></f:facet>
+                                </p:cellEditor>     
+                            </p:column>
+                            <p:column headerText="PutPrimPessoa" filterBy="#{list.futPrimPessoa}" filterMatchMode="contains">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{list.futPrimPessoa}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{list.futPrimPessoa}"/></f:facet>
+                                </p:cellEditor>     
+                            </p:column>
+                            <p:column headerText="PasSegPessoa" filterBy="#{list.pasSegPessoa}" filterMatchMode="contains">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{list.pasSegPessoa}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{list.pasSegPessoa}"/></f:facet>
+                                </p:cellEditor>     
+                            </p:column>
+                            <p:column headerText="PreSegPessoa" filterBy="#{list.preSegPessoa}" filterMatchMode="contains">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{list.preSegPessoa}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{list.preSegPessoa}"/></f:facet>
+                                </p:cellEditor>     
+                            </p:column>
+                            <p:column headerText="PutSegPessoa" filterBy="#{list.futSegPessoa}" filterMatchMode="contains">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{list.futSegPessoa}"/></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{list.futSegPessoa}"/></f:facet>
                                 </p:cellEditor>     
                             </p:column>
 
-                            <p:column headerText="1ªPessaPlural" filterBy="#{list.primPessoaPlural}" filterMatchMode="contains">
-                                <p:cellEditor>
-                                    <f:facet name="output"><h:outputText value="#{list.primPessoaPlural}"/></f:facet>
-                                    <f:facet name="input"><p:inputText value="#{list.primPessoaPlural}"/></f:facet>
-                                </p:cellEditor>     
-                            </p:column>
-
-                            <p:column headerText="1ªPessaSingular" filterBy="#{list.primPessoaSingular}" filterMatchMode="contains">
-                                <p:cellEditor>
-                                    <f:facet name="output"><h:outputText value="#{list.primPessoaSingular}"/></f:facet>
-                                    <f:facet name="input"><p:inputText value="#{list.primPessoaSingular}"/></f:facet>
-                                </p:cellEditor>     
-                            </p:column>
-
-                            <p:column headerText="3ªPessaSingular" filterBy="#{list.tercPessoaSingular}" filterMatchMode="contains">
-                                <p:cellEditor>
-                                    <f:facet name="output"><h:outputText value="#{list.tercPessoaSingular}"/></f:facet>
-                                    <f:facet name="input"><p:inputText value="#{list.tercPessoaSingular}"/></f:facet>
-                                </p:cellEditor>     
-                            </p:column>
 
                             <p:column headerText="Editar" style="width: 32px;  font-size: 10px">
                                 <p:rowEditor />

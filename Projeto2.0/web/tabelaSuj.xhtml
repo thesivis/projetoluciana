@@ -24,6 +24,27 @@ and open the template in the editor.
                     </ul>
                 </nav>
                 <article id="conteudo">
+                    <h:form enctype="multipart/form-data"  acceptcharset="iso-8859-1,utf-8">
+                        <p:growl id="messages" showDetail="true"/>
+                        <p:panelGrid columns="2"  style="margin: auto" >
+                            <f:facet name="header" >
+                                Sujeito
+                            </f:facet>
+                            <h:outputText value="Palavra:"/>
+                            <h:inputText value="#{sujeitoController.sujeitoFile.palavra}" />
+                            <h:outputText value="Sexo:"/>
+                            <p:selectOneRadio value="#{sujeitoController.sujeitoFile.sexo}">
+                                <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                                <f:selectItem itemLabel="Feminino" itemValue="F"/>
+                            </p:selectOneRadio>
+                            <h:outputText value="Imagem:"/>
+                            <p:fileUpload mode="simple" value="#{sujeitoController.file}" allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/" invalidFileMessage="Formato invalido"/>
+                            <h:outputText value="Conjugação:"/>
+                            <h:inputText value="#{sujeitoController.sujeitoFile.conjugacao}" />
+                            <p:commandButton action="#{sujeitoController.gravar}" value="Gravar" update="messages" ajax="false"/>
+                            <p:commandButton type="reset" value="Limpar formulario"/>
+                        </p:panelGrid>
+                    </h:form>
                     <h:form id="tabela">
                         <p:growl id="messages" showDetail="true"/>
 
@@ -79,7 +100,7 @@ and open the template in the editor.
 
                             <p:column headerText="Excluir" style="width: 32px ; font-size:  10px">
                                 <p:commandButton  icon="ui-icon-trash" >
-                                    <p:ajax listener="#{sujeitoController.onRowDelet(list)}" update="@all"  oncomplete="location.reload()"/>
+                                    <p:ajax listener="#{sujeitoController.onRowDelet(list)}" update="#{p:component('messages')}"  oncomplete="location.reload()"/>
                                 </p:commandButton>
                             </p:column>
                         </p:dataTable> 
