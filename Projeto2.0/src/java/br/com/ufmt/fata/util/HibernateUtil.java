@@ -5,30 +5,32 @@
  */
 package br.com.ufmt.fata.util;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.SessionFactory;
 
 /**
+ * Hibernate Utility class with a convenient method to get Session Factory
+ * object.
  *
  * @author vicentejr
  */
-public class ConnectionFactory {
+public class HibernateUtil {
 
-    public static Connection getConnection() {
+    private static final SessionFactory sessionFactory;
+    
+    static {
         try {
-            Class.forName("org.postgresql.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/projetoUFMT", "postgres", "123456");
-            return connection;
-        } catch (SQLException ex) {
-            Logger.getLogger(ConnectionFactory.class.getName()).log(Level.SEVERE, null, ex);
-            throw new RuntimeException("Erro SQLException ao abrir a conexao em ConnectionFactory", ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ConnectionFactory.class.getName()).log(Level.SEVERE, null, ex);
-            throw new RuntimeException("Erro ClassNotFoundException em ConnectionFactory", ex);
+            // Create the SessionFactory from standard (hibernate.cfg.xml) 
+            // config file.
+            sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory();
+        } catch (Throwable ex) {
+            // Log the exception. 
+            System.err.println("Initial SessionFactory creation failed." + ex);
+            throw new ExceptionInInitializerError(ex);
         }
     }
-
+    
+    public static SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
 }

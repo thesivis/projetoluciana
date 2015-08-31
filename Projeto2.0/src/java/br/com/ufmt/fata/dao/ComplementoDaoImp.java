@@ -5,7 +5,7 @@
  */
 package br.com.ufmt.fata.dao;
 
-import br.com.ufmt.fata.obj.Sujeito;
+import br.com.ufmt.fata.obj.Complemento;
 import br.com.ufmt.fata.util.HibernateUtil;
 import java.util.List;
 import org.hibernate.Session;
@@ -15,40 +15,40 @@ import org.hibernate.Transaction;
  *
  * @author vicentejr
  */
-public class SujeitoDaoImp implements SujeitoDao{
+public class ComplementoDaoImp implements ComplementoDao{
 
     @Override
-    public void save(Sujeito sujeito) {
+    public void save(Complemento complemento) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        session.save(sujeito);
+        session.save(complemento);
         t.commit();
         session.close();
     }
 
     @Override
-    public void remove(Sujeito sujeito) {
+    public void remove(Complemento complemento) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        session.delete(sujeito);
+        session.delete(complemento);
         t.commit();
         session.close();
     }
 
     @Override
-    public void update(Sujeito sujeito) {
+    public void update(Complemento complemento) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        session.update(sujeito);
+        session.update(complemento);
         t.commit();
         session.close();
     }
 
     @Override
-    public List<Sujeito> list() {
+    public List<Complemento> list() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        List lista = session.createQuery("from Sujeito").list();
+        List lista = session.createQuery("from Complemento").list();
         t.commit();
         session.close();
         return lista;

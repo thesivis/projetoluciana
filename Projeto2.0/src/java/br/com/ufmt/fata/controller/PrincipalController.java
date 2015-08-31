@@ -5,10 +5,10 @@
  */
 package br.com.ufmt.fata.controller;
 
+import br.com.ufmt.fata.dao.ComplementoDaoImp;
+import br.com.ufmt.fata.dao.SujeitoDaoImp;
+import br.com.ufmt.fata.dao.VerboDaoImp;
 import com.gtranslate.Audio;
-import br.com.ufmt.fata.dao.JDBCComplementoDAO;
-import br.com.ufmt.fata.dao.JDBCSujeitoDAO;
-import br.com.ufmt.fata.dao.JDBCVerboDAO;
 import br.com.ufmt.fata.obj.Complemento;
 import br.com.ufmt.fata.obj.Sujeito;
 import br.com.ufmt.fata.obj.Verbo;
@@ -42,9 +42,9 @@ public class PrincipalController implements Serializable {
     Sujeito objDropedSuj;
     Verbo objDropedVerb;
     Complemento objDropedComp;
-    JDBCSujeitoDAO sujeitoController = new JDBCSujeitoDAO();
-    JDBCVerboDAO verboController = new JDBCVerboDAO();
-    JDBCComplementoDAO complementoController = new JDBCComplementoDAO();
+    SujeitoDaoImp sujeitoController = new SujeitoDaoImp();
+    VerboDaoImp verboController = new VerboDaoImp();
+    ComplementoDaoImp complementoController = new ComplementoDaoImp();
     List<Sujeito> sujeitoList;
     List<Verbo> verboList;
     List<Complemento> complementoList;
@@ -74,9 +74,9 @@ public class PrincipalController implements Serializable {
 
     @PostConstruct
     public void init() {
-        sujeitoList = sujeitoController.listar();
-        verboList = verboController.listar();
-        complementoList = complementoController.listar();
+        sujeitoList = sujeitoController.list();
+        verboList = verboController.list();
+        complementoList = complementoController.list();
     }
 
     public void fileUpload(String nomeArq) {
@@ -126,9 +126,6 @@ public class PrincipalController implements Serializable {
     
     public void onDropSuj(DragDropEvent event) {
         objDropedSuj = ((Sujeito) event.getData());
-        System.out.println("Sujeito ação:" + objDropedSuj.getPalavra());
-        Sujeito suj = sujeitoController.listaById(objDropedSuj.getId());
-        System.out.println("Novo:" + suj.getPalavra());
         falar();
     }
 

@@ -7,7 +7,7 @@ package br.com.ufmt.fata.controller;
  
 import static br.com.ufmt.fata.controller.PrincipalController.copyFile;
 import static br.com.ufmt.fata.controller.PrincipalController.removerAcentos;
-import br.com.ufmt.fata.dao.JDBCSujeitoDAO;
+import br.com.ufmt.fata.dao.SujeitoDaoImp;
 import br.com.ufmt.fata.obj.Sujeito;
 import java.io.IOException;
 import java.io.Serializable;
@@ -30,17 +30,17 @@ import org.primefaces.model.UploadedFile;
 public class SujeitoController  implements Serializable{
     private List<Sujeito> sujeitoList;
     private List<Sujeito> sujeitoListFiltred;
-    private final JDBCSujeitoDAO sujeitoCon = new JDBCSujeitoDAO();
+    private final SujeitoDaoImp sujeitoCon = new SujeitoDaoImp();
     private UploadedFile file;
     private Sujeito sujeitoFile = new Sujeito();
    
     @PostConstruct
     public void init(){
-        sujeitoList = sujeitoCon.listar();
+        sujeitoList = sujeitoCon.list();
     }
     
     public void onRowEdit(RowEditEvent event){
-        sujeitoCon.editar((Sujeito)event.getObject());
+        sujeitoCon.update((Sujeito)event.getObject());
         FacesMessage message = new FacesMessage("Sujeto id:",((Sujeito)event.getObject()).getId() + " Alterado com Sucesso!");
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
@@ -54,12 +54,12 @@ public class SujeitoController  implements Serializable{
     public void onRowDelet(Sujeito sujeito){
         FacesMessage message = new FacesMessage(sujeito.getPalavra()+" foi removido");
         FacesContext.getCurrentInstance().addMessage(null, message);
-        sujeitoCon.remover(sujeito);
+        sujeitoCon.remove(sujeito);
     }
     
     public void gravar(){
         fileUpload();
-        sujeitoCon.inserir(sujeitoFile);
+        sujeitoCon.save(sujeitoFile);
     }
     
     public void fileUpload(){ 

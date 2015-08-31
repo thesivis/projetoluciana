@@ -7,7 +7,7 @@ package br.com.ufmt.fata.controller;
 
 import static br.com.ufmt.fata.controller.PrincipalController.copyFile;
 import static br.com.ufmt.fata.controller.PrincipalController.removerAcentos;
-import br.com.ufmt.fata.dao.JDBCComplementoDAO;
+import br.com.ufmt.fata.dao.ComplementoDaoImp;
 import br.com.ufmt.fata.obj.Complemento;
 import java.io.IOException;
 import java.io.Serializable;
@@ -29,17 +29,17 @@ import org.primefaces.model.UploadedFile;
 public class ComplementoController implements Serializable{
     private List<Complemento> complementoList;
     private List<Complemento> complementoListFiltred;
-    private final JDBCComplementoDAO complementoCon = new JDBCComplementoDAO();
+    private final ComplementoDaoImp complementoCon = new ComplementoDaoImp();
     private UploadedFile file;
     private Complemento complementoFile = new Complemento();
     
     @PostConstruct
     public void init(){
-        complementoList = complementoCon.listar();
+        complementoList = complementoCon.list();
     }
     
     public void onRowEdit(RowEditEvent event){
-        complementoCon.editar((Complemento)event.getObject());
+        complementoCon.update((Complemento)event.getObject());
         FacesMessage message = new FacesMessage("Complemento id:",((Complemento)event.getObject()).getId() + " Alterado com Sucesso!");
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
@@ -53,12 +53,12 @@ public class ComplementoController implements Serializable{
     public void onRowDelet(Complemento complemento){
         FacesMessage message = new FacesMessage(complemento.getPalavra()+" foi removido");
         FacesContext.getCurrentInstance().addMessage(null, message);
-        complementoCon.remover(complemento);
+        complementoCon.remove(complemento);
     }
     
     public void gravar(){
         fileUpload();
-        complementoCon.inserir(complementoFile);
+        complementoCon.save(complementoFile);
     }
     
     public void fileUpload(){ 

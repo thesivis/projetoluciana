@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/08/2015 23:39:11 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="br.com.ufmt.fata.obj.Sujeito" table="sujeito" schema="public" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="increment" />
+        </id>
+        <property name="palavra" type="string">
+            <column name="palavra" />
+        </property>
+        <property name="sexo" type="java.lang.Character">
+            <column name="sexo" length="1" />
+        </property>
+        <property name="url" type="string">
+            <column name="url" />
+        </property>
+        <property name="conjugacao" type="string">
+            <column name="conjugacao" />
+        </property>
+    </class>
+</hibernate-mapping>

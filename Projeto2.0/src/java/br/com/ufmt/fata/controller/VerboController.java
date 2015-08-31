@@ -7,7 +7,7 @@ package br.com.ufmt.fata.controller;
 
 import static br.com.ufmt.fata.controller.PrincipalController.copyFile;
 import static br.com.ufmt.fata.controller.PrincipalController.removerAcentos;
-import br.com.ufmt.fata.dao.JDBCVerboDAO;
+import br.com.ufmt.fata.dao.VerboDaoImp;
 import br.com.ufmt.fata.obj.Verbo;
 import java.io.IOException;
 import java.io.Serializable;
@@ -29,17 +29,17 @@ import org.primefaces.model.UploadedFile;
 public class VerboController implements Serializable{
     private List<Verbo> verboList;
     private List<Verbo> verboListFiltred;
-    private final JDBCVerboDAO verboCon = new JDBCVerboDAO();
+    private final VerboDaoImp verboCon = new VerboDaoImp();
     private UploadedFile file;
     private Verbo verboFile = new Verbo();
      
     @PostConstruct
     public void init(){
-        verboList = verboCon.listar();
+        verboList = verboCon.list();
     }
     
     public void onRowEdit(RowEditEvent event){
-        verboCon.editar((Verbo)event.getObject());
+        verboCon.update((Verbo)event.getObject());
         FacesMessage message = new FacesMessage("Verbo id:",((Verbo)event.getObject()).getId() + " Alterado com Sucesso!");
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
@@ -53,12 +53,12 @@ public class VerboController implements Serializable{
     public void onRowDelet(Verbo verbo){
         FacesMessage message = new FacesMessage(verbo.getPalavra()+" foi removido");
         FacesContext.getCurrentInstance().addMessage(null, message);
-        verboCon.remover(verbo);
+        verboCon.remove(verbo);
     }
     
     public void gravar(){
         fileUpload();
-        verboCon.inserir(verboFile);
+        verboCon.save(verboFile);
     }
     
     public void fileUpload(){ 
