@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="content">
+            <section id="corpo" >
+                <section id="conteudo">
+                    
+                    <h:form enctype="multipart/form-data"  acceptcharset="iso-8859-1,utf-8">
+                        <p:growl id="messages" showDetail="true"/>
+                        <p:panelGrid id="grid" columns="2" style="margin: auto">
+                            <f:facet name="header" >
+                                Pasta
+                            </f:facet>
+                            <h:outputLabel for="name" value="Nome:" style="font-weight:bold"/>                    
+                            <p:inputText id="name" value="#{pastaComunicacaoController.pastaFile.nome}" required="true" label="Name"/>
+                            <p:message for="name" />
+                            <h:outputText value="#{pastaComunicacaoController.pastaFile.nome}" />
+                            
+                            <h:outputLabel for="date" value="DataNasc:" style="font-weight:bold"/>
+                            <h:inputText id="date" value="#{pastaComunicacaoController.pastaFile.dataNasc}" required="true" label="Date"/>
+                            <p:message for="date" />
+                            <h:outputText value="#{pastaComunicacaoController.pastaFile.dataNasc}"/>
+                                
+                           
+                            <h:outputText value="Sexo:"/>
+                            <p:selectOneRadio value="#{pastaComunicacaoController.pastaFile.sexo}" required="true">
+                                <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                                <f:selectItem itemLabel="Feminino" itemValue="F"/>
+                            </p:selectOneRadio>
+                           
+                            <h:outputText value="Imagem:"/>
+                            <p:fileUpload mode="simple"   value="#{pastaComunicacaoController.file}" allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/" invalidFileMessage="Formato invalido" required="true"/>
+                            <p:commandButton action="#{pastaComunicacaoController.gravar}" value="Gravar" update="messages grid" ajax="false"/>
+                            <p:commandButton type="reset" value="Limpar formulario"/>
+                        </p:panelGrid>
+                    </h:form>
+                    
+                    <h:form id="tabela">
+                        <p:growl id="messages" showDetail="true"/>
+                        <p:messages autoUpdate="true"/>
+                        <p:dataTable  id="tab" var="list" style="text-align: center" value="#{pastaComunicacaoController.list}"  paginator="true" rows="5">
+                            <p:column headerText="id" style="width: 42px" >
+                                <h:outputText value="#{list.pastaComunicacaoId}"/>
+                            </p:column>
+                            <p:column headerText="Img"  width="50">
+                                <p:graphicImage url="#{principalController.path}#{list.fotoUrl}" width="50" height="50" style="margin: 0 auto"/>
+                            </p:column>
+                            <p:column headerText="Nome" filterBy="#{list.nome}" filterMatchMode="contains">
+                                <h:outputText value="#{list.nome}"/>   
+                            </p:column>
+                            <p:column headerText="DataNasc" filterBy="#{list.dataNasc}" filterMatchMode="contains">
+                                <h:outputText value="#{list.dataNasc}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                                </h:outputText>   
+                            </p:column>
+                            <p:column headerText="Sexo" filterBy="#{list.sexo}" filterMatchMode="contains">
+                                <h:outputText value="#{list.sexo}"/>   
+                            </p:column>  
+                            <p:column  headerText="Página" style="width: 32px ; font-size:  10px">
+                                <p:commandButton  icon="ui-icon-triangle-1-e" actionListener="#{activeUserController.userSelect(list)}" oncomplete="window.location.href = '/Projeto2.0/faces/index.xhtml'">
+                                    <p:confirm header="Paciente Selecionado" message="Confirmar Paciente selecionado" icon="ui-icon-alert" />
+                                </p:commandButton>
+
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                    <p:panelGrid columns="2" style="text-align: center">
+                                        <h:outputText value="Nome:"/>
+                                        <h:outputText value="#{list.nome}"/>
+                                        <h:outputText value="Data Nasc:"/>
+                                        <h:outputText value="#{list.dataNasc}"/>
+                                        <h:outputText value="Sexo:"/>
+                                        <h:outputText value="#{list.sexo}"/>
+                                        <h:outputText value="Foto:"/>
+                                        <p:graphicImage value="#{principalController.path}#{list.fotoUrl}" style="width: 100px; height: 100px;"/>
+                                    </p:panelGrid>
+                                    <p:commandButton value="Confirmar" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="Cancelar" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
+                            </p:column>
+                            <p:column headerText="Excluir" style="width: 32px ; font-size:  10px">
+                                <p:commandButton  icon="ui-icon-trash" >
+                                    <p:ajax listener="#{pastaComunicacaoController.onRowDelete(list)}" oncomplete="location.reload()"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable> 
+                    </h:form>
+                </section>
+            </section>
+        </ui:define>
+    </ui:composition>
+</html>
+
