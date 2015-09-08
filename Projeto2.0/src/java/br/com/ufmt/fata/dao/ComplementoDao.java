@@ -5,7 +5,7 @@
  */
 package br.com.ufmt.fata.dao;
 
-import br.com.ufmt.fata.obj.Complemento;
+import br.com.ufmt.fata.ent.Complemento;
 import java.util.List;
 
 /**

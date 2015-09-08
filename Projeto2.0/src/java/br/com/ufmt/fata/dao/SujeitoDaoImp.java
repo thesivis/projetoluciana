@@ -5,7 +5,7 @@
  */
 package br.com.ufmt.fata.dao;
 
-import br.com.ufmt.fata.obj.Sujeito;
+import br.com.ufmt.fata.ent.Sujeito;
 import br.com.ufmt.fata.util.HibernateUtil;
 import java.util.List;
 import org.hibernate.Session;
@@ -21,7 +21,7 @@ public class SujeitoDaoImp implements SujeitoDao{
     public void save(Sujeito sujeito) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        session.save(sujeito);
+        session.saveOrUpdate(sujeito);
         t.commit();
         session.close();
     }
@@ -52,6 +52,16 @@ public class SujeitoDaoImp implements SujeitoDao{
         t.commit();
         session.close();
         return lista;
+    }
+    
+    public List<Sujeito> listById(int id){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
+        List lista = session.createQuery("from Sujeito where sujeitoId="+id).list();
+        t.commit();
+        session.close();
+        return lista;
+        
     }
     
 }

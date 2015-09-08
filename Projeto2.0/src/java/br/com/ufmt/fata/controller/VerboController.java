@@ -8,7 +8,7 @@ package br.com.ufmt.fata.controller;
 import static br.com.ufmt.fata.controller.PrincipalController.copyFile;
 import static br.com.ufmt.fata.controller.PrincipalController.removerAcentos;
 import br.com.ufmt.fata.dao.VerboDaoImp;
-import br.com.ufmt.fata.obj.Verbo;
+import br.com.ufmt.fata.ent.Verbo;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -40,7 +40,7 @@ public class VerboController implements Serializable{
     
     public void onRowEdit(RowEditEvent event){
         verboCon.update((Verbo)event.getObject());
-        FacesMessage message = new FacesMessage("Verbo id:",((Verbo)event.getObject()).getId() + " Alterado com Sucesso!");
+        FacesMessage message = new FacesMessage("Verbo id:",((Verbo)event.getObject()).getVerboId() + " Alterado com Sucesso!");
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
     

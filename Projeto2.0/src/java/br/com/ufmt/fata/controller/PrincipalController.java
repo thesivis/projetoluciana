@@ -9,9 +9,10 @@ import br.com.ufmt.fata.dao.ComplementoDaoImp;
 import br.com.ufmt.fata.dao.SujeitoDaoImp;
 import br.com.ufmt.fata.dao.VerboDaoImp;
 import com.gtranslate.Audio;
-import br.com.ufmt.fata.obj.Complemento;
-import br.com.ufmt.fata.obj.Sujeito;
-import br.com.ufmt.fata.obj.Verbo;
+import br.com.ufmt.fata.ent.Complemento;
+import br.com.ufmt.fata.ent.Sujeito;
+import br.com.ufmt.fata.ent.TempoVerbal;
+import br.com.ufmt.fata.ent.Verbo;
 import com.gtranslate.Language;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -29,7 +30,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
-import org.primefaces.event.DragDropEvent;
 
 /**
  *
@@ -39,9 +39,9 @@ import org.primefaces.event.DragDropEvent;
 @ViewScoped
 public class PrincipalController implements Serializable {
 
-    Sujeito objDropedSuj;
-    Verbo objDropedVerb;
-    Complemento objDropedComp;
+    Sujeito selectSujeito;
+    Verbo selectVerbo;
+    Complemento selectComplemento;
     SujeitoDaoImp sujeitoController = new SujeitoDaoImp();
     VerboDaoImp verboController = new VerboDaoImp();
     ComplementoDaoImp complementoController = new ComplementoDaoImp();
@@ -50,6 +50,11 @@ public class PrincipalController implements Serializable {
     List<Complemento> complementoList;
     InputStream sound;
     String nomeAudio;
+    
+    
+    int pronomePessoal;
+
+    private List<List<String>> listaPronome = new ArrayList<>();
 
     public static String FATA_DIR;
 
@@ -124,29 +129,34 @@ public class PrincipalController implements Serializable {
     return listaVolta;  
     } 
     
-    public void onDropSuj(DragDropEvent event) {
-        objDropedSuj = ((Sujeito) event.getData());
+    public void  onClickSuj(Sujeito suj){
+        this.selectSujeito = suj;
         falar();
+        System.out.println("Sujeito selecionado");
     }
-
-    public void onDropVerb(DragDropEvent event) {
-        objDropedVerb = ((Verbo) event.getData());
-        falar();
+    public void  onClickTemp(TempoVerbal temp){
+        
+        System.out.println("Tempo selecionado "+temp.getIndice());
     }
-
-    public void onDropComp(DragDropEvent event) {
-        objDropedComp = ((Complemento) event.getData());
+    public void  onClickVerb(Verbo verb){
+        this.selectVerbo = verb;
         falar();
+        System.out.println("Verbo selecionado");
+    }
+    public void  onClickComp(Complemento comp){
+        this.selectComplemento = comp;
+        falar();
+        System.out.println("Complemento selecionado");
     }
     
     public void falar() {
         Audio audio = Audio.getInstance();
         try {
-            if (objDropedSuj != null && objDropedVerb != null) {
-                if (objDropedComp != null) {
-                    nomeAudio = objDropedSuj.getPalavra() + " " + objDropedVerb.getPalavra() + " " + objDropedComp.getPalavra();
+            if (selectSujeito != null && selectVerbo != null) {
+                if (selectComplemento != null) {
+                    nomeAudio = selectSujeito.getPalavra() + " " + selectVerbo.getPalavra() + " " + selectComplemento.getPalavra();
                 } else {
-                    nomeAudio = objDropedSuj.getPalavra() + " " + objDropedVerb.getPalavra();
+                    nomeAudio = selectSujeito.getPalavra() + " " + selectVerbo.getPalavra();
                 }
                 sound = audio.getAudio(nomeAudio + "&client=", Language.PORTUGUESE);
                 nomeAudio = removerAcentos(nomeAudio);
@@ -173,28 +183,28 @@ public class PrincipalController implements Serializable {
         return getRequest() + "/";
     }
 
-    public Sujeito getObjDropedSuj() {
-        return objDropedSuj;
+    public Sujeito getSelectSujeito() {
+        return selectSujeito;
     }
 
-    public void setObjDropedSuj(Sujeito objDropedSuj) {
-        this.objDropedSuj = objDropedSuj;
+    public void setSelectSujeito(Sujeito selectSujeito) {
+        this.selectSujeito = selectSujeito;
     }
 
-    public Verbo getObjDropedVerb() {
-        return objDropedVerb;
+    public Verbo getSelectVerbo() {
+        return selectVerbo;
     }
 
-    public void setObjDropedVerb(Verbo objDropedVerb) {
-        this.objDropedVerb = objDropedVerb;
+    public void setSelectVerbo(Verbo selectVerbo) {
+        this.selectVerbo = selectVerbo;
     }
 
-    public Complemento getObjDropedComp() {
-        return objDropedComp;
+    public Complemento getSelectComplemento() {
+        return selectComplemento;
     }
 
-    public void setObjDropedComp(Complemento objDropedComp) {
-        this.objDropedComp = objDropedComp;
+    public void setSelectComplemento(Complemento selectComplemento) {
+        this.selectComplemento = selectComplemento;
     }
 
     public List<Sujeito> getSujeitoList() {
@@ -240,4 +250,12 @@ public class PrincipalController implements Serializable {
     public static String removerAcentos(String str) {
         return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
     }   
+
+    public List<List<String>> getListaPronome() {
+        return listaPronome;
+    }
+
+    public void setListaPronome(List<List<String>> listaPronome) {
+        this.listaPronome = listaPronome;
+    }
 }

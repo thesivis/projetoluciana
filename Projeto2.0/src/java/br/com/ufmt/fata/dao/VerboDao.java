@@ -5,7 +5,7 @@
  */
 package br.com.ufmt.fata.dao;
 
-import br.com.ufmt.fata.obj.Verbo;
+import br.com.ufmt.fata.ent.Verbo;
 import java.util.List;
 
 /**

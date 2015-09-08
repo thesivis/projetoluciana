@@ -9,8 +9,10 @@
     <property name="hibernate.connection.password">956881</property>
     <property name="hibernate.current_session_context_class">thread</property>
     <property name="hibernate.show_sql">true</property>
-    <mapping resource="br/com/ufmt/fata/obj/Complemento.hbm.xml"/>
-    <mapping resource="br/com/ufmt/fata/obj/Sujeito.hbm.xml"/>
-    <mapping resource="br/com/ufmt/fata/obj/Verbo.hbm.xml"/>
+    <property name="hibernate.hbm2ddl.auto">update</property>
+    <mapping class="br.com.ufmt.fata.ent.Sujeito"/>
+    <mapping class="br.com.ufmt.fata.ent.Verbo"/>
+    <mapping class="br.com.ufmt.fata.ent.Complemento"/>
+    <mapping class="br.com.ufmt.fata.ent.PastaDeComunicacao"/>
   </session-factory>
 </hibernate-configuration>

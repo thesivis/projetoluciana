@@ -5,7 +5,7 @@
  */
 package br.com.ufmt.fata.dao;
 
-import br.com.ufmt.fata.ent.Verbo;
+import br.com.ufmt.fata.ent.PastaDeComunicacao;
 import br.com.ufmt.fata.util.HibernateUtil;
 import java.util.List;
 import org.hibernate.Session;
@@ -15,43 +15,42 @@ import org.hibernate.Transaction;
  *
  * @author vicentejr
  */
-public class VerboDaoImp implements VerboDao{
+public class PastaDeComunicacaoDaoImp implements PastaDeComunicacaoDao{
 
     @Override
-    public void save(Verbo verbo) {
+    public void save(PastaDeComunicacao pastaDeComunicacao) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        session.save(verbo);
+        session.saveOrUpdate(pastaDeComunicacao);
         t.commit();
         session.close();
     }
 
     @Override
-    public void remove(Verbo verbo) {
+    public void remove(PastaDeComunicacao pastaDeComunicacao) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        session.delete(verbo);
+        session.delete(pastaDeComunicacao);
         t.commit();
         session.close();
     }
 
     @Override
-    public void update(Verbo verbo) {
+    public void update(PastaDeComunicacao pastaDeComunicacao) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        session.update(verbo);
+        session.update(pastaDeComunicacao);
         t.commit();
         session.close();
     }
 
     @Override
-    public List<Verbo> list() {
+    public List<PastaDeComunicacao> list() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        List lista = session.createQuery("from Verbo").list();
+        List lista = session.createQuery("from PastaDeComunicacao").list();
         t.commit();
         session.close();
         return lista;
     }
-    
 }

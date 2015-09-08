@@ -8,7 +8,7 @@ package br.com.ufmt.fata.controller;
 import static br.com.ufmt.fata.controller.PrincipalController.copyFile;
 import static br.com.ufmt.fata.controller.PrincipalController.removerAcentos;
 import br.com.ufmt.fata.dao.SujeitoDaoImp;
-import br.com.ufmt.fata.obj.Sujeito;
+import br.com.ufmt.fata.ent.Sujeito;
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -41,7 +41,7 @@ public class SujeitoController  implements Serializable{
     
     public void onRowEdit(RowEditEvent event){
         sujeitoCon.update((Sujeito)event.getObject());
-        FacesMessage message = new FacesMessage("Sujeto id:",((Sujeito)event.getObject()).getId() + " Alterado com Sucesso!");
+        FacesMessage message = new FacesMessage("Sujeto id:",((Sujeito)event.getObject()).getSujeitoId() + " Alterado com Sucesso!");
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
     

@@ -5,7 +5,7 @@
  */
 package br.com.ufmt.fata.dao;
 
-import br.com.ufmt.fata.obj.Sujeito;
+import br.com.ufmt.fata.ent.Sujeito;
 import java.util.List;
 
 /**
