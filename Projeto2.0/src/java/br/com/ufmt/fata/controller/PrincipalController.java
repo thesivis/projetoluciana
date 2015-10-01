@@ -11,7 +11,6 @@ import br.com.ufmt.fata.dao.VerboDaoImp;
 import com.gtranslate.Audio;
 import br.com.ufmt.fata.ent.Complemento;
 import br.com.ufmt.fata.ent.Sujeito;
-import br.com.ufmt.fata.ent.TempoVerbal;
 import br.com.ufmt.fata.ent.Verbo;
 import com.gtranslate.Language;
 import java.io.File;
@@ -48,11 +47,10 @@ public class PrincipalController implements Serializable {
     List<Sujeito> sujeitoList;
     List<Verbo> verboList;
     List<Complemento> complementoList;
+    private List<String> acaoBotao = new ArrayList();
     InputStream sound;
-    String nomeAudio;
+    private String nomeAudio;
     
-    
-    int pronomePessoal;
 
     private List<List<String>> listaPronome = new ArrayList<>();
 
@@ -72,7 +70,7 @@ public class PrincipalController implements Serializable {
             }
         }
     }
-
+    
     public String getFataDir() {
         return FATA_DIR;
     }
@@ -82,6 +80,8 @@ public class PrincipalController implements Serializable {
         sujeitoList = sujeitoController.list();
         verboList = verboController.list();
         complementoList = complementoController.list();
+        acaoBotao.add("Play");
+        acaoBotao.add("Limpar");
     }
 
     public void fileUpload(String nomeArq) {
@@ -134,10 +134,6 @@ public class PrincipalController implements Serializable {
         falar();
         System.out.println("Sujeito selecionado");
     }
-    public void  onClickTemp(TempoVerbal temp){
-        
-        System.out.println("Tempo selecionado "+temp.getIndice());
-    }
     public void  onClickVerb(Verbo verb){
         this.selectVerbo = verb;
         falar();
@@ -148,21 +144,51 @@ public class PrincipalController implements Serializable {
         falar();
         System.out.println("Complemento selecionado");
     }
+    public String frase(){
+        String fraseFala = selectSujeito.getPalavra();
+        if(selectSujeito.getSujeitoId() == 1 ||selectSujeito.getSujeitoId() == 2 || selectSujeito.getSujeitoId() == 3){
+            if("Passado".equals(selectSujeito.getTempo())){
+                fraseFala = fraseFala+" "+selectVerbo.getPasprimpessoa();
+            }else if("Presente".equals(selectSujeito.getTempo())){
+                fraseFala = fraseFala+" "+selectVerbo.getPreprimpessoa();
+            }else{
+                fraseFala = fraseFala+" "+selectVerbo.getFutprimpessoa();
+            }
+        
+        }else if(selectSujeito.getSujeitoId() == 4 ||selectSujeito.getSujeitoId() == 5 || selectSujeito.getSujeitoId() == 6){
+            if("Passado".equals(selectSujeito.getTempo())){
+                fraseFala = fraseFala+" "+selectVerbo.getPassegpessoa();
+            }else if("Presente".equals(selectSujeito.getTempo())){
+                fraseFala = fraseFala+" "+selectVerbo.getPresegpessoa();
+            }else{
+                fraseFala = fraseFala+" "+selectVerbo.getFutsegpessoa();
+            }
+        }else{
+            if("Passado".equals(selectSujeito.getTempo())){
+                fraseFala = fraseFala+" "+selectVerbo.getPastercpessoa();
+            }else if("Presente".equals(selectSujeito.getTempo())){
+                fraseFala = fraseFala+" "+selectVerbo.getPretercpessoa();
+            }else{
+                fraseFala = fraseFala+" "+selectVerbo.getFuttercpessoa();
+            }
+        }
+        return fraseFala;
+    }
     
     public void falar() {
         Audio audio = Audio.getInstance();
         try {
             if (selectSujeito != null && selectVerbo != null) {
                 if (selectComplemento != null) {
-                    nomeAudio = selectSujeito.getPalavra() + " " + selectVerbo.getPalavra() + " " + selectComplemento.getPalavra();
+                    nomeAudio = frase()+ " " + selectComplemento.getPalavra();
                 } else {
-                    nomeAudio = selectSujeito.getPalavra() + " " + selectVerbo.getPalavra();
+                    nomeAudio = frase();
                 }
                 sound = audio.getAudio(nomeAudio + "&client=", Language.PORTUGUESE);
                 nomeAudio = removerAcentos(nomeAudio);
                 System.out.println(nomeAudio);
                 fileUpload(nomeAudio);
-
+   
             }
         } catch (IOException ex) {
             Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
@@ -238,14 +264,6 @@ public class PrincipalController implements Serializable {
     public void setSound(InputStream sound) {
         this.sound = sound;
     }
-
-    public String getNomeAudio() {
-        return nomeAudio;
-    }
-
-    public void setNomeAudio(String nomeAudio) {
-        this.nomeAudio = nomeAudio;
-    }
     
     public static String removerAcentos(String str) {
         return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
@@ -257,5 +275,21 @@ public class PrincipalController implements Serializable {
 
     public void setListaPronome(List<List<String>> listaPronome) {
         this.listaPronome = listaPronome;
+    }
+
+    public String getNomeAudio() {
+        return nomeAudio;
+    }
+
+    public void setNomeAudio(String nomeAudio) {
+        this.nomeAudio = nomeAudio;
+    }
+
+    public List<String> getAcaoBotao() {
+        return acaoBotao;
+    }
+
+    public void setAcaoBotao(List<String> acaoBotao) {
+        this.acaoBotao = acaoBotao;
     }
 }

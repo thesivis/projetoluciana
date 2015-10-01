@@ -26,13 +26,13 @@ public class Verbo implements Serializable {
     private Long verboId;
     private String palavra;
     private String pasprimpessoa;
-    private String passegpessoa;
-    private String pastercpessoa;
     private String preprimpessoa;
-    private String presegpessoa;
-    private String pretercpessoa;
     private String futprimpessoa;
+    private String passegpessoa;
+    private String presegpessoa;
     private String futsegpessoa;
+    private String pastercpessoa;
+    private String pretercpessoa;
     private String futtercpessoa;
     private String url;
     

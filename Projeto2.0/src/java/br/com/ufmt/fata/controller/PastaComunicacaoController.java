@@ -9,7 +9,6 @@ import static br.com.ufmt.fata.controller.PrincipalController.copyFile;
 import static br.com.ufmt.fata.controller.PrincipalController.removerAcentos;
 import br.com.ufmt.fata.dao.PastaDeComunicacaoDaoImp;
 import br.com.ufmt.fata.ent.PastaDeComunicacao;
-import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -34,7 +33,10 @@ public class PastaComunicacaoController implements Serializable{
     private PastaDeComunicacao paciente= new PastaDeComunicacao();
     private boolean pacienteAtivo;
     private UploadedFile file;
-    
+   
+    public PastaComunicacaoController() {
+   
+    }
     
     @PostConstruct
     public void init(){
@@ -44,18 +46,22 @@ public class PastaComunicacaoController implements Serializable{
     public void gravar(){
         fileUpload();
         pastaComunicacaoDao.save(pastaFile);
+        ActiveUserController.userActive = pastaFile;
+        ActiveUserController.userCreated = true;
+        
+        
     }
     
     public void fileUpload(){ 
-        pastaFile.setFotoUrl(removerAcentos(file.getFileName()));
-        FacesMessage msg = new FacesMessage("Enviado! ", file.getFileName() + " foi salvo com sucesso!.");  
-        FacesContext.getCurrentInstance().addMessage(null, msg);      
+        pastaFile.setFotoUrl(removerAcentos(file.getFileName()));  
         try {
             copyFile(pastaFile.getFotoUrl(), file.getInputstream());
         } catch (IOException e) {
         }
  
     }  
+    
+    
     
     public void onRowSelect(PastaDeComunicacao pacienteSelect){
         paciente = pacienteSelect;
@@ -104,9 +110,5 @@ public class PastaComunicacaoController implements Serializable{
 
     public void setPacienteAtivo(boolean pacienteAtivo) {
         this.pacienteAtivo = pacienteAtivo;
-    }
-    
-    
-    
-    
+    }  
 }
