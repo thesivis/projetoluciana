@@ -37,7 +37,7 @@ a:hover{
     color: #606060;
 }
 div#interface{
-    width: 99%;
+    width: 96%;
     margin: 0px auto 10px auto;
     box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
     background: #E7E7E7;
@@ -72,7 +72,7 @@ nav#menu li:hover{
     color: #606060;
 }
 nav#menu a{
-    
+
     font-size: 20px;
     color: #d5d5d5;
     text-decoration: none;
@@ -81,6 +81,11 @@ nav#menu a:hover{
     color: #FFFFFF;
 }
 section#corpo{
+    width: 98%;
+    margin: 10px auto 10px auto;
+    padding: 0px 10px 10px 10px;
+}
+section#corpoI{
     display: block;
     float: left;
     width: 80%;
@@ -136,13 +141,14 @@ aside#painel-lateral{
     float: right;
     margin: 10px auto;
     padding: 10px;
-    background-color: rgba(255, 255, 255, 0.5);
 }
 aside#painel-lateral h2{
     font-size: 15px;
 }
 aside#painel-lateral img#avatar{
     width: 180px;
+    max-height: 200px;
+    border-radius: 100%;
 }
 aside#painel-lateral button{
     display: block;
@@ -169,4 +175,8 @@ footer#rodape{
 
 footer#rodape p{
     text-align: center;
+}
+
+.alignTop {
+vertical-align: top;
 }

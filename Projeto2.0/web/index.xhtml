@@ -12,61 +12,76 @@ and open the template in the editor.
 
     <ui:composition template="/template.xhtml">
         <ui:define name="content">
-            <section id="corpo">
+            <section id="corpoI">
+                <p:panel rendered="#{empty activeUserController.userActive}" style="background: #ff6f6f">
+                    <h:outputText value="Paciente não selecionado"/>
+                </p:panel>
                 <h:form rendered="#{not empty activeUserController.userActive}">
-                    <p:panelGrid columns="5" layout="grid">
+                    <p:panelGrid columns="3" layout="grid">
                         <p:fieldset id="campoSuj" legend="Sujeito" style="width: 200px; height: 200px">
                             <p:graphicImage rendered="#{not empty principalController.selectSujeito}" value="#{principalController.path}#{principalController.selectSujeito.url}" width="150" height="150"/>
                         </p:fieldset>
-                        <p:fieldset id="campoTemp" style="width: 50px; height: 50px">
-                            
-                        </p:fieldset>
+                        
                         <p:fieldset id="campoVerb" legend="Verbo" style="width: 200px; height: 200px">
                             <p:graphicImage rendered="#{not empty principalController.selectVerbo}" value="#{principalController.path}#{principalController.selectVerbo.url}" width="150" height="150"/>
                         </p:fieldset>
-                        <p:fieldset id="campoPes" style="width: 50px; height: 50px">
-                            
-                        </p:fieldset>
+                        
                         <p:fieldset id="campoComp" legend="Complemento" style="width: 200px; height: 200px">
                             <p:graphicImage rendered="#{not empty principalController.selectComplemento}" value="#{principalController.path}#{principalController.selectComplemento.url}" width="150" height="150"/>
                         </p:fieldset>
                     </p:panelGrid>
-                    <p:panelGrid columns="5" layout="grid">
-                        <p:carousel id="listaSuj" var="suj" value="#{activeUserController.userActive.sujeitos}" numVisible="1" circular="true" vertical="true" autoPlayInterval="2000">
+                    <p:panel id="painel" style="text-align: center">
+                        <p:carousel  rendered="#{empty principalController.selectSujeito}"  var="suj" headerText="Sujeito" value="#{activeUserController.userActive.sujeitos}" numVisible="1" circular="true" vertical="true" autoPlayInterval="2000">
                             <p:commandLink>
-                                <p:graphicImage value="#{principalController.path}#{suj.url}" width="150" height="150"/> 
-                                <p:ajax listener="#{principalController.onClickSuj(suj)}" update=":#{p:component('campoSuj')}"/><br/>
-                                <h:outputText value="#{suj.palavra}"/>
+                                <p:graphicImage value="#{principalController.path}#{suj.url}" width="250" height="250"/> 
+                                <p:ajax listener="#{principalController.onClickSuj(suj)}" update=":#{p:component('campoSuj')} #{p:component('painel')}"/><br/>
+                                <h:outputText value="#{suj.palavra}"/><br/>
+                                <p:graphicImage value="#{principalController.path}#{suj.tempo}.png" width="50" height="50"/><br/><h:outputText value="#{suj.tempo}"/>
                             </p:commandLink>
                         </p:carousel>
-                        
-                        <p:carousel id="listaVerb" var="verb" value="#{activeUserController.userActive.verbos}" numVisible="1" circular="true" autoPlayInterval="2000">
+
+                        <p:carousel rendered="#{not empty principalController.selectSujeito and(empty principalController.selectVerbo)}" var="verb" headerText="Verbo" value="#{activeUserController.userActive.verbos}" numVisible="1" circular="true" vertical="true" autoPlayInterval="2000">
                             <p:commandLink>
-                                <p:graphicImage value="#{principalController.path}#{verb.url}" width="150" height="150"/> 
-                                <p:ajax listener="#{principalController.onClickVerb(verb)}" update=":#{p:component('campoVerb')} :#{p:component('botFala')}"/><br/>
+                                <p:graphicImage value="#{principalController.path}#{verb.url}" width="250" height="250"/> 
+                                <p:ajax listener="#{principalController.onClickVerb(verb)}" update=":#{p:component('campoVerb')}  #{p:component('painel')}"/><br/>
                                 <h:outputText value="#{verb.palavra}"/>
                             </p:commandLink>
                         </p:carousel>
-                        
-                        <p:carousel id="listaComp" var="comp" value="#{activeUserController.userActive.complementos}" numVisible="1" circular="true" autoPlayInterval="2000">
+
+                        <p:carousel rendered="#{not empty principalController.selectVerbo and(empty principalController.selectComplemento)}" var="comp" headerText="Complemento" value="#{activeUserController.userActive.complementos}" numVisible="1" circular="true" vertical="true" autoPlayInterval="2000">
                             <p:commandLink>
-                                <p:graphicImage value="#{principalController.path}#{comp.url}" width="150" height="150"/> 
-                                <p:ajax listener="#{principalController.onClickComp(comp)}" update=":#{p:component('campoComp')}"/><br/>
+                                <p:graphicImage value="#{principalController.path}#{comp.url}" width="250" height="250"/> 
+                                <p:ajax listener="#{principalController.onClickComp(comp)}" update=":#{p:component('campoComp')}  #{p:component('painel')} "/><br/>
                                 <h:outputText value="#{comp.palavra}"/>
                             </p:commandLink>
                         </p:carousel>
-                    </p:panelGrid>
+                        <p:carousel rendered="#{not empty principalController.selectComplemento}" var="bot" value="#{principalController.acaoBotao}" numVisible="1" circular="true" vertical="true" autoPlayInterval="2000">
+                            <p:commandLink>
+                                <p:graphicImage value="#{principalController.path}/icon/#{bot}.png" width="250" height="250"/> 
+                                <p:ajax listener="#{principalController.falar()}" update="player"/><br/>
+                                <h:outputText value="#{bot}"/>
+                                
+                            </p:commandLink>
+                        </p:carousel>
+                    </p:panel>
                 </h:form>
             </section>
             <aside id="painel-lateral">
                 <h:form rendered="#{not empty activeUserController.userActive}">
-                    <h:outputText value="#{activeUserController.userActive.nome}"/>
-                    <h:commandLink value="Sair" action="#{activeUserController.userSelect(null)}" onclick="window.location.href = '/Projeto2.0/faces/index.xhtml'"/>
-                    <p:graphicImage id="avatar" value="#{principalController.path}#{activeUserController.userActive.fotoUrl}" style="width: 180px; max-height: 200px"/>
-                    <p:commandButton id="botFala" icon="ui-icon-play"  disabled="#{(empty principalController.selectSujeito) or (empty principalController.selectVerbo)}" update="player"/>
+                    <h:panelGrid columns="1" style="text-align: right">
+                        <h:outputText value="#{activeUserController.userActive.nome}"/>
+                        <p:graphicImage id="avatar" value="#{principalController.path}#{activeUserController.userActive.fotoUrl}" style="width: 180px; max-height: 200px;"/>
+                        <h:commandLink action="#{activeUserController.userSelect(null)}" onclick="location.reload()">
+                            <h:outputText value="Sair"/>
+                            <h:graphicImage value="#{principalController.path}/icon/1443742806_logout.png" width="25" height="25"/>
+                        </h:commandLink>
+                    </h:panelGrid>
+                    
                 </h:form>
                 <p:fieldset  id="player" style="visibility: hidden">
-                    <audio controls="" src="#{principalController.path}#{principalController.nomeAudio}.mp3" autoplay="true" style="width: 10px;" ></audio>
+                    <p:fieldset rendered="#{not empty principalController.selectVerbo and (not empty activeUserController.userActive)}">
+                        <audio controls="" src="#{principalController.path}#{principalController.nomeAudio}.mp3" autoplay="true" style="width: 10px;" ></audio>
+                    </p:fieldset>
                 </p:fieldset>
             </aside>
         </ui:define>

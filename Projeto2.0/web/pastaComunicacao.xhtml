@@ -16,40 +16,102 @@ and open the template in the editor.
             <section id="corpo" >
                 <section id="conteudo">
                     
-                    <h:form enctype="multipart/form-data"  acceptcharset="iso-8859-1,utf-8">
-                        <p:growl id="messages" showDetail="true"/>
-                        <p:panelGrid id="grid" columns="2" style="margin: auto">
-                            <f:facet name="header" >
-                                Pasta
-                            </f:facet>
-                            <h:outputLabel for="name" value="Nome:" style="font-weight:bold"/>                    
-                            <p:inputText id="name" value="#{pastaComunicacaoController.pastaFile.nome}" required="true" label="Name"/>
-                            <p:message for="name" />
-                            <h:outputText value="#{pastaComunicacaoController.pastaFile.nome}" />
-                            
-                            <h:outputLabel for="date" value="DataNasc:" style="font-weight:bold"/>
-                            <h:inputText id="date" value="#{pastaComunicacaoController.pastaFile.dataNasc}" required="true" label="Date"/>
-                            <p:message for="date" />
-                            <h:outputText value="#{pastaComunicacaoController.pastaFile.dataNasc}"/>
+                    <!-- Formulário para selecionar as palavras que serão usadas -->
+                    <h:form rendered="#{activeUserController.userCreated and (not empty activeUserController.userActive)}">
+                        <p:panel header="Seja bem vindo(a) #{activeUserController.userActive.nome}">
+                            <p:panel style="background: #58d56c">
+                                <h:outputText value="Selecione as imagens que serão utiliadas por #{activeUserController.userActive.nome} e clique sem salvar!"/>
+                            </p:panel>
+                            <p:panelGrid columns="4" style="vertical-align: top;">
+                                <p:panelGrid columns="1">
+                                    <h:outputText value="Paciente #{activeUserController.userActive.nome}"/>
+                                    <p:graphicImage value="#{principalController.path}#{activeUserController.userActive.fotoUrl}" style="max-height: 200px"/>
+                                </p:panelGrid>
+                                <p:selectManyMenu  value="#{activeUserController.sujeitoListSelect}" var="sujeito"  showCheckbox="true" converter="sujeito">
+                                    <f:selectItems value="#{sujeitoController.sujeitoList}" var="suj" itemLabel="#{suj.palavra}" itemValue="#{suj}" />
+                                    <p:column>
+                                        <p:graphicImage value="#{principalController.path}#{sujeito.url}" width="40"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{sujeito.palavra}"/>
+                                    </p:column>
+                                </p:selectManyMenu>
                                 
-                           
-                            <h:outputText value="Sexo:"/>
-                            <p:selectOneRadio value="#{pastaComunicacaoController.pastaFile.sexo}" required="true">
-                                <f:selectItem itemLabel="Masculino" itemValue="M"/>
-                                <f:selectItem itemLabel="Feminino" itemValue="F"/>
-                            </p:selectOneRadio>
-                           
-                            <h:outputText value="Imagem:"/>
-                            <p:fileUpload mode="simple"   value="#{pastaComunicacaoController.file}" allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/" invalidFileMessage="Formato invalido" required="true"/>
-                            <p:commandButton action="#{pastaComunicacaoController.gravar}" value="Gravar" update="messages grid" ajax="false"/>
-                            <p:commandButton type="reset" value="Limpar formulario"/>
-                        </p:panelGrid>
+                                <p:selectManyMenu value="#{activeUserController.verboListSelect}" var="verbo" showCheckbox="true" converter="verbo">
+                                    <f:selectItems value="#{verboController.verboList}" var="verb" itemLabel="#{verb.palavra}" itemValue="#{verb}" />
+                                    <p:column>
+                                        <p:graphicImage value="#{principalController.path}#{verbo.url}" width="40"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{verbo.palavra}"/>
+                                    </p:column>
+                                </p:selectManyMenu>
+                                
+                                <p:selectManyMenu value="#{activeUserController.complementoListSelect}" var="complemento" showCheckbox="true" converter="complemento">
+                                    <f:selectItems value="#{complementoController.complementoList}" var="comp" itemLabel="#{comp.palavra}" itemValue="#{comp}" />
+                                    <p:column>
+                                        <p:graphicImage value="#{principalController.path}#{complemento.url}" width="40"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{complemento.palavra}"/>
+                                    </p:column>
+                                </p:selectManyMenu>
+                            </p:panelGrid>
+                            <f:facet name="footer">
+                                <p:commandButton value="Salvar" action="#{activeUserController.onImgSelect()}" oncomplete="window.location.href = '/Projeto2.0/faces/index.xhtml'"/>
+                            </f:facet>
+                        </p:panel>
                     </h:form>
                     
+                    <!-- Formulário para cadastro de usuários -->
+                    <h:form enctype="multipart/form-data"  acceptcharset="iso-8859-1,utf-8" rendered="#{not activeUserController.userCreated}">
+                        <p:growl id="messages" showDetail="true"/>
+                        <p:dialog header="Cadastrar usuário" modal="true" widgetVar="cadastro">
+                            <p:fieldset  legend="Dados pessoais">
+                                <p:panelGrid columns="2">
+                                    <p:panelGrid columns="1">
+                                        <h:graphicImage rendered="#{empty pastaComunicacaoController.file}" value="#{principalController.path}/icon/user.png" width="100" height="120"/>
+                                        <p:fileUpload  mode="simple"  label="Selecionar"  value="#{pastaComunicacaoController.file}" accept="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/" invalidFileMessage="Formato invalido" required="true"/>
+                                    </p:panelGrid>
+                                    <p:panelGrid id="grid" columns="2" style="margin: auto;border: none !important">
+                                        <h:outputLabel for="name" value="Nome:" style="font-weight:bold"/>                    
+                                        <p:inputText id="name" value="#{pastaComunicacaoController.pastaFile.nome}" required="true" label="Name"/>
+                                        <p:message for="name" />
+                                        <h:outputText value="#{pastaComunicacaoController.pastaFile.nome}" />
+
+                                        <h:outputLabel for="date" value="DataNasc:" style="font-weight:bold"/>
+                                        <h:inputText id="date" value="#{pastaComunicacaoController.pastaFile.dataNasc}" required="true" label="Date"/>
+                                        <p:message for="date" />
+                                        <h:outputText value="#{pastaComunicacaoController.pastaFile.dataNasc}"/>
+
+
+                                        <h:outputText value="Sexo:"/>
+                                        <p:selectOneRadio value="#{pastaComunicacaoController.pastaFile.sexo}" required="true">
+                                            <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                                            <f:selectItem itemLabel="Feminino" itemValue="F"/>
+                                        </p:selectOneRadio>
+                                    </p:panelGrid>
+                                </p:panelGrid>
+                                
+                            </p:fieldset>
+                            
+                            <f:facet name="footer">
+                                   <p:commandButton id="saveForm" action="#{pastaComunicacaoController.gravar}" value="Gravar" update="@all :#{p:component('tabela')}" ajax="false"/>
+                                   <p:commandButton type="reset" value="Limpar formulario"/>
+                            </f:facet>
+                        </p:dialog>
+                    </h:form>                        
+                    
+                    <!-- Tabela que exibe pacientes cadastrados-->
                     <h:form id="tabela">
                         <p:growl id="messages" showDetail="true"/>
                         <p:messages autoUpdate="true"/>
                         <p:dataTable  id="tab" var="list" style="text-align: center" value="#{pastaComunicacaoController.list}"  paginator="true" rows="5">
+                            <f:facet name="header">
+                                <p:commandLink  onclick="PF('cadastro').show();">
+                                    <h:graphicImage value="#{principalController.path}/icon/adduser.png" width="50" height="50"/>
+                                </p:commandLink>
+                            </f:facet>
                             <p:column headerText="id" style="width: 42px" >
                                 <h:outputText value="#{list.pastaComunicacaoId}"/>
                             </p:column>
@@ -93,7 +155,7 @@ and open the template in the editor.
                                 </p:commandButton>
                             </p:column>
                         </p:dataTable> 
-                    </h:form>
+                    </h:form> 
                 </section>
             </section>
         </ui:define>
