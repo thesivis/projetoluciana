@@ -80,7 +80,7 @@ and open the template in the editor.
                             <p:dataTable  id="tab" var="list" style="text-align: center" value="#{verboController.verboList}" filteredValue="#{verboController.verboListFiltred}" paginator="true" rows="5" editable="true">
                                 <f:facet name="header">
                                         <p:commandLink onclick="PF('cadastro').show()">
-                                            <h:graphicImage value="#{principalController.path}/icon/1438827670_add_list.png" width="50" height="50"/>
+                                            <h:graphicImage value="img/1438827670_add_list.png" width="50" height="50"/>
                                         </p:commandLink>
                                 </f:facet>
                                 <p:ajax event="rowEdit" listener="#{verboController.onRowEdit}" update=":tabela:messages"/>
@@ -136,11 +136,7 @@ and open the template in the editor.
                                         <p:ajax listener="#{verboController.onRowDelet(list)}" update="@all"  oncomplete="location.reload()"/>
                                     </p:commandButton>
                                 </p:column>
-                            </p:dataTable> 
-
-                            <p:panel rendered="#{empty activeUserController.userActive}" style="background: #ff6f6f">
-                                <h:outputText value="Paciente não selecionado"/>
-                            </p:panel>
+                            </p:dataTable>
 
                             <p:dataTable  id="tabUser" rendered="#{not empty activeUserController.userActive}" var="listUser" style="text-align: center" value="#{activeUserController.userActive.verbos}"  paginator="true" rows="5">
 

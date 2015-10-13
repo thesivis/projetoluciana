@@ -14,7 +14,7 @@ and open the template in the editor.
         <ui:define name="content">
             <section id="corpoI">
                 <p:panel rendered="#{empty activeUserController.userActive}" style="background: #ff6f6f">
-                    <h:outputText value="Paciente não selecionado"/>
+                    <h:outputText value="Paciente não selecionado. "/>
                 </p:panel>
                 <h:form rendered="#{not empty activeUserController.userActive}">
                     <p:panelGrid columns="3" layout="grid">
@@ -33,7 +33,7 @@ and open the template in the editor.
                     <p:panel id="painel" style="text-align: center">
                         <p:carousel  rendered="#{empty principalController.selectSujeito}"  var="suj" headerText="Sujeito" value="#{activeUserController.userActive.sujeitos}" numVisible="1" circular="true" vertical="true" autoPlayInterval="2000">
                             <p:commandLink>
-                                <p:graphicImage value="#{principalController.path}#{suj.url}" width="250" height="250"/> 
+                                <p:graphicImage value="#{principalController.path}#{suj.url}" width="200" height="200"/> 
                                 <p:ajax listener="#{principalController.onClickSuj(suj)}" update=":#{p:component('campoSuj')} #{p:component('painel')}"/><br/>
                                 <h:outputText value="#{suj.palavra}"/><br/>
                                 <p:graphicImage value="#{principalController.path}#{suj.tempo}.png" width="50" height="50"/><br/><h:outputText value="#{suj.tempo}"/>
@@ -42,27 +42,26 @@ and open the template in the editor.
 
                         <p:carousel rendered="#{not empty principalController.selectSujeito and(empty principalController.selectVerbo)}" var="verb" headerText="Verbo" value="#{activeUserController.userActive.verbos}" numVisible="1" circular="true" vertical="true" autoPlayInterval="2000">
                             <p:commandLink>
-                                <p:graphicImage value="#{principalController.path}#{verb.url}" width="250" height="250"/> 
+                                <p:graphicImage value="#{principalController.path}#{verb.url}" width="200" height="200"/> 
                                 <p:ajax listener="#{principalController.onClickVerb(verb)}" update=":#{p:component('campoVerb')}  #{p:component('painel')}"/><br/>
+                                
                                 <h:outputText value="#{verb.palavra}"/>
                             </p:commandLink>
                         </p:carousel>
 
                         <p:carousel rendered="#{not empty principalController.selectVerbo and(empty principalController.selectComplemento)}" var="comp" headerText="Complemento" value="#{activeUserController.userActive.complementos}" numVisible="1" circular="true" vertical="true" autoPlayInterval="2000">
                             <p:commandLink>
-                                <p:graphicImage value="#{principalController.path}#{comp.url}" width="250" height="250"/> 
+                                <p:graphicImage value="#{principalController.path}#{comp.url}" width="200" height="200"/> 
                                 <p:ajax listener="#{principalController.onClickComp(comp)}" update=":#{p:component('campoComp')}  #{p:component('painel')} "/><br/>
                                 <h:outputText value="#{comp.palavra}"/>
                             </p:commandLink>
                         </p:carousel>
-                        <p:carousel rendered="#{not empty principalController.selectComplemento}" var="bot" value="#{principalController.acaoBotao}" numVisible="1" circular="true" vertical="true" autoPlayInterval="2000">
-                            <p:commandLink>
-                                <p:graphicImage value="#{principalController.path}/icon/#{bot}.png" width="250" height="250"/> 
-                                <p:ajax listener="#{principalController.falar()}" update="player"/><br/>
-                                <h:outputText value="#{bot}"/>
-                                
-                            </p:commandLink>
-                        </p:carousel>
+                        <p:commandLink rendered="#{not empty principalController.selectComplemento}" oncomplete="location.reload()">
+                            <p:graphicImage value="img/Limpar.png" width="200" height="200"/> 
+                        </p:commandLink>
+                        <p:commandLink rendered="#{not empty principalController.selectComplemento}" update="player">
+                            <p:graphicImage value="img/Play.png" width="200" height="200"/> 
+                        </p:commandLink>
                     </p:panel>
                 </h:form>
             </section>
@@ -73,10 +72,9 @@ and open the template in the editor.
                         <p:graphicImage id="avatar" value="#{principalController.path}#{activeUserController.userActive.fotoUrl}" style="width: 180px; max-height: 200px;"/>
                         <h:commandLink action="#{activeUserController.userSelect(null)}" onclick="location.reload()">
                             <h:outputText value="Sair"/>
-                            <h:graphicImage value="#{principalController.path}/icon/1443742806_logout.png" width="25" height="25"/>
+                            <h:graphicImage value="img/1443742806_logout.png" width="25" height="25"/>
                         </h:commandLink>
                     </h:panelGrid>
-                    
                 </h:form>
                 <p:fieldset  id="player" style="visibility: hidden">
                     <p:fieldset rendered="#{not empty principalController.selectVerbo and (not empty activeUserController.userActive)}">

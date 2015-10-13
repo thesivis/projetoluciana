@@ -48,7 +48,7 @@ and open the template in the editor.
                             <p:dataTable  id="tab" var="list" style="text-align: center" value="#{complementoController.complementoList}" filteredValue="#{complementoController.complementoListFiltred}" paginator="true" rows="5" editable="true">
                                 <f:facet name="header">
                                     <p:commandLink onclick="PF('cadastro').show()">
-                                        <h:graphicImage value="#{principalController.path}/icon/1438827670_add_list.png" width="50" height="50"/>
+                                        <h:graphicImage value="img/1438827670_add_list.png" width="50" height="50"/>
                                     </p:commandLink>
                                 </f:facet>
                                 <p:ajax event="rowEdit" listener="#{complementoController.onRowEdit}" update=":tabela:messages"/>
@@ -105,10 +105,6 @@ and open the template in the editor.
                                     </p:commandButton>
                                 </p:column>
                             </p:dataTable> 
-
-                            <p:panel rendered="#{empty activeUserController.userActive}" style="background: #ff6f6f">
-                                <h:outputText value="Paciente não selecionado"/>
-                            </p:panel>
 
                             <p:dataTable  id="tabUser" rendered="#{not empty activeUserController.userActive}" var="listUser" style="text-align: center" value="#{activeUserController.userActive.complementos}"  paginator="true" rows="5">
 

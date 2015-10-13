@@ -53,10 +53,10 @@ and open the template in the editor.
                     <h:form id="tabela">
                         <p:growl id="messages" showDetail="true"/>
                         <h:panelGrid columns="2" columnClasses="alignTop,alignTop">
-                            <p:dataTable  id="tab" var="list" style="text-align: center" value="#{sujeitoController.sujeitoList}" filteredValue="#{sujeitoController.sujeitoListFiltred}" paginator="true" rows="9" editable="true">
+                            <p:dataTable  id="tab" var="list" style="text-align: center" value="#{sujeitoController.sujeitoList}" filteredValue="#{sujeitoController.sujeitoListFiltred}" paginator="true" rows="3" editable="true">
                                 <f:facet name="header">
-                                    <p:commandLink onclick="PF('cadastro').show()">
-                                        <h:graphicImage value="#{principalController.path}/icon/1438827670_add_list.png" width="50" height="50"/>
+                                    <p:commandLink disabled="true" onclick="PF('cadastro').show()">
+                                        <h:graphicImage value="img/1438827670_add_list.png" width="50" height="50"/>
                                     </p:commandLink>
                                 </f:facet>
                                 <p:ajax event="rowEdit" listener="#{sujeitoController.onRowEdit}" update=":tabela:messages"/>
@@ -77,7 +77,7 @@ and open the template in the editor.
                                     </p:cellEditor>     
                                 </p:column>
 
-                                <p:column headerText="Sexo" filterBy="#{list.sexo}" filterMatchMode="contains">
+<!--                                <p:column headerText="Sexo" filterBy="#{list.sexo}" filterMatchMode="contains">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{list.sexo}"/></f:facet>
                                         <f:facet name="input">
@@ -89,7 +89,7 @@ and open the template in the editor.
                                     </p:cellEditor>     
                                 </p:column>
 
-                                <p:column headerText="Tempo Verbal" filterBy="#{list.tempo}" filterMatchMode="contains">
+-->                                <p:column headerText="Tempo Verbal" filterBy="#{list.tempo}" filterMatchMode="contains">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{list.tempo}"/></f:facet>
                                         <f:facet name="input">
@@ -120,14 +120,14 @@ and open the template in the editor.
                                 </p:column>
 
                                 <p:column headerText="Excluir" style="width: 32px ; font-size:  10px">
-                                    <p:commandButton  icon="ui-icon-trash" >
+                                    <p:commandButton disabled="true"  icon="ui-icon-trash" >
                                         <p:ajax listener="#{sujeitoController.onRowDelet(list)}" update="#{p:component('messages')}"  oncomplete="location.reload()"/>
                                     </p:commandButton>
                                 </p:column>
                             </p:dataTable> 
                           
 
-                            <p:dataTable  id="tabUser" rendered="#{not empty activeUserController.userActive}" var="listUser" style="text-align: center" value="#{activeUserController.userActive.sujeitos}"  paginator="true" rows="5">
+                            <p:dataTable  id="tabUser" rendered="#{not empty activeUserController.userActive}" var="listUser" style="text-align: center" value="#{activeUserController.userActive.sujeitos}"  paginator="true" rows="3">
                                 <f:facet name="header">
                                     <h:outputText value="Sujeitos que estão sendo utiliados por #{activeUserController.userActive.nome}"/>
                                     <h:graphicImage value="#{principalController.path}#{activeUserController.userActive.fotoUrl}" width="50" height="50" style="border-radius: 100% "/>
@@ -147,7 +147,7 @@ and open the template in the editor.
                                     </p:cellEditor>     
                                 </p:column>
                                 
-                                <p:column headerText="Excluir" style="width: 32px ; font-size:  10px">
+                                <p:column  headerText="Excluir" style="width: 32px ; font-size:  10px">
                                     <p:commandButton  icon="ui-icon-trash" >
                                         <p:ajax listener="#{activeUserController.onSujDelete(listUser)}" update="#{p:component('messages')}"  oncomplete="location.reload()"/>
                                     </p:commandButton>
