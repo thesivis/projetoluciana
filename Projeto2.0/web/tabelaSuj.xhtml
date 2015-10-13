@@ -55,7 +55,7 @@ and open the template in the editor.
                         <h:panelGrid columns="2" columnClasses="alignTop,alignTop">
                             <p:dataTable  id="tab" var="list" style="text-align: center" value="#{sujeitoController.sujeitoList}" filteredValue="#{sujeitoController.sujeitoListFiltred}" paginator="true" rows="3" editable="true">
                                 <f:facet name="header">
-                                    <p:commandLink disabled="true" onclick="PF('cadastro').show()">
+                                    <p:commandLink  onclick="PF('cadastro').show()">
                                         <h:graphicImage value="img/1438827670_add_list.png" width="50" height="50"/>
                                     </p:commandLink>
                                 </f:facet>
@@ -125,34 +125,7 @@ and open the template in the editor.
                                     </p:commandButton>
                                 </p:column>
                             </p:dataTable> 
-                          
 
-                            <p:dataTable  id="tabUser" rendered="#{not empty activeUserController.userActive}" var="listUser" style="text-align: center" value="#{activeUserController.userActive.sujeitos}"  paginator="true" rows="3">
-                                <f:facet name="header">
-                                    <h:outputText value="Sujeitos que estão sendo utiliados por #{activeUserController.userActive.nome}"/>
-                                    <h:graphicImage value="#{principalController.path}#{activeUserController.userActive.fotoUrl}" width="50" height="50" style="border-radius: 100% "/>
-                                </f:facet>
-                                <p:column headerText="id" style="width: 42px" >
-                                    <h:outputText value="#{listUser.sujeitoId}"/>
-                                </p:column>
-
-                                <p:column headerText="Img"  width="50">
-                                    <p:graphicImage url="#{principalController.path}#{listUser.url}" width="50" height="50" style="margin: 0 auto"/>
-                                </p:column>
-
-                                <p:column headerText="Palavra" filterBy="#{listUser.palavra}" filterMatchMode="contains"    >
-                                    <p:cellEditor>
-                                        <f:facet name="output"><h:outputText value="#{listUser.palavra}"/></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{listUser.palavra}"/></f:facet>
-                                    </p:cellEditor>     
-                                </p:column>
-                                
-                                <p:column  headerText="Excluir" style="width: 32px ; font-size:  10px">
-                                    <p:commandButton  icon="ui-icon-trash" >
-                                        <p:ajax listener="#{activeUserController.onSujDelete(listUser)}" update="#{p:component('messages')}"  oncomplete="location.reload()"/>
-                                    </p:commandButton>
-                                </p:column>
-                            </p:dataTable> 
                         </h:panelGrid>
                     </h:form>
                 </article>
