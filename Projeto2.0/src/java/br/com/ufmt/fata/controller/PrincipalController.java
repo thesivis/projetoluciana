@@ -184,11 +184,14 @@ public class PrincipalController implements Serializable {
                 } else {
                     nomeAudio = frase();
                 }
-                sound = audio.getAudio(nomeAudio + "&client=", Language.PORTUGUESE);
-                nomeAudio = removerAcentos(nomeAudio);
-                System.out.println(nomeAudio);
-                fileUpload(nomeAudio);
-   
+                if(!ArquivoController.existeArquivo(nomeAudio+".mp3")){
+                    sound = audio.getAudio(nomeAudio + "&client=t", Language.PORTUGUESE);
+                    System.out.println(nomeAudio);
+                    fileUpload(nomeAudio);
+                }else{
+                     System.out.println(nomeAudio+" Já existe!");
+                }
+                
             }
         } catch (IOException ex) {
             Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);

@@ -34,4 +34,11 @@ public class ArquivoController {
         }  
     return listaVolta;  
     }  
+    
+    public static boolean existeArquivo(String nomeArquivo){
+        File dir = new File(PrincipalController.FATA_DIR);
+        List<String> lista = new ArrayList<>();
+        lista = listaArquivos(dir);
+        return lista.contains(nomeArquivo);
+    }
 }

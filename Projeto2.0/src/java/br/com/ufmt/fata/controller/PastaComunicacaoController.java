@@ -69,7 +69,7 @@ public class PastaComunicacaoController implements Serializable{
         System.out.println("Selecionado");
     }
     public void onRowDelete(PastaDeComunicacao pacienteSelect){
-        pastaComunicacaoDao.remove(pacienteSelect);
+        pastaComunicacaoDao.remove(pacienteSelect);  
     }
     
     public List<PastaDeComunicacao> getList() {
