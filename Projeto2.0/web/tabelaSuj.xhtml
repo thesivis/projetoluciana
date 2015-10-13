@@ -35,9 +35,9 @@ and open the template in the editor.
                                 </p:selectOneRadio>
                                 <h:outputText value="Tempo Verbal:"/>
                                 <p:selectOneRadio value="#{sujeitoController.sujeitoFile.tempo}" required="true">
-                                    <f:selectItem itemLabel="Passado" itemValue="Passado"/>
-                                    <f:selectItem itemLabel="Presente" itemValue="Presente"/>
-                                    <f:selectItem itemLabel="Futuro" itemValue="Futuro"/>
+                                    <f:selectItem itemLabel="Primeira" itemValue="Primeira"/>
+                                    <f:selectItem itemLabel="Segunda" itemValue="Segunda"/>
+                                    <f:selectItem itemLabel="Terceira" itemValue="Terceira"/>
                                 </p:selectOneRadio>
                                 <h:outputText value="Imagem:"/>
                                 <p:fileUpload mode="simple" value="#{sujeitoController.file}" required="true" allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/" invalidFileMessage="Formato invalido"/>
@@ -89,14 +89,14 @@ and open the template in the editor.
                                     </p:cellEditor>     
                                 </p:column>
 
--->                                <p:column headerText="Tempo Verbal" filterBy="#{list.tempo}" filterMatchMode="contains">
+                                -->                                <p:column headerText="Tempo Verbal" filterBy="#{list.tempo}" filterMatchMode="contains">
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{list.tempo}"/></f:facet>
                                         <f:facet name="input">
                                             <h:selectOneMenu value="#{list.tempo}">
-                                                <f:selectItem itemLabel="Passado" itemValue="0"/>
-                                                <f:selectItem itemLabel="Presente" itemValue="1"/>
-                                                <f:selectItem itemLabel="Futuro" itemValue="2"/>
+                                                <f:selectItem itemLabel="Primeira" itemValue="0"/>
+                                                <f:selectItem itemLabel="Segunda" itemValue="1"/>
+                                                <f:selectItem itemLabel="Terceira" itemValue="2"/>
                                             </h:selectOneMenu>
                                         </f:facet>
                                     </p:cellEditor>     

@@ -35,33 +35,33 @@ and open the template in the editor.
                                 
                                     <p:fieldset legend="1ª Pessoa">
                                         <p:panelGrid columns="2">
-                                            <h:outputText value="PasPrimPessoa:"/>
+                                            <h:outputText value="Passado:"/>
                                             <h:inputText value="#{verboController.verboFile.pasprimpessoa}" />
-                                            <h:outputText value="PrePrimPessoa:"/>
+                                            <h:outputText value="Presente:"/>
                                             <h:inputText value="#{verboController.verboFile.preprimpessoa}" />
-                                            <h:outputText value="FutPrimPessoa:"/>
+                                            <h:outputText value="Futuro:"/>
                                             <h:inputText value="#{verboController.verboFile.futprimpessoa}" />
                                         </p:panelGrid>
                                     </p:fieldset>
                                     
                                     <p:fieldset legend="2ª Pessoa">
                                         <p:panelGrid columns="2">
-                                            <h:outputText value="PasSegPessoa:"/>
+                                            <h:outputText value="Passado:"/>
                                             <h:inputText value="#{verboController.verboFile.passegpessoa}" />
-                                            <h:outputText value="PreSegPessoa:"/>
+                                            <h:outputText value="Presente:"/>
                                             <h:inputText value="#{verboController.verboFile.presegpessoa}" />
-                                            <h:outputText value="FutSegPessoa:"/>
+                                            <h:outputText value="Futuro:"/>
                                             <h:inputText value="#{verboController.verboFile.futsegpessoa}" />
                                         </p:panelGrid>
                                     </p:fieldset>
                                     
                                     <p:fieldset legend="3ª Pessoa">
                                         <p:panelGrid columns="2">
-                                            <h:outputText value="PasTercPessoa:"/>
+                                            <h:outputText value="Passado:"/>
                                             <h:inputText value="#{verboController.verboFile.pastercpessoa}" />
-                                            <h:outputText value="PreTercPessoa:"/>
+                                            <h:outputText value="Presente:"/>
                                             <h:inputText value="#{verboController.verboFile.pretercpessoa}" />
-                                            <h:outputText value="FutTercPessoa:"/>
+                                            <h:outputText value="Futuro:"/>
                                             <h:inputText value="#{verboController.verboFile.futtercpessoa}" />
                                         </p:panelGrid>
                                     </p:fieldset>
@@ -99,25 +99,6 @@ and open the template in the editor.
                                     <p:cellEditor>
                                         <f:facet name="output"><h:outputText value="#{list.palavra}"/></f:facet>
                                         <f:facet name="input"><p:inputText value="#{list.palavra}"/></f:facet>
-                                    </p:cellEditor>     
-                                </p:column>
-
-                                <p:column headerText="PasPrimPessoa" filterBy="#{list.pasprimpessoa}" filterMatchMode="contains">
-                                    <p:cellEditor>
-                                        <f:facet name="output"><h:outputText value="#{list.pasprimpessoa}"/></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{list.pasprimpessoa}"/></f:facet>
-                                    </p:cellEditor>     
-                                </p:column>
-                                <p:column headerText="PrePrimPessoa" filterBy="#{list.preprimpessoa}" filterMatchMode="contains">
-                                    <p:cellEditor>
-                                        <f:facet name="output"><h:outputText value="#{list.preprimpessoa}"/></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{list.preprimpessoa}"/></f:facet>
-                                    </p:cellEditor>     
-                                </p:column>
-                                <p:column headerText="PutPrimPessoa" filterBy="#{list.futprimpessoa}" filterMatchMode="contains">
-                                    <p:cellEditor>
-                                        <f:facet name="output"><h:outputText value="#{list.futprimpessoa}"/></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{list.futprimpessoa}"/></f:facet>
                                     </p:cellEditor>     
                                 </p:column>
 
