@@ -56,6 +56,10 @@ public class ComplementoController implements Serializable{
         complementoCon.remove(complemento);
     }
     
+    public void onNewComplemento(){
+        this.complementoFile = new Complemento();
+    }
+    
     public void gravar(){
         fileUpload();
         complementoCon.save(complementoFile);

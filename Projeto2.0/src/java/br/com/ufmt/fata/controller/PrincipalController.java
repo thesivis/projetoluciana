@@ -41,9 +41,11 @@ public class PrincipalController implements Serializable {
     Sujeito selectSujeito;
     Verbo selectVerbo;
     Complemento selectComplemento;
+    private String selectTempo;
     SujeitoDaoImp sujeitoController = new SujeitoDaoImp();
     VerboDaoImp verboController = new VerboDaoImp();
     ComplementoDaoImp complementoController = new ComplementoDaoImp();
+    private List<String> tempoList = new ArrayList();
     List<Sujeito> sujeitoList;
     List<Verbo> verboList;
     List<Complemento> complementoList;
@@ -80,6 +82,9 @@ public class PrincipalController implements Serializable {
         sujeitoList = sujeitoController.list();
         verboList = verboController.list();
         complementoList = complementoController.list();
+        tempoList.add("Passado");
+        tempoList.add("Presente");
+        tempoList.add("Futuro");
         acaoBotao.add("Play");
         acaoBotao.add("Limpar");
     }
@@ -131,13 +136,16 @@ public class PrincipalController implements Serializable {
     
     public void  onClickSuj(Sujeito suj){
         this.selectSujeito = suj;
-        falar();
         System.out.println("Sujeito selecionado");
     }
     public void  onClickVerb(Verbo verb){
         this.selectVerbo = verb;
-        falar();
         System.out.println("Verbo selecionado");
+    }
+    public void  onClickTemp(String temp){
+        this.selectTempo = temp;
+        falar();
+        System.out.println("Tempo selecionado");
     }
     public void  onClickComp(Complemento comp){
         this.selectComplemento = comp;
@@ -146,30 +154,35 @@ public class PrincipalController implements Serializable {
     }
     public String frase(){
         String fraseFala = selectSujeito.getPalavra();
-        if(selectSujeito.getSujeitoId() == 1 ||selectSujeito.getSujeitoId() == 2 || selectSujeito.getSujeitoId() == 3){
-            if("Passado".equals(selectSujeito.getTempo())){
-                fraseFala = fraseFala+" "+selectVerbo.getPasprimpessoa();
-            }else if("Presente".equals(selectSujeito.getTempo())){
-                fraseFala = fraseFala+" "+selectVerbo.getPreprimpessoa();
-            }else{
-                fraseFala = fraseFala+" "+selectVerbo.getFutprimpessoa();
+        if("Primeira".equals(selectSujeito.getPronome())){
+            if("Passado".equals(this.selectTempo)){
+                fraseFala = fraseFala+" "+this.selectVerbo.getPasprimpessoa();
             }
-        
-        }else if(selectSujeito.getSujeitoId() == 4 ||selectSujeito.getSujeitoId() == 5 || selectSujeito.getSujeitoId() == 6){
-            if("Passado".equals(selectSujeito.getTempo())){
-                fraseFala = fraseFala+" "+selectVerbo.getPassegpessoa();
-            }else if("Presente".equals(selectSujeito.getTempo())){
-                fraseFala = fraseFala+" "+selectVerbo.getPresegpessoa();
-            }else{
-                fraseFala = fraseFala+" "+selectVerbo.getFutsegpessoa();
+            if("Presente".equals(this.selectTempo)){
+                fraseFala = fraseFala+" "+this.selectVerbo.getPreprimpessoa();
+            }
+            if("Futuro".equals(this.selectTempo)){
+                fraseFala = fraseFala+" "+this.selectVerbo.getFutprimpessoa();
+            }
+        }else if("Segunda".equals(selectSujeito.getPronome())){
+            if("Passado".equals(this.selectTempo)){
+                fraseFala = fraseFala+" "+this.selectVerbo.getPassegpessoa();
+            }
+            if("Presente".equals(this.selectTempo)){
+                fraseFala = fraseFala+" "+this.selectVerbo.getPresegpessoa();
+            }
+            if("Futuro".equals(this.selectTempo)){
+                fraseFala = fraseFala+" "+this.selectVerbo.getFutsegpessoa();
             }
         }else{
-            if("Passado".equals(selectSujeito.getTempo())){
-                fraseFala = fraseFala+" "+selectVerbo.getPastercpessoa();
-            }else if("Presente".equals(selectSujeito.getTempo())){
-                fraseFala = fraseFala+" "+selectVerbo.getPretercpessoa();
-            }else{
-                fraseFala = fraseFala+" "+selectVerbo.getFuttercpessoa();
+            if("Passado".equals(this.selectTempo)){
+                fraseFala = fraseFala+" "+this.selectVerbo.getPastercpessoa();
+            }
+            if("Presente".equals(this.selectTempo)){
+                fraseFala = fraseFala+" "+this.selectVerbo.getPretercpessoa();
+            }
+            if("Futuro".equals(this.selectTempo)){
+                fraseFala = fraseFala+" "+this.selectVerbo.getFuttercpessoa();
             }
         }
         return fraseFala;
@@ -185,7 +198,7 @@ public class PrincipalController implements Serializable {
                     nomeAudio = frase();
                 }
                 if(!ArquivoController.existeArquivo(nomeAudio+".mp3")){
-                    sound = audio.getAudio(nomeAudio + "&client=t", Language.PORTUGUESE);
+                    sound = audio.getAudio(nomeAudio + "&client=", Language.PORTUGUESE);
                     System.out.println(nomeAudio);
                     fileUpload(nomeAudio);
                 }else{
@@ -294,5 +307,21 @@ public class PrincipalController implements Serializable {
 
     public void setAcaoBotao(List<String> acaoBotao) {
         this.acaoBotao = acaoBotao;
+    }
+
+    public String getSelectTempo() {
+        return selectTempo;
+    }
+
+    public void setSelectTempo(String selectTempo) {
+        this.selectTempo = selectTempo;
+    }
+
+    public List<String> getTempoList() {
+        return tempoList;
+    }
+
+    public void setTempoList(List<String> tempoList) {
+        this.tempoList = tempoList;
     }
 }

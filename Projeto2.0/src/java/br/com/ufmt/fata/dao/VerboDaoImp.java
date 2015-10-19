@@ -21,7 +21,7 @@ public class VerboDaoImp implements VerboDao{
     public void save(Verbo verbo) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        session.save(verbo);
+        session.saveOrUpdate(verbo);
         t.commit();
         session.close();
     }

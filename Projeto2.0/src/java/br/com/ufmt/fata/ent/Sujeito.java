@@ -30,7 +30,7 @@ public class Sujeito implements Serializable {
     private String sexo;
     private String url;
     private String conjugacao;
-    private String tempo;
+    private String pronome;
     
     @ManyToMany(mappedBy = "sujeitos")
     private List<PastaDeComunicacao> pastaDeComunicacaos;
@@ -102,12 +102,12 @@ public class Sujeito implements Serializable {
         this.conjugacao = conjugacao;
     }
 
-    public String getTempo() {
-        return tempo;
+    public String getPronome() {
+        return pronome;
     }
 
-    public void setTempo(String tempo) {
-        this.tempo = tempo;
+    public void setPronome(String pronome) {
+        this.pronome = pronome;
     }
 
     public List<PastaDeComunicacao> getPastaDeComunicacaos() {

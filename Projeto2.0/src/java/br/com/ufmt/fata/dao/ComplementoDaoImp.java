@@ -21,7 +21,7 @@ public class ComplementoDaoImp implements ComplementoDao{
     public void save(Complemento complemento) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        session.save(complemento);
+        session.saveOrUpdate(complemento);
         t.commit();
         session.close();
     }

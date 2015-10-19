@@ -57,6 +57,10 @@ public class SujeitoController  implements Serializable{
         sujeitoCon.remove(sujeito);
     }
     
+    public void onNewSujeito(){
+        this.sujeitoFile = new Sujeito();
+    }
+    
     public void gravar(){
         fileUpload();
         sujeitoCon.save(sujeitoFile);
@@ -104,7 +108,7 @@ public class SujeitoController  implements Serializable{
     public void setSujeitoListFiltred(List<Sujeito> sujeitoListFiltred) {
         this.sujeitoListFiltred = sujeitoListFiltred;
     }
+
     
-    
-    
+
 }

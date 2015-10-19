@@ -56,6 +56,10 @@ public class VerboController implements Serializable{
         verboCon.remove(verbo);
     }
     
+    public void onNewVerbo(){
+        this.verboFile = new Verbo();
+    }
+    
     public void gravar(){
         fileUpload();
         verboCon.save(verboFile);
