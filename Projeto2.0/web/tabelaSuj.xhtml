@@ -23,26 +23,30 @@ and open the template in the editor.
                 </nav>
                 <article id="conteudo">
                     <h:form enctype="multipart/form-data"  acceptcharset="iso-8859-1,utf-8">
-                        <p:dialog header="Cadastrar sujeito" modal="true" widgetVar="cadastro">
-                            <p:growl id="messages" showDetail="true"/>
-                            <p:panelGrid columns="2"  style="margin: auto;" > 
-                                <h:outputText value="Palavra:"/>
-                                <h:inputText value="#{sujeitoController.sujeitoFile.palavra}" required="true" />
-                                <h:outputText value="Sexo:"/>
-                                <p:selectOneRadio value="#{sujeitoController.sujeitoFile.sexo}" required="true" requiredMessage="Por favor, selecione o sexo">
-                                    <f:selectItem itemLabel="Masculino" itemValue="M"/>
-                                    <f:selectItem itemLabel="Feminino" itemValue="F"/>
-                                </p:selectOneRadio>
-                                <h:outputText value="Tempo Verbal:"/>
-                                <p:selectOneRadio value="#{sujeitoController.sujeitoFile.tempo}" required="true">
-                                    <f:selectItem itemLabel="Primeira" itemValue="Primeira"/>
-                                    <f:selectItem itemLabel="Segunda" itemValue="Segunda"/>
-                                    <f:selectItem itemLabel="Terceira" itemValue="Terceira"/>
-                                </p:selectOneRadio>
-                                <h:outputText value="Imagem:"/>
-                                <p:fileUpload mode="simple" value="#{sujeitoController.file}" required="true" allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/" invalidFileMessage="Formato invalido"/>
-                                <h:outputText value="Conjugação:"/>
-                                <h:inputText value="#{sujeitoController.sujeitoFile.conjugacao}" required="true" />
+                        <p:dialog id="dial" header="Cadastrar sujeito" modal="true" widgetVar="cadastro">
+                            <p:panelGrid columns="2">
+                                <p:panelGrid columns="1">
+                                    <h:graphicImage width="100" height="100" rendered="#{not empty sujeitoController.sujeitoFile.url}" value="#{principalController.path}#{sujeitoController.sujeitoFile.url}"/>
+                                    <h:graphicImage value="img/1445035813_image_file.png" rendered="#{empty sujeitoController.sujeitoFile.url}" width="100" height="100"/>
+                                    <p:fileUpload mode="simple" value="#{sujeitoController.file}"  required="true" allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/" invalidFileMessage="Formato invalido"/>
+                                </p:panelGrid>
+                                <p:panelGrid columns="2"  style="margin: auto;" > 
+                                    <h:outputText value="Palavra:"/>
+                                    <h:inputText value="#{sujeitoController.sujeitoFile.palavra}" required="true" />
+                                    <h:outputText value="Sexo:"/>
+                                    <p:selectOneRadio value="#{sujeitoController.sujeitoFile.sexo}" required="true" requiredMessage="Por favor, selecione o sexo">
+                                        <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                                        <f:selectItem itemLabel="Feminino" itemValue="F"/>
+                                    </p:selectOneRadio>
+                                    <h:outputText value="Tempo Verbal:"/>
+                                    <p:selectOneRadio value="#{sujeitoController.sujeitoFile.pronome}" required="true">
+                                        <f:selectItem itemLabel="Primeira" itemValue="Primeira"/>
+                                        <f:selectItem itemLabel="Segunda" itemValue="Segunda"/>
+                                        <f:selectItem itemLabel="Terceira" itemValue="Terceira"/>
+                                    </p:selectOneRadio>
+                                    <h:outputText value="Conjugação:"/>
+                                    <h:inputText  value="#{sujeitoController.sujeitoFile.conjugacao}" required="true" />
+                                </p:panelGrid>
                             </p:panelGrid>
                             <f:facet name="footer">
                                 <p:commandButton action="#{sujeitoController.gravar}" value="Gravar" update="messages" ajax="false"/>
@@ -53,79 +57,34 @@ and open the template in the editor.
                     <h:form id="tabela">
                         <p:growl id="messages" showDetail="true"/>
                         <h:panelGrid columns="2" columnClasses="alignTop,alignTop">
-                            <p:dataTable  id="tab" var="list" style="text-align: center" value="#{sujeitoController.sujeitoList}" filteredValue="#{sujeitoController.sujeitoListFiltred}" paginator="true" rows="3" editable="true">
+                            <p:dataTable  id="tab" var="list" style="text-align: center" value="#{sujeitoController.sujeitoList}" filteredValue="#{sujeitoController.sujeitoListFiltred}" paginator="true" rows="3">
                                 <f:facet name="header">
-                                    <p:commandLink  onclick="PF('cadastro').show()">
+                                    <p:commandLink   oncomplete="PF('cadastro').show()" action="#{sujeitoController.onNewSujeito()}" update="#{p:component('dial')}">
                                         <h:graphicImage value="img/1438827670_add_list.png" width="50" height="50"/>
                                     </p:commandLink>
                                 </f:facet>
-                                <p:ajax event="rowEdit" listener="#{sujeitoController.onRowEdit}" update=":tabela:messages"/>
-                                <p:ajax event="rowEditCancel" listener="#{sujeitoController.onRowCancel}" update=":tabela:messages"/>
-                                <p:column headerText="id" style="width: 2%" >
+                                <p:column headerText="Id">
                                     <h:outputText value="#{list.sujeitoId}"/>
                                 </p:column>
-
-                                <p:column headerText="Img"  width="50">
-                                    <p:graphicImage url="#{principalController.path}#{list.url}" width="50" height="50" style="margin: 0 auto"/>
+                                <p:column headerText="Figura">
+                                    <h:graphicImage value="#{principalController.path}#{list.url}" width="50"  height="50"/>
                                 </p:column>
-
-
-                                <p:column headerText="Palavra" filterBy="#{list.palavra}" filterMatchMode="contains"    >
-                                    <p:cellEditor>
-                                        <f:facet name="output"><h:outputText value="#{list.palavra}"/></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{list.palavra}"/></f:facet>
-                                    </p:cellEditor>     
-                                </p:column>
-
-<!--                                <p:column headerText="Sexo" filterBy="#{list.sexo}" filterMatchMode="contains">
-                                    <p:cellEditor>
-                                        <f:facet name="output"><h:outputText value="#{list.sexo}"/></f:facet>
-                                        <f:facet name="input">
-                                            <h:selectOneMenu value="#{list.sexo}">
-                                                <f:selectItem itemLabel="M" itemValue="M"/>
-                                                <f:selectItem itemLabel="F" itemValue="F"/>
-                                            </h:selectOneMenu>
-                                        </f:facet>
-                                    </p:cellEditor>     
-                                </p:column>
-
-                                -->                                <p:column headerText="Tempo Verbal" filterBy="#{list.tempo}" filterMatchMode="contains">
-                                    <p:cellEditor>
-                                        <f:facet name="output"><h:outputText value="#{list.tempo}"/></f:facet>
-                                        <f:facet name="input">
-                                            <h:selectOneMenu value="#{list.tempo}">
-                                                <f:selectItem itemLabel="Primeira" itemValue="0"/>
-                                                <f:selectItem itemLabel="Segunda" itemValue="1"/>
-                                                <f:selectItem itemLabel="Terceira" itemValue="2"/>
-                                            </h:selectOneMenu>
-                                        </f:facet>
-                                    </p:cellEditor>     
-                                </p:column>
-
-                                <p:column headerText="Conjugação" filterBy="#{list.conjugacao}" filterMatchMode="contains">
-                                    <p:cellEditor>
-                                        <f:facet name="output"><h:outputText value="#{list.conjugacao}"/></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{list.conjugacao}"/></f:facet>
-                                    </p:cellEditor>     
+                                <p:column headerText="Palavra">
+                                    <h:outputText value="#{list.palavra}"/>
                                 </p:column>
 
                                 <p:column headerText="Editar" style="width: 32px;  font-size: 10px">
-                                    <p:rowEditor />
-                                </p:column>
-
-                                <p:column headerText="Utilizar" style="width: 32px;  font-size: 10px" rendered="#{not empty activeUserController.userActive}">
-                                    <p:commandButton  icon="ui-icon-plusthick" >
-                                        <p:ajax listener="#{activeUserController.onSujSelect(list)}" update="#{p:component('messages')}"  oncomplete="location.reload()"/>
+                                    <p:commandButton icon="ui-icon-pencil" oncomplete="PF('cadastro').show()" update="#{p:component('dial')}">
+                                        <f:setPropertyActionListener value="#{list}" target="#{sujeitoController.sujeitoFile}" />
                                     </p:commandButton>
                                 </p:column>
 
                                 <p:column headerText="Excluir" style="width: 32px ; font-size:  10px">
-                                    <p:commandButton disabled="true"  icon="ui-icon-trash" >
+                                    <p:commandButton icon="ui-icon-trash" >
                                         <p:ajax listener="#{sujeitoController.onRowDelet(list)}" update="#{p:component('messages')}"  oncomplete="location.reload()"/>
                                     </p:commandButton>
                                 </p:column>
                             </p:dataTable> 
-
                         </h:panelGrid>
                     </h:form>
                 </article>
