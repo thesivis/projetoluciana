@@ -45,30 +45,34 @@ and open the template in the editor.
                                             <h:outputText  value="Sujeitos Cadastrados"/>
                                         </f:facet>
                                         <p:commandButton rendered="#{not empty pastaComunicacaoController.pastaFile.nome}" icon="ui-icon-plus" value="Adicionar" action="#{pastaComunicacaoController.onImgSelect()}" update="#{p:component('sujAct')}"/>
-                                        <p:selectManyMenu value="#{pastaComunicacaoController.sujeitoListAd}" var="sujeito" showCheckbox="true" converter="sujeito">
-                                            <f:selectItems value="#{sujeitoController.sujeitoList}" var="suj" itemLabel="#{suj.palavra}" itemValue="#{suj}" />
-                                            <p:column>
-                                                <p:graphicImage value="#{principalController.path}#{sujeito.url}" width="40"/>
-                                            </p:column>
-                                            <p:column>
-                                                <h:outputText value="#{sujeito.palavra}"/>
-                                            </p:column>
-                                        </p:selectManyMenu>
+                                         <p:dataGrid value="#{sujeitoController.sujeitoList}" var="suj" columns="5" layout="grid">
+                                            <p:panel header="#{suj.sujeitoId}">
+                                                <h:panelGrid columns="1" style="width: 100%;text-align: center">
+                                                    <p:graphicImage value="#{principalController.path}#{suj.url}" style="width: 100%;max-width: 100px;"/>
+                                                    <h:outputText value="#{suj.palavra}"/>
+                                                    <p:selectBooleanCheckbox value="#{pastaComunicacaoController.add}">
+                                                        <f:ajax listener="#{pastaComunicacaoController.onAddSuj(suj)}"/>
+                                                    </p:selectBooleanCheckbox>
+                                                </h:panelGrid>
+                                            </p:panel>
+                                        </p:dataGrid>
                                     </p:panelGrid>
                                     <p:panelGrid id="sujAct" columns="2" rendered="#{not empty pastaComunicacaoController.pastaFile.nome}">
                                         <f:facet name="header" >
                                             <h:outputText  value="Sujeitos utilizador por #{pastaComunicacaoController.pastaFile.nome}"/>
                                         </f:facet>
                                         <p:commandButton icon="ui-icon-minus" value="Remover" action="#{pastaComunicacaoController.onImgSelectedRemove()}" update="#{p:component('sujAct')}"/>
-                                        <p:selectManyMenu value="#{pastaComunicacaoController.sujeitoListRem}" var="sujeito" showCheckbox="true" converter="sujeito">
-                                            <f:selectItems value="#{pastaComunicacaoController.pastaFile.sujeitos}" var="suj" itemLabel="#{suj.palavra}" itemValue="#{suj}" />
-                                            <p:column>
-                                                <p:graphicImage value="#{principalController.path}#{sujeito.url}" width="40"/>
-                                            </p:column>
-                                            <p:column>
-                                                <h:outputText value="#{sujeito.palavra}"/>
-                                            </p:column>
-                                        </p:selectManyMenu>
+                                        <p:dataGrid value="#{pastaComunicacaoController.pastaFile.sujeitos}" var="suj" columns="5" layout="grid">
+                                            <p:panel header="#{suj.sujeitoId}">
+                                                <h:panelGrid columns="1" style="width: 100%;text-align: center">
+                                                    <p:graphicImage value="#{principalController.path}#{suj.url}" style="width: 100%;max-width: 100px;"/>
+                                                    <h:outputText value="#{suj.palavra}"/>
+                                                    <p:selectBooleanCheckbox value="#{pastaComunicacaoController.add}">
+                                                        <f:ajax listener="#{pastaComunicacaoController.onRemSuj(suj)}"/>
+                                                    </p:selectBooleanCheckbox>
+                                                </h:panelGrid>
+                                            </p:panel>
+                                        </p:dataGrid>
                                     </p:panelGrid>
                                 </p:tab>
                                 <p:tab title="Verbo">
@@ -77,30 +81,34 @@ and open the template in the editor.
                                             <h:outputText  value="Verbos Cadastrados"/>
                                         </f:facet>
                                         <p:commandButton rendered="#{not empty pastaComunicacaoController.pastaFile.nome}" action="#{pastaComunicacaoController.onImgSelect()}" icon="ui-icon-plus" value="Adicionar" update="#{p:component('verbAct')}"/>
-                                        <p:selectManyMenu value="#{pastaComunicacaoController.verboListAd}" var="verbo" showCheckbox="true" converter="verbo">
-                                            <f:selectItems value="#{verboController.verboList}" var="verb" itemLabel="#{verb.palavra}" itemValue="#{verb}" />
-                                            <p:column>
-                                                <p:graphicImage value="#{principalController.path}#{verbo.url}" width="40"/>
-                                            </p:column>
-                                            <p:column>
-                                                <h:outputText value="#{verbo.palavra}"/>
-                                            </p:column>
-                                        </p:selectManyMenu>
+                                        <p:dataGrid value="#{verboController.verboList}" var="verb" columns="5" layout="grid">
+                                            <p:panel header="#{verb.verboId}">
+                                                <h:panelGrid columns="1" style="width: 100%;text-align: center">
+                                                    <p:graphicImage value="#{principalController.path}#{verb.url}" style="width: 100%;max-width: 100px;"/>
+                                                    <h:outputText value="#{verb.palavra}"/>
+                                                    <p:selectBooleanCheckbox value="#{pastaComunicacaoController.add}">
+                                                        <f:ajax listener="#{pastaComunicacaoController.onAddVerb(verb)}"/>
+                                                    </p:selectBooleanCheckbox>
+                                                </h:panelGrid>
+                                            </p:panel>
+                                        </p:dataGrid>
                                     </p:panelGrid>
                                     <p:panelGrid columns="2" id="verbAct" rendered="#{not empty pastaComunicacaoController.pastaFile.nome}">
                                         <f:facet name="header">
                                             <h:outputText  value="Verbos utilizador por #{pastaComunicacaoController.pastaFile.nome}"/>
                                         </f:facet>
                                         <p:commandButton icon="ui-icon-minus" value="Remover" action="#{pastaComunicacaoController.onImgSelectedRemove()}" update="#{p:component('verbAct')}"/>
-                                        <p:selectManyMenu value="#{pastaComunicacaoController.verboListRem}" var="verbo" showCheckbox="true" converter="verbo">
-                                            <f:selectItems value="#{pastaComunicacaoController.pastaFile.verbos}" var="verb" itemLabel="#{verb.palavra}" itemValue="#{verb}" />
-                                            <p:column>
-                                                <p:graphicImage value="#{principalController.path}#{verbo.url}" width="40"/>
-                                            </p:column>
-                                            <p:column>
-                                                <h:outputText value="#{verbo.palavra}"/>
-                                            </p:column>
-                                        </p:selectManyMenu>
+                                        <p:dataGrid value="#{pastaComunicacaoController.pastaFile.verbos}" var="verb" columns="5" layout="grid">
+                                            <p:panel header="#{verb.verboId}">
+                                                <h:panelGrid columns="1" style="width: 100%;text-align: center">
+                                                    <p:graphicImage value="#{principalController.path}#{verb.url}" style="width: 100%;max-width: 100px;"/>
+                                                    <h:outputText value="#{verb.palavra}"/>
+                                                    <p:selectBooleanCheckbox value="#{pastaComunicacaoController.add}">
+                                                        <f:ajax listener="#{pastaComunicacaoController.onRemVerb(verb)}"/>
+                                                    </p:selectBooleanCheckbox>
+                                                </h:panelGrid>
+                                            </p:panel>
+                                        </p:dataGrid>
                                     </p:panelGrid>
                                 </p:tab>
                                 <p:tab title="Complemento">
@@ -109,37 +117,41 @@ and open the template in the editor.
                                             <h:outputText value="Complementos cadastrados"/>
                                         </f:facet>
                                         <p:commandButton rendered="#{not empty pastaComunicacaoController.pastaFile.nome}" value="Adicionar" icon="ui-icon-plus" action="#{pastaComunicacaoController.onImgSelect()}" update="#{p:component('compAct')}"/>
-                                        <p:selectManyMenu value="#{pastaComunicacaoController.complementoListAd}" var="complemento" showCheckbox="true" converter="complemento">
-                                            <f:selectItems value="#{complementoController.complementoList}" var="comp" itemLabel="#{comp.palavra}" itemValue="#{comp}" />
-                                            <p:column>
-                                                <p:graphicImage value="#{principalController.path}#{complemento.url}" width="40"/>
-                                            </p:column>
-                                            <p:column>
-                                                <h:outputText value="#{complemento.palavra}"/>
-                                            </p:column>
-                                        </p:selectManyMenu>
+                                        <p:dataGrid value="#{complementoController.complementoList}" var="comp" columns="5" layout="grid">
+                                            <p:panel header="#{comp.complementoId}">
+                                                <h:panelGrid columns="1" style="width: 100%;text-align: center">
+                                                    <p:graphicImage value="#{principalController.path}#{comp.url}" style="width: 100%;max-width: 100px;"/>
+                                                    <h:outputText value="#{comp.palavra}"/>
+                                                    <p:selectBooleanCheckbox value="#{pastaComunicacaoController.add}">
+                                                        <f:ajax listener="#{pastaComunicacaoController.onAddComp(comp)}"/>
+                                                    </p:selectBooleanCheckbox>
+                                                </h:panelGrid>
+                                            </p:panel>
+                                        </p:dataGrid>
                                      </p:panelGrid>
                                     <p:panelGrid  id="compAct" columns="2" rendered="#{not empty pastaComunicacaoController.pastaFile.nome}">
                                         <f:facet name="header">
                                             <h:outputText value="Complementos utilizados por #{pastaComunicacaoController.pastaFile.nome}"/>
                                         </f:facet>
                                         <p:commandButton  value="Remover" icon="ui-icon-minus" action="#{pastaComunicacaoController.onImgSelectedRemove()}" update="#{p:component('compAct')}"/>
-                                        <p:selectManyMenu value="#{pastaComunicacaoController.complementoListRem}" var="complemento" showCheckbox="true" converter="complemento">
-                                            <f:selectItems value="#{pastaComunicacaoController.pastaFile.complementos}" var="comp" itemLabel="#{comp.palavra}" itemValue="#{comp}" />
-                                            <p:column>
-                                                <p:graphicImage value="#{principalController.path}#{complemento.url}" width="40"/>
-                                            </p:column>
-                                            <p:column>
-                                                <h:outputText value="#{complemento.palavra}"/>
-                                            </p:column>
-                                        </p:selectManyMenu>
+                                        <p:dataGrid value="#{pastaComunicacaoController.pastaFile.complementos}" var="comp" columns="5" layout="grid">
+                                            <p:panel header="#{comp.complementoId}">
+                                                <h:panelGrid columns="1" style="width: 100%;text-align: center">
+                                                    <p:graphicImage value="#{principalController.path}#{comp.url}" style="width: 100%;max-width: 100px;"/>
+                                                    <h:outputText value="#{comp.palavra}"/>
+                                                    <p:selectBooleanCheckbox value="#{pastaComunicacaoController.add}">
+                                                        <f:ajax listener="#{pastaComunicacaoController.onRemComp(comp)}"/>
+                                                    </p:selectBooleanCheckbox>
+                                                </h:panelGrid>
+                                            </p:panel>
+                                        </p:dataGrid>
                                      </p:panelGrid>
                                 </p:tab>
                             </p:tabView>
                             
                             <f:facet name="footer">
-                                <p:commandButton id="saveForm" action="#{pastaComunicacaoController.gravar}" value="Gravar" update="@all :#{p:component('tabela')}" ajax="false"/>
-                                   <p:commandButton type="reset" value="Limpar formulario"/>
+                                <p:commandButton id="saveForm" action="#{pastaComunicacaoController.gravar}" value="Gravar" update="#{p:component('tab')} #{p:component('tabela')}" ajax="false"/>
+                                <p:commandButton type="reset" value="Limpar formulario"/>
                             </f:facet>
                         </p:dialog>
                     </h:form>                        

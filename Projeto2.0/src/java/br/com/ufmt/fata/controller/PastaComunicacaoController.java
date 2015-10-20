@@ -39,9 +39,18 @@ public class PastaComunicacaoController implements Serializable{
     private List<Sujeito> sujeitoListRem = new ArrayList<>();
     private List<Verbo> verboListRem = new ArrayList<>();
     private List<Complemento> complementoListRem = new ArrayList<>();
+    private boolean add;
    
     public PastaComunicacaoController() {
    
+    }
+
+    public boolean isAdd() {
+        return add;
+    }
+
+    public void setAdd(boolean add) {
+        this.add = add;
     }
     
     public void onNewPasta(){
@@ -80,6 +89,7 @@ public class PastaComunicacaoController implements Serializable{
     }
     
     public void onImgSelectedRemove(){
+        System.out.println("onImgRemove");
         if(!sujeitoListRem.isEmpty()){
             this.pastaFile.getSujeitos().removeAll(sujeitoListRem);
         }
@@ -91,6 +101,49 @@ public class PastaComunicacaoController implements Serializable{
         }
         System.out.println("Foi save R");
         pastaComunicacaoDao.save(this.pastaFile);
+    }
+    
+     public void onAddSuj(Sujeito suj){
+        if(add){
+            this.pastaFile.getSujeitos().add(suj);
+        }else{
+            this.pastaFile.getSujeitos().remove(suj);
+        } 
+    }
+    public void onAddVerb(Verbo verb){
+        if(add){
+        this.verboListAd.add(verb);
+        }else{
+            this.verboListAd.remove(verb);
+        } 
+    }
+    public void onAddComp(Complemento comp){
+        if(add){
+        this.complementoListAd.add(comp);
+        }else{
+            this.complementoListAd.remove(comp);
+        } 
+    }
+    public void onRemSuj(Sujeito suj){
+        if(add){
+        this.sujeitoListRem.add(suj);
+        }else{
+            this.sujeitoListRem.remove(suj);
+        } 
+    }
+    public void onRemVerb(Verbo verb){
+        if(add){
+        this.verboListRem.add(verb);
+        }else{
+            this.verboListRem.remove(verb);
+        } 
+    }
+    public void onRemComp(Complemento comp){
+        if(add){
+        this.complementoListRem.add(comp);
+        }else{
+            this.complementoListRem.remove(comp);
+        } 
     }
     
     public void fileUpload(){ 
