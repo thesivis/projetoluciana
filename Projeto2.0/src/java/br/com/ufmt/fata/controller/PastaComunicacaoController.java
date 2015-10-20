@@ -61,7 +61,6 @@ public class PastaComunicacaoController implements Serializable{
         }
         pastaComunicacaoDao.save(pastaFile);
         onImgSelect();
-        onImgSelectedRemove();
         ActiveUserController.userActive = pastaFile;   
     }
     
