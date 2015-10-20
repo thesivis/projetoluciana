@@ -38,7 +38,7 @@ a:hover{
 }
 div#interface{
     width: 96%;
-    margin: 0px auto 10px auto;
+    margin: 0px auto 0px auto;
     box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
     background: #E7E7E7;
 }
@@ -84,7 +84,7 @@ section#corpo{
     display: inline-block;
     width: 100%;
     margin: 10px auto 10px auto;
-    padding: 0px 10px 10px 10px;
+    padding: 0px;
 }
 
 
