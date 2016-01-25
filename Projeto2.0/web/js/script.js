@@ -97,15 +97,14 @@ $(document).ready(function () {
      */
     function verificaClick() {
         if ($("#col").val() == 0) {
-            if($("#row").val() > 0 && $("#row").val() < $($div).children().size()){
+            if($("#row").val() > 0 && $("#row").val() <= $($div).children().size()){
                 clearInterval(timeRow);
                 $images = $("#"+section[sec]).children()[row - 2];
                 searchCol($($images).children("img"));
             } 
         } else{
-            if($("#col").val() > 0 && $("#col").val() < $($images).children().size()){
+            if($("#col").val() > 0 && $("#col").val() <= $($images).children().size()){
                 clearInterval(timeCol)
-                //Caso esteja na sessão complementos
                 if (sec == 3) {
                     if($("#row").val() == 1){
                         if($("#col").val() == 2){
