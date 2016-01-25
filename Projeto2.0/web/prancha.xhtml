@@ -48,8 +48,8 @@ and open the template in the editor.
             <p:fieldset id="center" rendered="#{not empty activeUserController.userActive}">
                 <h:form id="form" prependId="false" rendered="#{not empty activeUserController.userActive}">
                     <p:commandLink action="#{principalController.onClickPage()}" update=":#{p:component('painel-frase')}">
-                        <h:inputText id="row" value="#{principalController.row}"  immediate="true"/>
-                        <h:inputText id="col" value="#{principalController.col}"  immediate="true"/>
+                        <h:inputHidden id="row" value="#{principalController.row}"  immediate="true"/>
+                        <h:inputHidden id="col" value="#{principalController.col}"  immediate="true"/>
                         
                         <h:panelGroup id="sujeito" class="painel"  >
                             <c:forEach end="#{activeUserController.userActive.sujeitos.size()/5}" varStatus="count" >
