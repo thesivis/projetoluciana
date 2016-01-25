@@ -12,10 +12,10 @@ and open the template in the editor.
 
     <ui:composition template="/template.xhtml">
         <ui:define name="content">
-            <section id="corpo">
-                <h1>Contatos</h1> 
-                <h1><img src="img/1438837348_online_support.png"/></h1>
-            </section>
+            <p:panelGrid columns="1" style="text-align: center;margin: 10px auto" layout="grid">
+                <h:outputText value="Contatos"/>
+                <p:graphicImage value="img/1438837348_online_support.png"/>
+            </p:panelGrid>
         </ui:define>
     </ui:composition>
 </html>
