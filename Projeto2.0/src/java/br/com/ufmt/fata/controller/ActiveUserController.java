@@ -11,8 +11,6 @@ import br.com.ufmt.fata.ent.PastaDeComunicacao;
 import br.com.ufmt.fata.ent.Sujeito;
 import br.com.ufmt.fata.ent.Verbo;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
@@ -22,55 +20,59 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean
 @SessionScoped
-public class ActiveUserController implements Serializable{
-   
+public class ActiveUserController implements Serializable {
+
     protected static PastaDeComunicacao userActive;
-    private PastaDeComunicacaoDaoImp comunicacaoDaoImp = new PastaDeComunicacaoDaoImp();
-    protected static boolean userCreated;
-    
-    public static void userSelect(PastaDeComunicacao pastaSelect){
+    private final PastaDeComunicacaoDaoImp comunicacaoDaoImp;
+
+    public ActiveUserController() {
+        this.comunicacaoDaoImp = new PastaDeComunicacaoDaoImp();
+    }
+
+    public static void userSelect(PastaDeComunicacao pastaSelect) {
         userActive = pastaSelect;
     }
-    
-    public void onSujSelect(Sujeito sujeito){
+
+    public void onSujSelect(Sujeito sujeito) {
         userActive.getSujeitos().add(sujeito);
         comunicacaoDaoImp.save(userActive);
     }
-    public void onSujDelete(Sujeito sujeito){
+
+    public void onSujDelete(Sujeito sujeito) {
         userActive.getSujeitos().remove(sujeito);
         comunicacaoDaoImp.save(userActive);
     }
-    public void onVerbSelect(Verbo verbo){
+
+    public void onVerbSelect(Verbo verbo) {
         userActive.getVerbos().add(verbo);
         comunicacaoDaoImp.save(userActive);
     }
-    public void onVerbDelete(Verbo verbo){
+
+    public void onVerbDelete(Verbo verbo) {
         userActive.getVerbos().remove(verbo);
         comunicacaoDaoImp.save(userActive);
     }
-    public void onCompSelect(Complemento complemento){
+
+    public void onCompSelect(Complemento complemento) {
         userActive.getComplementos().add(complemento);
         comunicacaoDaoImp.save(userActive);
     }
-    public void onCompDelete(Complemento complemento){
+
+    public void onCompDelete(Complemento complemento) {
         userActive.getComplementos().remove(complemento);
         comunicacaoDaoImp.save(userActive);
-    }  
-   
+    }
+    
+    public void onExit(){
+        userActive = null;
+    }
+
     public PastaDeComunicacao getUserActive() {
         return userActive;
     }
 
     public void setUserActive(PastaDeComunicacao userActive) {
-        this.userActive = userActive;
-    }
-    
-    public boolean isUserCreated() {
-        return userCreated;
-    }
-
-    public void setUserCreated(boolean userCreated) {
-       this.userCreated = userCreated;
+        ActiveUserController.userActive = userActive;
     }
 
 }
