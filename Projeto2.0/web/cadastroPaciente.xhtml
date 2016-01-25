@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Prancha de Comunicação - IC UFMT</title>
+        <link rel="shortcut icon" href="img/icon.jpg"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    </h:head>
+    <style>
+        .panelColumns td{
+            vertical-align: top;
+        }
+    </style>
+    <h:body>
+        <h:form enctype="multipart/form-data"  acceptcharset="ISO-8859-1,UTF-8">
+            <p:panelGrid columns="2" styleClass="panelColumns">
+                <p:panelGrid columns="1">
+                    <p:panelGrid columns="1">
+                        <f:facet name="header">
+                            <h:outputText value="Dados Pessoais"></h:outputText>
+                        </f:facet>
+                        <h:graphicImage rendered="#{not empty cadastroPacienteController.pastaFile.fotoUrl}" value="#{principalController.path}#{cadastroPacienteController.pastaFile.fotoUrl}" width="100" height="120"/>
+                        <h:graphicImage rendered="#{empty cadastroPacienteController.pastaFile.fotoUrl}" value="img/user.png" width="100" height="120"/>
+                        <p:fileUpload  mode="simple" value="#{cadastroPacienteController.file}" accept="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/" invalidFileMessage="Formato invalido" required="true"/>
+                    </p:panelGrid>
+                    <p:panelGrid id="grid" columns="2" style="margin: auto;border: none !important">
+                        <h:outputText value="Nome"/>
+                        <p:inputText id="nome" value="#{cadastroPacienteController.pastaFile.nome}"/>
+                        <h:outputText value="Data Nascimento"/>
+                        <p:inputMask mask="99/99/9999" value="#{cadastroPacienteController.pastaFile.dataNasc}"/>
+                        <h:outputText value="Sexo:"/>
+                        <p:selectOneRadio value="#{cadastroPacienteController.pastaFile.sexo}" required="true">
+                            <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                            <f:selectItem itemLabel="Feminino" itemValue="F"/>
+                        </p:selectOneRadio>
+                    </p:panelGrid>
+                     <f:facet name="footer">
+                        <p:commandButton id="saveForm" action="#{cadastroPacienteController.gravar}" value="Salvar" update="#{p:component('tab')} #{p:component('tabela')}" ajax="false"  onclick="window.location.replace('/Projeto2.0/faces/pastaComunicacao.xhtml')"/>
+                        <p:commandButton  value="Cancelar" onclick="window.location.replace('/Projeto2.0/faces/pastaComunicacao.xhtml')"/>
+                    </f:facet>
+                </p:panelGrid>    
+                    <p:tabView dynamic="true" cache="true">
+                        <p:tab title="Sujeito">
+                            <p:panelGrid columns="2">
+                                
+                                <f:facet name="header">
+                                    <p:commandButton rendered="#{not empty cadastroPacienteController.pastaFile.nome}" icon="ui-icon-plus" value="Adicionar" action="#{cadastroPacienteController.onClickAdicionar()}" update="#{p:component('sujAct')}"/>
+                                    <h:outputText  value="Sujeitos Cadastrados"/>
+                                </f:facet>
+                                
+                                <p:dataGrid value="#{sujeitoController.sujeitoList}" var="suj" columns="6" layout="grid">
+                                    <p:panel >
+                                        <f:facet name="header">
+                                            <p:selectBooleanCheckbox value="#{cadastroPacienteController.add}">
+                                                <f:ajax listener="#{cadastroPacienteController.onAddSuj(suj)}"/>
+                                            </p:selectBooleanCheckbox>
+                                            <h:outputText value="#{suj.palavra}"/>
+                                        </f:facet>
+                                        <h:panelGrid columns="1" style="width: 100%;text-align: center">
+                                            <p:graphicImage value="#{principalController.path}#{suj.url}"  width="100%"/>
+                                        </h:panelGrid>
+                                    </p:panel>
+                                </p:dataGrid>
+                                
+                            </p:panelGrid>
+                            <p:panelGrid id="sujAct" columns="1" rendered="#{not empty cadastroPacienteController.pastaFile.nome}">
+                                <f:facet name="header" >    
+                                    <p:commandButton icon="ui-icon-minus" value=" Remover" action="#{cadastroPacienteController.onClickRemover()}" update="#{p:component('sujAct')}"/>
+                                    <h:outputText  value="Sujeitos utilizador por #{cadastroPacienteController.pastaFile.nome}  "/>
+                                </f:facet>
+                                <p:dataGrid value="#{cadastroPacienteController.pastaFile.sujeitos}"  var="suj" columns="6" layout="grid">
+                                    <p:panel>
+                                        <f:facet name="header">
+                                            <p:selectBooleanCheckbox value="#{cadastroPacienteController.add}">
+                                                <f:ajax listener="#{cadastroPacienteController.onRemSuj(suj)}"/>
+                                            </p:selectBooleanCheckbox>
+                                            <h:outputText value="#{suj.palavra}"/>
+                                        </f:facet>
+                                        <h:panelGrid columns="1" style="width: 100%;text-align: center">
+                                            <p:graphicImage value="#{principalController.path}#{suj.url}" width="100%"/>
+                                        </h:panelGrid>
+                                    </p:panel>
+                                </p:dataGrid>
+                            </p:panelGrid>
+                        </p:tab>
+                        <p:tab title="Verbo">
+                            <p:panelGrid columns="2">
+                                <f:facet name="header">
+                                    <p:commandButton rendered="#{not empty cadastroPacienteController.pastaFile.nome}" action="#{cadastroPacienteController.onClickAdicionar()}" icon="ui-icon-plus" value="Adicionar" update="#{p:component('verbAct')}"/>
+                                    <h:outputText  value="Verbos Cadastrados"/>
+                                </f:facet>
+                                <p:dataGrid value="#{verboController.verboList}"  var="verb" columns="5" layout="grid">
+                                    <p:panel>
+                                        <f:facet name="header">
+                                            <p:selectBooleanCheckbox value="#{cadastroPacienteController.add}">
+                                                <f:ajax listener="#{cadastroPacienteController.onAddVerb(verb)}"/>
+                                            </p:selectBooleanCheckbox>
+                                            <h:outputText value="#{verb.palavra}"/>
+                                        </f:facet>
+                                        <h:panelGrid columns="1" style="width: 100%;text-align: center">
+                                            <p:graphicImage value="#{principalController.path}#{verb.url}" width="50"/> 
+                                        </h:panelGrid>
+                                    </p:panel>
+                                </p:dataGrid>
+                            </p:panelGrid>
+                            <p:panelGrid columns="2" id="verbAct" rendered="#{not empty cadastroPacienteController.pastaFile.nome}">
+                                <f:facet name="header">
+                                    <p:commandButton icon="ui-icon-minus" value="Remover" action="#{cadastroPacienteController.onClickRemover()}" update="#{p:component('verbAct')}"/>
+                                    <h:outputText  value="Verbos utilizador por #{cadastroPacienteController.pastaFile.nome}"/>
+                                </f:facet>
+                                <p:dataGrid value="#{cadastroPacienteController.pastaFile.verbos}"  var="verb" columns="5" layout="grid">
+                                    <p:panel>
+                                        <f:facet name="header">
+                                            <p:selectBooleanCheckbox value="#{cadastroPacienteController.add}">
+                                                <f:ajax listener="#{cadastroPacienteController.onRemVerb(verb)}"/>
+                                            </p:selectBooleanCheckbox>
+                                            <h:outputText value="#{verb.palavra}"/>
+                                        </f:facet>
+                                        <h:panelGrid columns="1" style="width: 100%;text-align: center">
+                                            <p:graphicImage value="#{principalController.path}#{verb.url}" width="50"/>
+                                        </h:panelGrid>
+                                    </p:panel>
+                                </p:dataGrid>
+                            </p:panelGrid>
+                        </p:tab>
+                        <p:tab title="Complemento">
+                            <p:panelGrid columns="2">
+                                <f:facet name="header">
+                                    <p:commandButton rendered="#{not empty cadastroPacienteController.pastaFile.nome}" value="Adicionar" icon="ui-icon-plus" action="#{cadastroPacienteController.onClickAdicionar()}" update="#{p:component('compAct')}"/>
+                                    <h:outputText value="Complementos cadastrados"/>
+                                </f:facet>
+                                <p:dataGrid value="#{complementoController.complementoList}" var="comp" columns="5" layout="grid">
+                                    <p:panel>
+                                        <f:facet name="header">
+                                            <p:selectBooleanCheckbox value="#{cadastroPacienteController.add}">
+                                                <f:ajax listener="#{cadastroPacienteController.onAddComp(comp)}"/>
+                                            </p:selectBooleanCheckbox>
+                                            <h:outputText value=" #{comp.palavra}"/>
+                                        </f:facet>
+                                        <h:panelGrid columns="1" style="width: 100%;text-align: center">
+                                            <p:graphicImage value="#{principalController.path}#{comp.url}" width="50"/>
+                                        </h:panelGrid>
+                                    </p:panel>
+                                </p:dataGrid>
+                             </p:panelGrid>
+                            <p:panelGrid  id="compAct" columns="2" rendered="#{not empty cadastroPacienteController.pastaFile.nome}">
+                                <f:facet name="header">
+                                    <p:commandButton  value="Remover" icon="ui-icon-minus" action="#{cadastroPacienteController.onClickRemover()}" update="#{p:component('compAct')}"/>
+                                    <h:outputText value="Complementos utilizados por #{cadastroPacienteController.pastaFile.nome}"/>
+                                </f:facet>
+                                <p:dataGrid value="#{cadastroPacienteController.pastaFile.complementos}"  var="comp" columns="5" layout="grid">
+                                    <p:panel>
+                                        <f:facet name="header">
+                                            <p:selectBooleanCheckbox value="#{cadastroPacienteController.add}">
+                                                <f:ajax listener="#{cadastroPacienteController.onRemComp(comp)}"/>
+                                            </p:selectBooleanCheckbox>
+                                            <h:outputText value="#{comp.palavra}"/>
+                                        </f:facet>
+                                        <h:panelGrid columns="1" style="width: 100%;text-align: center">
+                                            <p:graphicImage value="#{principalController.path}#{comp.url}" width="50"/>
+                                        </h:panelGrid>
+                                    </p:panel>
+                                </p:dataGrid>
+                             </p:panelGrid>
+                        </p:tab>
+                    </p:tabView>
+                </p:panelGrid>
+            
+            </h:form>  
+    </h:body>
+</html>
