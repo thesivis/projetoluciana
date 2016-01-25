@@ -56,6 +56,18 @@ public class CadastroPacienteController implements Serializable {
     public void onNewPasta() {
         CadastroPacienteController.pastaFile = new PastaDeComunicacao();
     }
+    
+       public void gravar() {
+        if (file.getSize() != 0) {
+            fileUpload();
+        } else if (pastaFile.getFotoUrl() == null) {
+            pastaFile.setFotoUrl("user.png");
+        }
+        pastaComunicacaoDao.save(pastaFile);
+        ActiveUserController.userActive = pastaFile;
+        this.add = false;
+        onClickAdicionar();
+    }
 
     public void onClickAdicionar() {
         if (!sujeitoListAd.isEmpty()) {
@@ -83,7 +95,7 @@ public class CadastroPacienteController implements Serializable {
             }
             CadastroPacienteController.pastaFile.getComplementos().addAll(complementoListAd);
         }
-
+        pastaComunicacaoDao.save(pastaFile);
         this.add = false;
     }
 
@@ -163,17 +175,6 @@ public class CadastroPacienteController implements Serializable {
         } else {
             this.complementoListRem.remove(comp);
         }
-    }
-
-    public void gravar() {
-        if (file.getSize() != 0) {
-            fileUpload();
-        } else if (pastaFile.getFotoUrl() == null) {
-            pastaFile.setFotoUrl("user.png");
-        }
-        pastaComunicacaoDao.save(pastaFile);
-        ActiveUserController.userActive = pastaFile;
-        this.add = false;
     }
 
     public void fileUpload() {
