@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import org.primefaces.model.UploadedFile;
 
 /*
@@ -25,7 +26,7 @@ import org.primefaces.model.UploadedFile;
  * @author vicentejr
  */
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class CadastroPacienteController implements Serializable {
 
     private final PastaDeComunicacaoDaoImp pastaComunicacaoDao;
@@ -37,9 +38,9 @@ public class CadastroPacienteController implements Serializable {
     private List<Verbo> verboListRem;
     private List<Complemento> complementoListRem;
 
-    protected static PastaDeComunicacao pastaFile;
     private UploadedFile file;
     private boolean add;
+    private boolean novaPasta;
 
     public CadastroPacienteController() {
         this.pastaComunicacaoDao = new PastaDeComunicacaoDaoImp();
@@ -49,82 +50,84 @@ public class CadastroPacienteController implements Serializable {
         this.complementoListAd = new ArrayList<>();
         this.verboListAd = new ArrayList<>();
         this.sujeitoListAd = new ArrayList<>();
-        CadastroPacienteController.pastaFile = new PastaDeComunicacao();
+        this.novaPasta = false;
 
     }
 
     public void onNewPasta() {
-        CadastroPacienteController.pastaFile = new PastaDeComunicacao();
+        ActiveUserController.userActive = new PastaDeComunicacao();
+        novaPasta = true;
     }
     
        public void gravar() {
         if (file.getSize() != 0) {
             fileUpload();
-        } else if (pastaFile.getFotoUrl() == null) {
-            pastaFile.setFotoUrl("user.png");
+        } else if (ActiveUserController.userActive.getFotoUrl() == null) {
+            ActiveUserController.userActive.setFotoUrl("user.png");
         }
-        pastaComunicacaoDao.save(pastaFile);
-        ActiveUserController.userActive = pastaFile;
-        this.add = false;
-        onClickAdicionar();
+        pastaComunicacaoDao.save(ActiveUserController.userActive);
+        if(novaPasta){
+            onClickAdicionar();
+        }
+        novaPasta = false;
     }
 
     public void onClickAdicionar() {
         if (!sujeitoListAd.isEmpty()) {
             //Laço para verificar se o sujeito já existe na pasta do paciente
             for (int i = 0; i < sujeitoListAd.size(); i++) {
-                if (pastaFile.getSujeitos().contains(sujeitoListAd.get(i))) {
+                if (ActiveUserController.userActive.getSujeitos().contains(sujeitoListAd.get(i))) {
                     sujeitoListAd.remove(i);
                 }
             }
-            CadastroPacienteController.pastaFile.getSujeitos().addAll(sujeitoListAd);
+            ActiveUserController.userActive.getSujeitos().addAll(sujeitoListAd);
         }
         if (!verboListAd.isEmpty()) {
             for (int i = 0; i < verboListAd.size(); i++) {
-                if (pastaFile.getVerbos().contains(verboListAd.get(i))) {
+                if (ActiveUserController.userActive.getVerbos().contains(verboListAd.get(i))) {
                     verboListAd.remove(i);
                 }
             }
-            CadastroPacienteController.pastaFile.getVerbos().addAll(verboListAd);
+            ActiveUserController.userActive.getVerbos().addAll(verboListAd);
         }
         if (!complementoListAd.isEmpty()) {
             for (int i = 0; i < complementoListAd.size(); i++) {
-                if (pastaFile.getComplementos().contains(complementoListAd.get(i))) {
+                if (ActiveUserController.userActive.getComplementos().contains(complementoListAd.get(i))) {
                     complementoListAd.remove(i);
                 }
             }
-            CadastroPacienteController.pastaFile.getComplementos().addAll(complementoListAd);
+            ActiveUserController.userActive.getComplementos().addAll(complementoListAd);
         }
-        pastaComunicacaoDao.save(pastaFile);
+        pastaComunicacaoDao.save(ActiveUserController.userActive);
         this.add = false;
     }
 
     public void onClickRemover() {
         if (!sujeitoListRem.isEmpty()) {
             for (int i = 0; i < sujeitoListAd.size(); i++) {
-                if (pastaFile.getSujeitos().contains(sujeitoListAd.get(i))) {
+                if (ActiveUserController.userActive.getSujeitos().contains(sujeitoListAd.get(i))) {
                     sujeitoListAd.remove(i);
                 }
             }
-            CadastroPacienteController.pastaFile.getSujeitos().removeAll(sujeitoListRem);
+            ActiveUserController.userActive.getSujeitos().removeAll(sujeitoListRem);
         }
         if (!verboListRem.isEmpty()) {
             for (int i = 0; i < verboListAd.size(); i++) {
-                if (pastaFile.getVerbos().contains(verboListAd.get(i))) {
+                if (ActiveUserController.userActive.getVerbos().contains(verboListAd.get(i))) {
                     verboListAd.remove(i);
                 }
             }
-            CadastroPacienteController.pastaFile.getVerbos().removeAll(verboListRem);
+            ActiveUserController.userActive.getVerbos().removeAll(verboListRem);
         }
         if (!complementoListRem.isEmpty()) {
             for (int i = 0; i < complementoListAd.size(); i++) {
-                if (pastaFile.getComplementos().contains(complementoListAd.get(i))) {
+                if (ActiveUserController.userActive.getComplementos().contains(complementoListAd.get(i))) {
                     complementoListAd.remove(i);
                 }
             }
-            CadastroPacienteController.pastaFile.getComplementos().removeAll(complementoListRem);
+           ActiveUserController.userActive.getComplementos().removeAll(complementoListRem);
         }
-
+        pastaComunicacaoDao.save(ActiveUserController.userActive);
         this.add = false;
     }
 
@@ -135,6 +138,7 @@ public class CadastroPacienteController implements Serializable {
         } else {
             this.sujeitoListAd.remove(suj);
         }
+        this.add = false;
     }
 
     public void onAddVerb(Verbo verb) {
@@ -143,6 +147,7 @@ public class CadastroPacienteController implements Serializable {
         } else {
             this.verboListAd.remove(verb);
         }
+        this.add = false;
     }
 
     public void onAddComp(Complemento comp) {
@@ -151,6 +156,7 @@ public class CadastroPacienteController implements Serializable {
         } else {
             this.complementoListAd.remove(comp);
         }
+        this.add = false;
     }
 
     public void onRemSuj(Sujeito suj) {
@@ -159,6 +165,7 @@ public class CadastroPacienteController implements Serializable {
         } else {
             this.sujeitoListRem.remove(suj);
         }
+        this.add = false;
     }
 
     public void onRemVerb(Verbo verb) {
@@ -167,6 +174,7 @@ public class CadastroPacienteController implements Serializable {
         } else {
             this.verboListRem.remove(verb);
         }
+        this.add = false;
     }
 
     public void onRemComp(Complemento comp) {
@@ -175,23 +183,16 @@ public class CadastroPacienteController implements Serializable {
         } else {
             this.complementoListRem.remove(comp);
         }
+        this.add = false;
     }
 
     public void fileUpload() {
-        pastaFile.setFotoUrl(removerAcentos(file.getFileName()));
+        ActiveUserController.userActive.setFotoUrl(removerAcentos(file.getFileName()));
         try {
-            copyFile(pastaFile.getFotoUrl(), file.getInputstream());
+            copyFile(ActiveUserController.userActive.getFotoUrl(), file.getInputstream());
         } catch (IOException e) {
         }
 
-    }
-
-    public PastaDeComunicacao getPastaFile() {
-        return pastaFile;
-    }
-
-    public void setPastaFile(PastaDeComunicacao pastaFile) {
-        CadastroPacienteController.pastaFile = pastaFile;
     }
 
     public List<Sujeito> getSujeitoListAd() {
