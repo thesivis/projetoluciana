@@ -6,7 +6,8 @@
 package br.com.ufmt.fata.ent;
 
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -38,17 +39,23 @@ public class PastaDeComunicacao implements Serializable {
     @JoinTable(name = "pastaSujeito",
             joinColumns = @JoinColumn(name = "pastaComunicacaoId"),
             inverseJoinColumns = @JoinColumn(name = "sujeitoId"))
-    private Set<Sujeito> sujeitos = new HashSet();
+    private List<Sujeito> sujeitos;
     @ManyToMany(fetch = FetchType.EAGER ,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "pastaVerbo",
             joinColumns = @JoinColumn(name = "pastaComunicacaoId"),
             inverseJoinColumns = @JoinColumn(name = "verboId"))
-    private Set<Verbo> verbos = new HashSet();
+    private List<Verbo> verbos;
     @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "pastaComplemento",
             joinColumns = @JoinColumn(name = "pastaComunicacaoId"),
             inverseJoinColumns = @JoinColumn(name = "complementoId"))
-    private Set<Complemento> complementos = new HashSet();
+    private List<Complemento> complementos;
+
+    public PastaDeComunicacao() {
+        this.complementos = new ArrayList<>();
+        this.verbos = new ArrayList<>();
+        this.sujeitos = new ArrayList<>();
+    }
 
     public Long getPastaComunicacaoId() {
         return pastaComunicacaoId;
@@ -107,27 +114,27 @@ public class PastaDeComunicacao implements Serializable {
         this.sexo = sexo;
     }
 
-    public Set<Sujeito> getSujeitos() {
+    public List<Sujeito> getSujeitos() {
         return sujeitos;
     }
 
-    public void setSujeitos(Set<Sujeito> sujeitos) {
+    public void setSujeitos(List<Sujeito> sujeitos) {
         this.sujeitos = sujeitos;
     }
 
-    public Set<Verbo> getVerbos() {
+    public List<Verbo> getVerbos() {
         return verbos;
     }
 
-    public void setVerbos(Set<Verbo> verbos) {
+    public void setVerbos(List<Verbo> verbos) {
         this.verbos = verbos;
     }
 
-    public Set<Complemento> getComplementos() {
+    public List<Complemento> getComplementos() {
         return complementos;
     }
 
-    public void setComplementos(Set<Complemento> complementos) {
+    public void setComplementos(List<Complemento> complementos) {
         this.complementos = complementos;
     }
 
