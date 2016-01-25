@@ -13,194 +13,50 @@ and open the template in the editor.
 
     <ui:composition template="/template.xhtml">
         <ui:define name="content">
-            <section id="corpo" >
-                <section id="conteudo">
-                    <!-- Formulário para cadastro de usuários -->
-                    <h:form enctype="multipart/form-data"  acceptcharset="iso-8859-1,utf-8" rendered="#{not activeUserController.userCreated}">
-                        <p:dialog id="dial" header="Cadastrar Paciente" modal="true" widgetVar="cadastro">
-                            <p:tabView dynamic="true" cache="true">
-                                <p:tab title="Dados pessoais">
-                                    <p:panelGrid columns="2">
-                                        <p:panelGrid columns="1">
-                                            <h:graphicImage rendered="#{not empty pastaComunicacaoController.pastaFile.fotoUrl}" value="#{principalController.path}#{pastaComunicacaoController.pastaFile.fotoUrl}" width="100" height="120"/>
-                                            <h:graphicImage rendered="#{empty pastaComunicacaoController.pastaFile.fotoUrl}" value="img/user.png" width="100" height="120"/>
-                                            <p:fileUpload  mode="simple"   value="#{pastaComunicacaoController.file}" accept="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/" invalidFileMessage="Formato invalido" required="true"/>
-                                        </p:panelGrid>
-                                        <p:panelGrid id="grid" columns="2" style="margin: auto;border: none !important">
-                                            <h:outputText value="Palavra"/>
-                                            <h:inputText value="#{pastaComunicacaoController.pastaFile.nome}"/>
-                                            <h:outputText value="Data Nascimento"/>
-                                            <h:inputText value="#{pastaComunicacaoController.pastaFile.dataNasc}"/>
-                                            <h:outputText value="Sexo:"/>
-                                            <p:selectOneRadio value="#{pastaComunicacaoController.pastaFile.sexo}" required="true">
-                                                <f:selectItem itemLabel="Masculino" itemValue="M"/>
-                                                <f:selectItem itemLabel="Feminino" itemValue="F"/>
-                                            </p:selectOneRadio>
-                                        </p:panelGrid>
-                                    </p:panelGrid>
-                                </p:tab>
-                                <p:tab title="Sujeito">
-                                    <p:panelGrid columns="2">
-                                        <f:facet name="header">
-                                            <h:outputText  value="Sujeitos Cadastrados"/>
-                                        </f:facet>
-                                        <p:commandButton rendered="#{not empty pastaComunicacaoController.pastaFile.nome}" icon="ui-icon-plus" value="Adicionar" action="#{pastaComunicacaoController.onImgSelect()}" update="#{p:component('sujAct')}"/>
-                                         <p:dataGrid value="#{sujeitoController.sujeitoList}" var="suj" columns="5" layout="grid">
-                                            <p:panel header="#{suj.sujeitoId}">
-                                                <h:panelGrid columns="1" style="width: 100%;text-align: center">
-                                                    <p:graphicImage value="#{principalController.path}#{suj.url}" style="width: 100%;max-width: 100px;"/>
-                                                    <h:outputText value="#{suj.palavra}"/>
-                                                    <p:selectBooleanCheckbox value="#{pastaComunicacaoController.add}">
-                                                        <f:ajax listener="#{pastaComunicacaoController.onAddSuj(suj)}"/>
-                                                    </p:selectBooleanCheckbox>
-                                                </h:panelGrid>
-                                            </p:panel>
-                                        </p:dataGrid>
-                                    </p:panelGrid>
-                                    <p:panelGrid id="sujAct" columns="2" rendered="#{not empty pastaComunicacaoController.pastaFile.nome}">
-                                        <f:facet name="header" >
-                                            <h:outputText  value="Sujeitos utilizador por #{pastaComunicacaoController.pastaFile.nome}"/>
-                                        </f:facet>
-                                        <p:commandButton icon="ui-icon-minus" value="Remover" action="#{pastaComunicacaoController.onImgSelectedRemove()}" update="#{p:component('sujAct')}"/>
-                                        <p:dataGrid value="#{pastaComunicacaoController.pastaFile.sujeitos}" var="suj" columns="5" layout="grid">
-                                            <p:panel header="#{suj.sujeitoId}">
-                                                <h:panelGrid columns="1" style="width: 100%;text-align: center">
-                                                    <p:graphicImage value="#{principalController.path}#{suj.url}" style="width: 100%;max-width: 100px;"/>
-                                                    <h:outputText value="#{suj.palavra}"/>
-                                                    <p:selectBooleanCheckbox value="#{pastaComunicacaoController.add}">
-                                                        <f:ajax listener="#{pastaComunicacaoController.onRemSuj(suj)}"/>
-                                                    </p:selectBooleanCheckbox>
-                                                </h:panelGrid>
-                                            </p:panel>
-                                        </p:dataGrid>
-                                    </p:panelGrid>
-                                </p:tab>
-                                <p:tab title="Verbo">
-                                    <p:panelGrid columns="2">
-                                        <f:facet name="header">
-                                            <h:outputText  value="Verbos Cadastrados"/>
-                                        </f:facet>
-                                        <p:commandButton rendered="#{not empty pastaComunicacaoController.pastaFile.nome}" action="#{pastaComunicacaoController.onImgSelect()}" icon="ui-icon-plus" value="Adicionar" update="#{p:component('verbAct')}"/>
-                                        <p:dataGrid value="#{verboController.verboList}" var="verb" columns="5" layout="grid">
-                                            <p:panel header="#{verb.verboId}">
-                                                <h:panelGrid columns="1" style="width: 100%;text-align: center">
-                                                    <p:graphicImage value="#{principalController.path}#{verb.url}" style="width: 100%;max-width: 100px;"/>
-                                                    <h:outputText value="#{verb.palavra}"/>
-                                                    <p:selectBooleanCheckbox value="#{pastaComunicacaoController.add}">
-                                                        <f:ajax listener="#{pastaComunicacaoController.onAddVerb(verb)}"/>
-                                                    </p:selectBooleanCheckbox>
-                                                </h:panelGrid>
-                                            </p:panel>
-                                        </p:dataGrid>
-                                    </p:panelGrid>
-                                    <p:panelGrid columns="2" id="verbAct" rendered="#{not empty pastaComunicacaoController.pastaFile.nome}">
-                                        <f:facet name="header">
-                                            <h:outputText  value="Verbos utilizador por #{pastaComunicacaoController.pastaFile.nome}"/>
-                                        </f:facet>
-                                        <p:commandButton icon="ui-icon-minus" value="Remover" action="#{pastaComunicacaoController.onImgSelectedRemove()}" update="#{p:component('verbAct')}"/>
-                                        <p:dataGrid value="#{pastaComunicacaoController.pastaFile.verbos}" var="verb" columns="5" layout="grid">
-                                            <p:panel header="#{verb.verboId}">
-                                                <h:panelGrid columns="1" style="width: 100%;text-align: center">
-                                                    <p:graphicImage value="#{principalController.path}#{verb.url}" style="width: 100%;max-width: 100px;"/>
-                                                    <h:outputText value="#{verb.palavra}"/>
-                                                    <p:selectBooleanCheckbox value="#{pastaComunicacaoController.add}">
-                                                        <f:ajax listener="#{pastaComunicacaoController.onRemVerb(verb)}"/>
-                                                    </p:selectBooleanCheckbox>
-                                                </h:panelGrid>
-                                            </p:panel>
-                                        </p:dataGrid>
-                                    </p:panelGrid>
-                                </p:tab>
-                                <p:tab title="Complemento">
-                                    <p:panelGrid columns="2">
-                                        <f:facet name="header">
-                                            <h:outputText value="Complementos cadastrados"/>
-                                        </f:facet>
-                                        <p:commandButton rendered="#{not empty pastaComunicacaoController.pastaFile.nome}" value="Adicionar" icon="ui-icon-plus" action="#{pastaComunicacaoController.onImgSelect()}" update="#{p:component('compAct')}"/>
-                                        <p:dataGrid value="#{complementoController.complementoList}" var="comp" columns="5" layout="grid">
-                                            <p:panel header="#{comp.complementoId}">
-                                                <h:panelGrid columns="1" style="width: 100%;text-align: center">
-                                                    <p:graphicImage value="#{principalController.path}#{comp.url}" style="width: 100%;max-width: 100px;"/>
-                                                    <h:outputText value="#{comp.palavra}"/>
-                                                    <p:selectBooleanCheckbox value="#{pastaComunicacaoController.add}">
-                                                        <f:ajax listener="#{pastaComunicacaoController.onAddComp(comp)}"/>
-                                                    </p:selectBooleanCheckbox>
-                                                </h:panelGrid>
-                                            </p:panel>
-                                        </p:dataGrid>
-                                     </p:panelGrid>
-                                    <p:panelGrid  id="compAct" columns="2" rendered="#{not empty pastaComunicacaoController.pastaFile.nome}">
-                                        <f:facet name="header">
-                                            <h:outputText value="Complementos utilizados por #{pastaComunicacaoController.pastaFile.nome}"/>
-                                        </f:facet>
-                                        <p:commandButton  value="Remover" icon="ui-icon-minus" action="#{pastaComunicacaoController.onImgSelectedRemove()}" update="#{p:component('compAct')}"/>
-                                        <p:dataGrid value="#{pastaComunicacaoController.pastaFile.complementos}" var="comp" columns="5" layout="grid">
-                                            <p:panel header="#{comp.complementoId}">
-                                                <h:panelGrid columns="1" style="width: 100%;text-align: center">
-                                                    <p:graphicImage value="#{principalController.path}#{comp.url}" style="width: 100%;max-width: 100px;"/>
-                                                    <h:outputText value="#{comp.palavra}"/>
-                                                    <p:selectBooleanCheckbox value="#{pastaComunicacaoController.add}">
-                                                        <f:ajax listener="#{pastaComunicacaoController.onRemComp(comp)}"/>
-                                                    </p:selectBooleanCheckbox>
-                                                </h:panelGrid>
-                                            </p:panel>
-                                        </p:dataGrid>
-                                     </p:panelGrid>
-                                </p:tab>
-                            </p:tabView>
-                            
-                            <f:facet name="footer">
-                                <p:commandButton id="saveForm" action="#{pastaComunicacaoController.gravar}" value="Gravar" update="#{p:component('tab')} #{p:component('tabela')}" ajax="false"/>
-                                <p:commandButton type="reset" value="Limpar formulario"/>
-                            </f:facet>
-                        </p:dialog>
-                    </h:form>                        
-                    
-                    <!-- Tabela que exibe pacientes cadastrados-->
-                    <h:form id="tabela">
-                        <p:growl id="messages" showDetail="true"/>
-                        <p:messages autoUpdate="true"/>
-                        <p:dataTable  id="tab" var="list" style="text-align: center" value="#{pastaComunicacaoController.list}"  paginator="true" rows="5">
-                            <f:facet name="header">
-                                <p:commandLink  oncomplete="PF('cadastro').show();" action="#{pastaComunicacaoController.onNewPasta()}" update="#{p:component('dial')}">
-                                    <h:graphicImage  value="img/adduser.png" width="50" height="50"/>
-                                </p:commandLink>
-                            </f:facet>
-                            <p:column headerText="id" style="width: 42px" >
-                                <h:outputText value="#{list.pastaComunicacaoId}"/>
-                            </p:column>
-                            <p:column headerText="Img"  width="50">
-                                <p:graphicImage url="#{principalController.path}#{list.fotoUrl}" width="50" height="50" style="margin: 0 auto"/>
-                            </p:column>
-                            <p:column headerText="Nome" filterBy="#{list.nome}" filterMatchMode="contains">
-                                <h:outputText value="#{list.nome}"/>   
-                            </p:column>
-                            <p:column headerText="DataNasc" filterBy="#{list.dataNasc}" filterMatchMode="contains">
-                                <h:outputText value="#{list.dataNasc}">
-                                    <f:convertDateTime pattern="dd/MM/yyyy" />
-                                </h:outputText>   
-                            </p:column>
-                            <p:column headerText="Sexo" filterBy="#{list.sexo}" filterMatchMode="contains">
-                                <h:outputText value="#{list.sexo}"/>   
-                            </p:column>  
-                            <p:column  headerText="Página" style="width: 32px ; font-size:  10px">
-                                <p:commandButton  icon="ui-icon-triangle-1-e" actionListener="#{activeUserController.userSelect(list)}" oncomplete="window.location.href = '/Projeto2.0/faces/index.xhtml'"/>
-                            </p:column>
-                             <p:column headerText="Editar" style="width: 32px;  font-size: 10px">
-                                <p:commandButton icon="ui-icon-pencil" oncomplete="PF('cadastro').show()" update="#{p:component('dial')}">
-                                    <f:setPropertyActionListener value="#{list}" target="#{pastaComunicacaoController.pastaFile}"/>
-                                </p:commandButton>
-                            </p:column>
-                            <p:column headerText="Excluir" style="width: 32px ; font-size:  10px">
-                                <p:commandButton  icon="ui-icon-trash" >
-                                    <p:ajax listener="#{activeUserController.userSelect(null)}"/>
-                                    <p:ajax listener="#{pastaComunicacaoController.onRowDelete(list)}" oncomplete="location.reload()"/>
-                                </p:commandButton>
-                            </p:column>
-                        </p:dataTable> 
-                    </h:form> 
-                </section>
-            </section>
+            
+            <!-- Tabela que exibe pacientes cadastrados-->
+            <h:form id="tabela">
+                <p:growl id="messages" showDetail="true"/>
+                <p:messages autoUpdate="true"/>
+                <p:dataTable  id="tab" var="list" style="text-align: center" value="#{pastaComunicacaoController.list}"   rows="5">
+                    <f:facet name="header">
+                        <p:commandLink  action="#{cadastroPacienteController.onNewPasta()}" oncomplete="window.location.replace('/Projeto2.0/faces/cadastroPaciente.xhtml')">
+                            <h:graphicImage  value="img/adduser.png" width="50" height="50"/>
+                        </p:commandLink>
+                    </f:facet>
+                    <p:column headerText="id" style="width: 42px" >
+                        <h:outputText value="#{list.pastaComunicacaoId}"/>
+                    </p:column>
+                    <p:column headerText="Img"  width="50">
+                        <p:graphicImage url="#{principalController.path}#{list.fotoUrl}" width="50" height="50" style="margin: 0 auto"/>
+                    </p:column>
+                    <p:column headerText="Nome" filterBy="#{list.nome}" filterMatchMode="contains">
+                        <h:outputText value="#{list.nome}"/>   
+                    </p:column>
+                    <p:column headerText="DataNasc" filterBy="#{list.dataNasc}" filterMatchMode="contains">
+                        <h:outputText value="#{list.dataNasc}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>   
+                    </p:column>
+                    <p:column headerText="Sexo" filterBy="#{list.sexo}" filterMatchMode="contains">
+                        <h:outputText value="#{list.sexo}"/>   
+                    </p:column>  
+                    <p:column  headerText="Página" style="width: 32px ; font-size:  10px">
+                        <p:commandButton  icon="ui-icon-triangle-1-e" actionListener="#{activeUserController.userSelect(list)}" oncomplete="window.location.href = '/Projeto2.0/faces/prancha.xhtml'"/>
+                    </p:column>
+                     <p:column headerText="Editar" style="width: 32px;  font-size: 10px">
+                         <p:commandButton icon="ui-icon-pencil" oncomplete="window.location.replace('/Projeto2.0/faces/cadastroPaciente.xhtml')">
+                             <f:setPropertyActionListener value="#{list}" target="#{cadastroPacienteController.pastaFile}"/>
+                         </p:commandButton>
+                    </p:column>
+                    <p:column headerText="Excluir" style="width: 32px ; font-size:  10px">
+                        <p:commandButton  icon="ui-icon-trash" >
+                            <p:ajax listener="#{activeUserController.userSelect(null)}"/>
+                            <p:ajax listener="#{pastaComunicacaoController.onRowDelete(list)}"  update="#{p:component('tabela')}"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable> 
+            </h:form>  
         </ui:define>
     </ui:composition>
 </html>
