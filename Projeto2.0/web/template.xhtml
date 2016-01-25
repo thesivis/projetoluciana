@@ -13,32 +13,43 @@ and open the template in the editor.
         <title>UFMT - IC - Instituto de Computação</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <link rel="stylesheet" href="css/tablecss.css"/>
-        <link rel="stylesheet" href="css/tabs.css"/>
-        <link rel="shortcut icon" href="img/icon.jpg"/>
-        <script src="js/script.js"/>   
+        <link rel="shortcut icon" href="img/icon.jpg"/> 
     </h:head>
+    <style>
+        .ui-layout-north .ui-layout-unit-content {
+            overflow: visible !important;
+        }    
+        
+    </style>
     <h:body>
-        <div id="interface">
-            <header id="cabecario">
-                <nav id="menu">
-                   <ul>
-                       <li><a href="/Projeto2.0/faces/index.xhtml">Início</a></li>
-                        <li><a href="/Projeto2.0/faces/tabelaSuj.xhtml">Tabelas</a></li>
-                        <li><a href="/Projeto2.0/faces/pastaComunicacao.xhtml">Pacientes</a></li>
-                        <li><a href="/Projeto2.0/faces/contatos.xhtml">Contato</a></li>
-                    </ul>
-                </nav>
-                
-            </header>
+        <p:layout fullPage="true">
+                 
+            <p:layoutUnit position="center" gutter="0">
+                <ui:insert name="content" />
+            </p:layoutUnit> 
             
-            <ui:insert name="content" />
+            <p:layoutUnit position="north" style="overflow: visible;vertical-align: central">
+                <h:form>
+                    <p:menubar style="vertical-align: central">
+                        <p:menuitem value="Início" url="/faces/index.xhtml" icon="ui-icon-home"/>
+                        <p:menuitem value="Prancha" url="/faces/prancha.xhtml" icon="ui-icon-clipboard"/>
+                        <p:submenu label="Cadastro" icon="ui-icon-pencil">
+                            <p:menuitem  value="Sujeito" url="/faces/tabelaSuj.xhtml"/>
+                            <p:menuitem  value="Verbo" url="/faces/tabelaVerb.xhtml"/>
+                            <p:menuitem  value="Complemento" url="/faces/tabelaComp.xhtml"/>
+                        </p:submenu>
+                        <p:menuitem  value="Pacientes" url="/faces/pastaComunicacao.xhtml" icon="ui-icon-person"/>
+                        <p:menuitem  value="Contato" url="/faces/contatos.xhtml" icon="ui-icon-mail-closed"/>
+                        <f:facet name="options">
+                            <p:graphicImage  value="#{principalController.path}#{activeUserController.userActive.fotoUrl}" width="25"/>
+                            <h:outputText value=" #{activeUserController.userActive.nome}"/>
+                        </f:facet>
+                    </p:menubar>
+                </h:form>
+            </p:layoutUnit>
+       
             
-            <footer id="rodape">
-                <p>Copyright 2015  - by<br/>
-                    
-                </p>
-            </footer>
-        </div>
+        </p:layout>
+        <script src="js/script.js"/>
     </h:body>
 </html>
