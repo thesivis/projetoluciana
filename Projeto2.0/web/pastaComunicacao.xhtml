@@ -46,7 +46,7 @@ and open the template in the editor.
                     </p:column>
                      <p:column headerText="Editar" style="width: 32px;  font-size: 10px">
                          <p:commandButton icon="ui-icon-pencil" oncomplete="window.location.replace('/Projeto2.0/faces/cadastroPaciente.xhtml')">
-                             <f:setPropertyActionListener value="#{list}" target="#{cadastroPacienteController.pastaFile}"/>
+                             <f:setPropertyActionListener value="#{list}" target="#{activeUserController.userActive}"/>
                          </p:commandButton>
                     </p:column>
                     <p:column headerText="Excluir" style="width: 32px ; font-size:  10px">

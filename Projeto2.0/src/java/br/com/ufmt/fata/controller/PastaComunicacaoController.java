@@ -35,7 +35,7 @@ public class PastaComunicacaoController implements Serializable {
     public void onRowDelete(PastaDeComunicacao pacienteSelect) {
         pastaComunicacaoDao.remove(pacienteSelect);
     }
-
+    
     public List<PastaDeComunicacao> getList() {
         return list;
     }
