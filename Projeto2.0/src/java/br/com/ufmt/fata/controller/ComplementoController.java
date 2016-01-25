@@ -29,9 +29,14 @@ import org.primefaces.model.UploadedFile;
 public class ComplementoController implements Serializable{
     private List<Complemento> complementoList;
     private List<Complemento> complementoListFiltred;
-    private final ComplementoDaoImp complementoCon = new ComplementoDaoImp();
+    private final ComplementoDaoImp complementoCon;
     private UploadedFile file;
-    private Complemento complementoFile = new Complemento();
+    private Complemento complementoFile;
+
+    public ComplementoController() {
+        this.complementoFile = new Complemento();
+        this.complementoCon = new ComplementoDaoImp();
+    }
     
     @PostConstruct
     public void init(){

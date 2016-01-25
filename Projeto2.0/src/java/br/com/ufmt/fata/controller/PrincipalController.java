@@ -8,11 +8,10 @@ package br.com.ufmt.fata.controller;
 import br.com.ufmt.fata.dao.ComplementoDaoImp;
 import br.com.ufmt.fata.dao.SujeitoDaoImp;
 import br.com.ufmt.fata.dao.VerboDaoImp;
-import com.gtranslate.Audio;
 import br.com.ufmt.fata.ent.Complemento;
 import br.com.ufmt.fata.ent.Sujeito;
 import br.com.ufmt.fata.ent.Verbo;
-import com.gtranslate.Language;
+import com.darkprograms.speech.synthesiser.SynthesiserV2;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,7 +19,6 @@ import java.io.InputStream;
 import java.io.Serializable;
 import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,25 +36,39 @@ import javax.servlet.http.HttpServletRequest;
 @ViewScoped
 public class PrincipalController implements Serializable {
 
-    Sujeito selectSujeito;
-    Verbo selectVerbo;
-    Complemento selectComplemento;
+    //Sintetizador de Voz
+    private SynthesiserV2 sv;
+    private static final String key = "AIzaSyD3dIbXBFb_Ftd3DWZEsIeGEZ7HnMrGVa0";
+    
+    //Linha e coluna do sistema de varredura 
+    private int row;
+    private int col;
+
+    //Palavras Selecionadas
+    private Sujeito selectSujeito;
+    private Verbo selectVerbo;
+    private List<Complemento> selectComplemento;
     private String selectTempo;
-    SujeitoDaoImp sujeitoController = new SujeitoDaoImp();
-    VerboDaoImp verboController = new VerboDaoImp();
-    ComplementoDaoImp complementoController = new ComplementoDaoImp();
-    private List<String> tempoList = new ArrayList();
+
+    //Objetos dao
+    private final SujeitoDaoImp sujeitoController;
+    private final VerboDaoImp verboController;
+    private final ComplementoDaoImp complementoController;
+
+    //Lista de Tempo Verbal
+    private List<String> tempoList;
+
+    //Lista de Palavras do Banco de dados
     List<Sujeito> sujeitoList;
     List<Verbo> verboList;
     List<Complemento> complementoList;
-    private List<String> acaoBotao = new ArrayList();
-    InputStream sound;
-    private String nomeAudio;
-    
+    private List<List<String>> listaPronome;
 
-    private List<List<String>> listaPronome = new ArrayList<>();
-
+    //Diretório do Projeto
     public static String FATA_DIR;
+
+    //Frase que será montada
+    private String StrTextToSpeech;
 
     static {
         FATA_DIR = System.getenv("FATA_DIR");
@@ -72,29 +84,48 @@ public class PrincipalController implements Serializable {
             }
         }
     }
-    
+
+    public PrincipalController() {
+        this.selectComplemento = new ArrayList<>();
+        this.sujeitoController = new SujeitoDaoImp();
+        this.verboController = new VerboDaoImp();
+        this.complementoController = new ComplementoDaoImp();
+        this.tempoList = new ArrayList();
+        this.listaPronome = new ArrayList<>();
+    }
+
     public String getFataDir() {
         return FATA_DIR;
     }
 
     @PostConstruct
     public void init() {
+        sv = new SynthesiserV2(key);
         sujeitoList = sujeitoController.list();
         verboList = verboController.list();
         complementoList = complementoController.list();
         tempoList.add("Passado");
         tempoList.add("Presente");
         tempoList.add("Futuro");
-        acaoBotao.add("Play");
-        acaoBotao.add("Limpar");
     }
 
-    public void fileUpload(String nomeArq) {
-
+    /**
+     * Método para criar arquivo de um objeto InpurStream e salvar em formato de
+     * audio mp3.
+     *
+     * @param nomeArq Nome para o arquivo de audio.
+     * @param sound Ojeto <b>InputStream</b> do audio.
+     */
+    public void fileUpload(String nomeArq, InputStream sound) {
         copyFile(nomeArq + ".mp3", sound);
-
     }
 
+    /**
+     * Método que copia o arquivo para a pasta fata do servidor.
+     *
+     * @param fileName Nome para o arquivo que será salvo.
+     * @param in Objeto Stream do arquivo.
+     */
     public static void copyFile(String fileName, InputStream in) {
         try {
             System.out.println(fileName);
@@ -116,95 +147,121 @@ public class PrincipalController implements Serializable {
             System.out.println(e.getMessage());
         }
     }
-    
-    public Collection listaDiretorios(File path) { 
-  
-        Collection listaVolta = new ArrayList();  
-        File[] files = path.listFiles();  
 
+    /**
+     * Método executado ao clicar na área da varredura, realizando o calculo das
+     * posições selecionadas e atribuindo palavras selecionadas, caso seja
+     * seleção já está no complemento, é verificado se foi selecionado a
+     * primeira linha nas quais estão ações a serem executadas e não seleção de
+     * palavras.
+     */
+    public void onClickPage() {
+        StrTextToSpeech = null;
+        System.err.println("row:" + this.row + " col:" + this.col);
+        if (this.row != 0 && this.col != 0) {
+            int position = (this.row - 1) * 5 + this.col-1 ;
+            System.out.println("Position: "+position);
+            System.out.println("Imagem Selecionada");
+            if (selectSujeito == null && position < sujeitoList.size()) {
+                this.selectSujeito = ActiveUserController.userActive.getSujeitos().get(position);
+                System.out.println(this.selectSujeito.getPalavra());
+            } else if (selectVerbo == null && position < verboList.size()) {
+                this.selectVerbo = ActiveUserController.userActive.getVerbos().get(position);
+                System.out.println(this.selectVerbo.getPalavra());
+            } else if (selectTempo == null && position < tempoList.size()) {
+                this.selectTempo = tempoList.get(position);
+                System.out.println(this.selectTempo);
+            } else {
+                if (this.row == 1) {
+                    if (this.col == 1) {
+                        falar();
+                        System.out.println("Falar");
+                    }else if(this.col == 2){
+                        System.out.println("Limpar");
+                    }else{
+                        System.out.println("Sair");
+                    }
+                } else{
 
-        for (File arq : files) {
-            if (arq.isDirectory()) {
-                Collection lista = listaDiretorios(arq);
-                if (lista.size() > 0) listaVolta.addAll(lista);
-            }else{
-                listaVolta.add(arq);
+                    /**
+                     * O calculo da posição é realizado novamente levando em
+                     * conta uma nova linha que possui funçõe a serem executadas
+                     * no sistema de varredura.
+                     */
+                    position = (this.row - 2) * 5 + this.col - 1;
+                    System.out.println("Posição: "+position+" Max: "+ActiveUserController.userActive.getComplementos().size());
+                    System.out.println("Comp: "+ActiveUserController.userActive.getComplementos().get(position).getPalavra());
+                    this.selectComplemento.add(ActiveUserController.userActive.getComplementos().get(position));
+                    
+                }
             }
-        }  
-    return listaVolta;  
-    } 
-    
-    public void  onClickSuj(Sujeito suj){
-        this.selectSujeito = suj;
-        System.out.println("Sujeito selecionado");
+        }
+        System.err.println("Imagem não Selecionada");
     }
-    public void  onClickVerb(Verbo verb){
-        this.selectVerbo = verb;
-        System.out.println("Verbo selecionado");
-    }
-    public void  onClickTemp(String temp){
-        this.selectTempo = temp;
-        falar();
-        System.out.println("Tempo selecionado");
-    }
-    public void  onClickComp(Complemento comp){
-        this.selectComplemento = comp;
-        falar();
-        System.out.println("Complemento selecionado");
-    }
-    public String frase(){
+
+    /**
+     * Método para montar frase que será montada.
+     *
+     * @return String - Frase
+     */
+    public String frase() {
         String fraseFala = selectSujeito.getPalavra();
-        if("Primeira".equals(selectSujeito.getPronome())){
-            if("Passado".equals(this.selectTempo)){
-                fraseFala = fraseFala+" "+this.selectVerbo.getPasprimpessoa();
+        if ("Primeira".equals(selectSujeito.getPronome())) {
+            if ("Passado".equals(this.selectTempo)) {
+                fraseFala = fraseFala + " " + this.selectVerbo.getPasprimpessoa();
             }
-            if("Presente".equals(this.selectTempo)){
-                fraseFala = fraseFala+" "+this.selectVerbo.getPreprimpessoa();
+            if ("Presente".equals(this.selectTempo)) {
+                fraseFala = fraseFala + " " + this.selectVerbo.getPreprimpessoa();
             }
-            if("Futuro".equals(this.selectTempo)){
-                fraseFala = fraseFala+" "+this.selectVerbo.getFutprimpessoa();
+            if ("Futuro".equals(this.selectTempo)) {
+                fraseFala = fraseFala + " " + this.selectVerbo.getFutprimpessoa();
             }
-        }else if("Segunda".equals(selectSujeito.getPronome())){
-            if("Passado".equals(this.selectTempo)){
-                fraseFala = fraseFala+" "+this.selectVerbo.getPassegpessoa();
+        } else if ("Segunda".equals(selectSujeito.getPronome())) {
+            if ("Passado".equals(this.selectTempo)) {
+                fraseFala = fraseFala + " " + this.selectVerbo.getPassegpessoa();
             }
-            if("Presente".equals(this.selectTempo)){
-                fraseFala = fraseFala+" "+this.selectVerbo.getPresegpessoa();
+            if ("Presente".equals(this.selectTempo)) {
+                fraseFala = fraseFala + " " + this.selectVerbo.getPresegpessoa();
             }
-            if("Futuro".equals(this.selectTempo)){
-                fraseFala = fraseFala+" "+this.selectVerbo.getFutsegpessoa();
+            if ("Futuro".equals(this.selectTempo)) {
+                fraseFala = fraseFala + " " + this.selectVerbo.getFutsegpessoa();
             }
-        }else{
-            if("Passado".equals(this.selectTempo)){
-                fraseFala = fraseFala+" "+this.selectVerbo.getPastercpessoa();
+        } else {
+            if ("Passado".equals(this.selectTempo)) {
+                fraseFala = fraseFala + " " + this.selectVerbo.getPastercpessoa();
             }
-            if("Presente".equals(this.selectTempo)){
-                fraseFala = fraseFala+" "+this.selectVerbo.getPretercpessoa();
+            if ("Presente".equals(this.selectTempo)) {
+                fraseFala = fraseFala + " " + this.selectVerbo.getPretercpessoa();
             }
-            if("Futuro".equals(this.selectTempo)){
-                fraseFala = fraseFala+" "+this.selectVerbo.getFuttercpessoa();
+            if ("Futuro".equals(this.selectTempo)) {
+                fraseFala = fraseFala + " " + this.selectVerbo.getFuttercpessoa();
             }
         }
         return fraseFala;
     }
-    
+
+    /**
+     * Método que verifica se já existe o arquivo de audio referente a frase,
+     * caso não haja, será chamado o método da API do Google que sintetiza o a
+     * String em arquivo de audio, salvando-o logo em seguida.
+     */
     public void falar() {
-        Audio audio = Audio.getInstance();
         try {
-            if (selectSujeito != null && selectVerbo != null) {
-                if (selectComplemento != null) {
-                    nomeAudio = frase()+ " " + selectComplemento.getPalavra();
+            if (selectSujeito != null && selectVerbo != null && selectTempo != null) {
+                StrTextToSpeech = frase();
+                if (selectComplemento.size() > 0) {
+                    for (int i = 0; i < selectComplemento.size(); i++) {
+                        StrTextToSpeech += " " + selectComplemento.get(i).getPalavra();
+                    }
+
+                }
+                if (!ArquivoController.existeArquivo(StrTextToSpeech + ".mp3")) {
+                    System.out.println(StrTextToSpeech);
+                    fileUpload(StrTextToSpeech, sv.getMP3Data(StrTextToSpeech));
                 } else {
-                    nomeAudio = frase();
+                    System.out.println(StrTextToSpeech + " Já existe!");
                 }
-                if(!ArquivoController.existeArquivo(nomeAudio+".mp3")){
-                    sound = audio.getAudio(nomeAudio + "&client=", Language.PORTUGUESE);
-                    System.out.println(nomeAudio);
-                    fileUpload(nomeAudio);
-                }else{
-                     System.out.println(nomeAudio+" Já existe!");
-                }
-                
+
             }
         } catch (IOException ex) {
             Logger.getLogger(PrincipalController.class.getName()).log(Level.SEVERE, null, ex);
@@ -225,6 +282,16 @@ public class PrincipalController implements Serializable {
         return getRequest() + "/";
     }
 
+    /**
+     * Método para trantar String removendo acentos.
+     *
+     * @param str String - String a ser tratada.
+     * @return String Não contendo acentos e caracteres especiais.
+     */
+    public static String removerAcentos(String str) {
+        return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+    }
+
     public Sujeito getSelectSujeito() {
         return selectSujeito;
     }
@@ -239,14 +306,6 @@ public class PrincipalController implements Serializable {
 
     public void setSelectVerbo(Verbo selectVerbo) {
         this.selectVerbo = selectVerbo;
-    }
-
-    public Complemento getSelectComplemento() {
-        return selectComplemento;
-    }
-
-    public void setSelectComplemento(Complemento selectComplemento) {
-        this.selectComplemento = selectComplemento;
     }
 
     public List<Sujeito> getSujeitoList() {
@@ -273,40 +332,12 @@ public class PrincipalController implements Serializable {
         this.complementoList = complementoList;
     }
 
-    public InputStream getSound() {
-        return sound;
-    }
-
-    public void setSound(InputStream sound) {
-        this.sound = sound;
-    }
-    
-    public static String removerAcentos(String str) {
-        return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
-    }   
-
     public List<List<String>> getListaPronome() {
         return listaPronome;
     }
 
     public void setListaPronome(List<List<String>> listaPronome) {
         this.listaPronome = listaPronome;
-    }
-
-    public String getNomeAudio() {
-        return nomeAudio;
-    }
-
-    public void setNomeAudio(String nomeAudio) {
-        this.nomeAudio = nomeAudio;
-    }
-
-    public List<String> getAcaoBotao() {
-        return acaoBotao;
-    }
-
-    public void setAcaoBotao(List<String> acaoBotao) {
-        this.acaoBotao = acaoBotao;
     }
 
     public String getSelectTempo() {
@@ -324,4 +355,37 @@ public class PrincipalController implements Serializable {
     public void setTempoList(List<String> tempoList) {
         this.tempoList = tempoList;
     }
+
+    public List<Complemento> getSelectComplemento() {
+        return selectComplemento;
+    }
+
+    public void setSelectComplemento(List<Complemento> selectComplemento) {
+        this.selectComplemento = selectComplemento;
+    }
+
+    public String getTextToSpeech() {
+        return StrTextToSpeech;
+    }
+
+    public void setTextToSpeech(String textToSpeech) {
+        this.StrTextToSpeech = textToSpeech;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public int getCol() {
+        return col;
+    }
+
+    public void setCol(int col) {
+        this.col = col;
+    }
+
 }
