@@ -28,17 +28,17 @@ and open the template in the editor.
                         <f:facet name="header">
                             <h:outputText value="Dados Pessoais"></h:outputText>
                         </f:facet>
-                        <h:graphicImage rendered="#{not empty cadastroPacienteController.pastaFile.fotoUrl}" value="#{principalController.path}#{cadastroPacienteController.pastaFile.fotoUrl}" width="100" height="120"/>
-                        <h:graphicImage rendered="#{empty cadastroPacienteController.pastaFile.fotoUrl}" value="img/user.png" width="100" height="120"/>
+                        <h:graphicImage rendered="#{not empty activeUserController.userActive.fotoUrl}" value="#{principalController.path}#{activeUserController.userActive.fotoUrl}" width="100" height="120"/>
+                        <h:graphicImage rendered="#{empty activeUserController.userActive.fotoUrl}" value="img/user.png" width="100" height="120"/>
                         <p:fileUpload  mode="simple" value="#{cadastroPacienteController.file}" accept="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/" invalidFileMessage="Formato invalido" required="true"/>
                     </p:panelGrid>
                     <p:panelGrid id="grid" columns="2" style="margin: auto;border: none !important">
                         <h:outputText value="Nome"/>
-                        <p:inputText id="nome" value="#{cadastroPacienteController.pastaFile.nome}"/>
+                        <p:inputText id="nome" value="#{activeUserController.userActive.nome}"/>
                         <h:outputText value="Data Nascimento"/>
-                        <p:inputMask mask="99/99/9999" value="#{cadastroPacienteController.pastaFile.dataNasc}"/>
+                        <p:inputMask mask="99/99/9999" value="#{activeUserController.userActive.dataNasc}"/>
                         <h:outputText value="Sexo:"/>
-                        <p:selectOneRadio value="#{cadastroPacienteController.pastaFile.sexo}" required="true">
+                        <p:selectOneRadio value="#{activeUserController.userActive.sexo}" required="true">
                             <f:selectItem itemLabel="Masculino" itemValue="M"/>
                             <f:selectItem itemLabel="Feminino" itemValue="F"/>
                         </p:selectOneRadio>
@@ -53,7 +53,7 @@ and open the template in the editor.
                             <p:panelGrid columns="2">
                                 
                                 <f:facet name="header">
-                                    <p:commandButton rendered="#{not empty cadastroPacienteController.pastaFile.nome}" icon="ui-icon-plus" value="Adicionar" action="#{cadastroPacienteController.onClickAdicionar()}" update="#{p:component('sujAct')}"/>
+                                    <p:commandButton rendered="#{not empty activeUserController.userActive.nome}" icon="ui-icon-plus" value="Adicionar" action="#{cadastroPacienteController.onClickAdicionar()}" update="#{p:component('sujAct')}"/>
                                     <h:outputText  value="Sujeitos Cadastrados"/>
                                 </f:facet>
                                 
@@ -72,12 +72,12 @@ and open the template in the editor.
                                 </p:dataGrid>
                                 
                             </p:panelGrid>
-                            <p:panelGrid id="sujAct" columns="1" rendered="#{not empty cadastroPacienteController.pastaFile.nome}">
+                            <p:panelGrid id="sujAct" columns="1" rendered="#{not empty activeUserController.userActive.nome}">
                                 <f:facet name="header" >    
                                     <p:commandButton icon="ui-icon-minus" value=" Remover" action="#{cadastroPacienteController.onClickRemover()}" update="#{p:component('sujAct')}"/>
-                                    <h:outputText  value="Sujeitos utilizador por #{cadastroPacienteController.pastaFile.nome}  "/>
+                                    <h:outputText  value="Sujeitos utilizador por #{activeUserController.userActive.nome}  "/>
                                 </f:facet>
-                                <p:dataGrid value="#{cadastroPacienteController.pastaFile.sujeitos}"  var="suj" columns="6" layout="grid">
+                                <p:dataGrid value="#{activeUserController.userActive.sujeitos}"  var="suj" columns="6" layout="grid">
                                     <p:panel>
                                         <f:facet name="header">
                                             <p:selectBooleanCheckbox value="#{cadastroPacienteController.add}">
@@ -95,7 +95,7 @@ and open the template in the editor.
                         <p:tab title="Verbo">
                             <p:panelGrid columns="2">
                                 <f:facet name="header">
-                                    <p:commandButton rendered="#{not empty cadastroPacienteController.pastaFile.nome}" action="#{cadastroPacienteController.onClickAdicionar()}" icon="ui-icon-plus" value="Adicionar" update="#{p:component('verbAct')}"/>
+                                    <p:commandButton rendered="#{not empty activeUserController.userActive.nome}" action="#{cadastroPacienteController.onClickAdicionar()}" icon="ui-icon-plus" value="Adicionar" update="#{p:component('verbAct')}"/>
                                     <h:outputText  value="Verbos Cadastrados"/>
                                 </f:facet>
                                 <p:dataGrid value="#{verboController.verboList}"  var="verb" columns="5" layout="grid">
@@ -112,12 +112,12 @@ and open the template in the editor.
                                     </p:panel>
                                 </p:dataGrid>
                             </p:panelGrid>
-                            <p:panelGrid columns="2" id="verbAct" rendered="#{not empty cadastroPacienteController.pastaFile.nome}">
+                            <p:panelGrid columns="2" id="verbAct" rendered="#{not empty activeUserController.userActive.nome}">
                                 <f:facet name="header">
                                     <p:commandButton icon="ui-icon-minus" value="Remover" action="#{cadastroPacienteController.onClickRemover()}" update="#{p:component('verbAct')}"/>
-                                    <h:outputText  value="Verbos utilizador por #{cadastroPacienteController.pastaFile.nome}"/>
+                                    <h:outputText  value="Verbos utilizador por #{activeUserController.userActive.nome}"/>
                                 </f:facet>
-                                <p:dataGrid value="#{cadastroPacienteController.pastaFile.verbos}"  var="verb" columns="5" layout="grid">
+                                <p:dataGrid value="#{activeUserController.userActive.verbos}"  var="verb" columns="5" layout="grid">
                                     <p:panel>
                                         <f:facet name="header">
                                             <p:selectBooleanCheckbox value="#{cadastroPacienteController.add}">
@@ -135,7 +135,7 @@ and open the template in the editor.
                         <p:tab title="Complemento">
                             <p:panelGrid columns="2">
                                 <f:facet name="header">
-                                    <p:commandButton rendered="#{not empty cadastroPacienteController.pastaFile.nome}" value="Adicionar" icon="ui-icon-plus" action="#{cadastroPacienteController.onClickAdicionar()}" update="#{p:component('compAct')}"/>
+                                    <p:commandButton rendered="#{not empty activeUserController.userActive.nome}" value="Adicionar" icon="ui-icon-plus" action="#{cadastroPacienteController.onClickAdicionar()}" update="#{p:component('compAct')}"/>
                                     <h:outputText value="Complementos cadastrados"/>
                                 </f:facet>
                                 <p:dataGrid value="#{complementoController.complementoList}" var="comp" columns="5" layout="grid">
@@ -152,12 +152,12 @@ and open the template in the editor.
                                     </p:panel>
                                 </p:dataGrid>
                              </p:panelGrid>
-                            <p:panelGrid  id="compAct" columns="2" rendered="#{not empty cadastroPacienteController.pastaFile.nome}">
+                            <p:panelGrid  id="compAct" columns="2" rendered="#{not empty activeUserController.userActive.nome}">
                                 <f:facet name="header">
                                     <p:commandButton  value="Remover" icon="ui-icon-minus" action="#{cadastroPacienteController.onClickRemover()}" update="#{p:component('compAct')}"/>
-                                    <h:outputText value="Complementos utilizados por #{cadastroPacienteController.pastaFile.nome}"/>
+                                    <h:outputText value="Complementos utilizados por #{activeUserController.userActive.nome}"/>
                                 </f:facet>
-                                <p:dataGrid value="#{cadastroPacienteController.pastaFile.complementos}"  var="comp" columns="5" layout="grid">
+                                <p:dataGrid value="#{activeUserController.userActive.complementos}"  var="comp" columns="5" layout="grid">
                                     <p:panel>
                                         <f:facet name="header">
                                             <p:selectBooleanCheckbox value="#{cadastroPacienteController.add}">
