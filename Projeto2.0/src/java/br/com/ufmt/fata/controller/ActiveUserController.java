@@ -21,7 +21,7 @@ import javax.faces.bean.SessionScoped;
 @ManagedBean
 @SessionScoped
 public class ActiveUserController implements Serializable {
-
+    
     protected static PastaDeComunicacao userActive;
     private final PastaDeComunicacaoDaoImp comunicacaoDaoImp;
 
