@@ -1,101 +1,30 @@
-<!DOCTYPE html>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
-
-    <ui:composition template="/template.xhtml">
-        <ui:define name="content">
-            <aside id="painel-lateral" class="alignTop">
-                <h:form rendered="#{not empty activeUserController.userActive}">
-                    <h:panelGrid columns="1">
-                        <h:outputText value="#{activeUserController.userActive.nome}"/>
-                        <p:graphicImage id="avatar" value="#{principalController.path}#{activeUserController.userActive.fotoUrl}" style="width:100%"/>
-                        <h:commandLink action="#{activeUserController.userSelect(null)}" onclick="location.reload()">
-                            <h:outputText value="Sair"/>
-                            <h:graphicImage value="img/1443742806_logout.png" width="25" height="25"/>
-                        </h:commandLink>
-                    </h:panelGrid>
-                </h:form>
-                <p:fieldset  id="player" style="visibility: hidden">
-                    <p:fieldset rendered="#{not empty principalController.selectVerbo and (not empty activeUserController.userActive)}">
-                        <audio controls="" src="#{principalController.path}#{principalController.nomeAudio}.mp3" autoplay="true" style="width: 10px;" ></audio>
-                    </p:fieldset>
-                </p:fieldset>
-            </aside>
-            <p:panel rendered="#{empty activeUserController.userActive}" style="background: #ff6f6f">
-                    <h:outputText value="Paciente não selecionado. "/>
-            </p:panel>
-            <section id="corpo" style="width: 85%">
-                <h:form rendered="#{not empty activeUserController.userActive}">
-                    <p:panelGrid columns="4" layout="grid" style="text-align: center">
-                        <p:fieldset id="campoSuj" legend="Sujeito" style="width: 80%;min-height: 200px; max-height: 250px;">
-                            <p:graphicImage rendered="#{not empty principalController.selectSujeito}" value="#{principalController.path}#{principalController.selectSujeito.url}" width="150" height="150"/>
-                        </p:fieldset>
-                        
-                        <p:fieldset id="campoVerb" legend="Verbo" style="width: 80%;min-height: 200px; max-height: 250px;">
-                            <p:graphicImage rendered="#{not empty principalController.selectVerbo}" value="#{principalController.path}#{principalController.selectVerbo.url}" width="150" height="150"/>
-                        </p:fieldset>
-                        
-                        <p:fieldset id="campoTemp" legend="Tempo" style="width: 80%;min-height: 200px; max-height: 250px;">
-                            <p:graphicImage rendered="#{not empty principalController.selectTempo}" value="img/#{principalController.selectTempo}.png" width="150" height="150"/>
-                        </p:fieldset>
-                        
-                        <p:fieldset id="campoComp" legend="Complemento" style="width: 80%;min-height: 200px; max-height: 250px;">
-                            <p:graphicImage rendered="#{not empty principalController.selectComplemento}" value="#{principalController.path}#{principalController.selectComplemento.url}" width="150" height="150"/>
-                        </p:fieldset>
-                    </p:panelGrid>
-                    <p:panel id="painel" style="text-align: center">
-                        <p:carousel  rendered="#{empty principalController.selectSujeito}"  var="suj" headerText="Sujeito" value="#{activeUserController.userActive.sujeitos}" numVisible="1" circular="true" vertical="true" autoPlayInterval="2000">
-                            <p:commandLink>
-                                <p:graphicImage value="#{principalController.path}#{suj.url}" width="200" height="200"/> 
-                                <p:ajax listener="#{principalController.onClickSuj(suj)}" update=":#{p:component('campoSuj')} #{p:component('painel')}"/>
-                            </p:commandLink>
-                            <h:outputText value="#{suj.palavra}"/>
-                        </p:carousel>
-
-                        <p:carousel rendered="#{not empty principalController.selectSujeito and(empty principalController.selectVerbo)}" var="verb" headerText="Verbo" value="#{activeUserController.userActive.verbos}" numVisible="1" circular="true" vertical="true" autoPlayInterval="2000">
-                            <p:commandLink>
-                                <p:graphicImage value="#{principalController.path}#{verb.url}" width="200" height="200"/> 
-                                <p:ajax listener="#{principalController.onClickVerb(verb)}" update=":#{p:component('campoVerb')}  #{p:component('painel')}"/>
-                            </p:commandLink>
-                            <h:outputText value="#{verb.palavra}"/>
-                        </p:carousel>
-                        
-                        <p:carousel rendered="#{not empty principalController.selectVerbo and(empty principalController.selectTempo)}" var="temp" headerText="Tempo" value="#{principalController.tempoList}" numVisible="1" circular="true" vertical="true" autoPlayInterval="2000">
-                            <p:commandLink>
-                                <p:graphicImage value="img/#{temp}.png" width="200" height="200"/> 
-                                <p:ajax listener="#{principalController.onClickTemp(temp)}" update=":#{p:component('campoTemp')}  #{p:component('painel')}"/>
-                            </p:commandLink>
-                            <h:outputText value="#{temp}"/>
-                        </p:carousel>
-
-                        <p:carousel rendered="#{not empty principalController.selectTempo and(empty principalController.selectComplemento)}" var="comp" headerText="Complemento" value="#{activeUserController.userActive.complementos}" numVisible="1" circular="true" vertical="true" autoPlayInterval="2000">
-                            <p:commandLink>
-                                <p:graphicImage value="#{principalController.path}#{comp.url}" width="200" height="200"/> 
-                                <p:ajax listener="#{principalController.onClickComp(comp)}" update=":#{p:component('campoComp')}  #{p:component('painel')} "/>
-                            </p:commandLink>
-                            <h:outputText value="#{comp.palavra}"/>
-                        </p:carousel>
-                        
-                        <p:carousel rendered="#{not empty principalController.selectComplemento}" var="bot" headerText="Ação" value="#{principalController.acaoBotao}" numVisible="1" circular="true" vertical="true" autoPlayInterval="2000">
-                            <p:commandLink rendered="#{bot == 'Limpar'}"  oncomplete="location.reload()">
-                                <p:graphicImage value="img/Limpar.png" width="200" height="200"/> 
-                            </p:commandLink>
-                            <p:commandLink rendered="#{bot == 'Play'}" update="player">
-                                <p:graphicImage value="img/Play.png" width="200" height="200"/> 
-                            </p:commandLink>
-                            <h:outputText value="#{bot}"/>
-                        </p:carousel>
-                    </p:panel>
-                </h:form>
-            </section>
-        </ui:define>
-    </ui:composition>
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Prancha de Comunicação - IC UFMT</title>
+        <link rel="shortcut icon" href="img/icon.jpg"/>
+    </h:head>
+    <h:body>
+        <p:panelGrid columns="1" style="text-align: center">
+            <h:outputText  value="Bem vindo(a), selecione o usuário para começar a usar!"/>
+            <p:commandLink onclick="window.location.replace('/Projeto2.0/faces/pastaComunicacao.xhtml')">
+                <p:graphicImage value="img/1438827739_hand_cursor.png"/><br/>
+                <h:outputText value="Click para começar!"/>
+            </p:commandLink>
+            <h:outputText value="Esta ferramenta foi desenvolvida pelo grupo de
+                          pesquisa FATA que tem por finalidade desenvolvimento 
+                          de ferramentas interativas e personalizadas em ambiente 
+                          de fábrica de software de alta tecnologia assistiva."/>
+        </p:panelGrid>
+    </h:body>
 </html>
