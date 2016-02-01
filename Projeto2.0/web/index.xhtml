@@ -14,12 +14,20 @@ and open the template in the editor.
         <title>Prancha de Comunicação - IC UFMT</title>
         <link rel="shortcut icon" href="img/icon.jpg"/>
     </h:head>
+    <style>
+        body{
+            position: absolute;
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+        }
+    </style>
     <h:body>
-        <p:panelGrid columns="1" style="text-align: center">
-            <h:outputText  value="Bem vindo(a), selecione o usuário para começar a usar!"/>
+        <p:panelGrid columns="1" style="text-align: center;height: 100%">
+            <h:outputText  value="Bem vindo(a)!!!"/>
             <p:commandLink onclick="window.location.replace('/Projeto2.0/faces/pastaComunicacao.xhtml')">
                 <p:graphicImage value="img/1438827739_hand_cursor.png"/><br/>
-                <h:outputText value="Click para começar!"/>
+                <h:outputText value="Click para selecionar / criar usuário!"/>
             </p:commandLink>
             <h:outputText value="Esta ferramenta foi desenvolvida pelo grupo de
                           pesquisa FATA que tem por finalidade desenvolvimento 
