@@ -22,11 +22,13 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class ActiveUserController implements Serializable {
     
+    protected static boolean novaPasta;
     protected static PastaDeComunicacao userActive;
     private final PastaDeComunicacaoDaoImp comunicacaoDaoImp;
 
     public ActiveUserController() {
         this.comunicacaoDaoImp = new PastaDeComunicacaoDaoImp();
+        ActiveUserController.novaPasta = false;
     }
 
     public static void userSelect(PastaDeComunicacao pastaSelect) {
