@@ -12,7 +12,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.model.UploadedFile;
 
@@ -40,7 +39,6 @@ public class CadastroPacienteController implements Serializable {
 
     private UploadedFile file;
     private boolean add;
-    private boolean novaPasta;
 
     public CadastroPacienteController() {
         this.pastaComunicacaoDao = new PastaDeComunicacaoDaoImp();
@@ -50,13 +48,12 @@ public class CadastroPacienteController implements Serializable {
         this.complementoListAd = new ArrayList<>();
         this.verboListAd = new ArrayList<>();
         this.sujeitoListAd = new ArrayList<>();
-        this.novaPasta = false;
 
     }
 
     public void onNewPasta() {
         ActiveUserController.userActive = new PastaDeComunicacao();
-        novaPasta = true;
+        ActiveUserController.novaPasta = true;
     }
     
        public void gravar() {
@@ -66,10 +63,10 @@ public class CadastroPacienteController implements Serializable {
             ActiveUserController.userActive.setFotoUrl("user.png");
         }
         pastaComunicacaoDao.save(ActiveUserController.userActive);
-        if(novaPasta){
+        if(ActiveUserController.novaPasta){
             onClickAdicionar();
+            ActiveUserController.novaPasta = false;
         }
-        novaPasta = false;
     }
 
     public void onClickAdicionar() {
