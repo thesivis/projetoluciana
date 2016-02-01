@@ -20,7 +20,8 @@ and open the template in the editor.
                 <p:messages autoUpdate="true"/>
                 <p:dataTable  id="tab" var="list" style="text-align: center" value="#{pastaComunicacaoController.list}"   rows="5">
                     <f:facet name="header">
-                        <p:commandLink  action="#{cadastroPacienteController.onNewPasta()}" oncomplete="window.location.replace('/Projeto2.0/faces/cadastroPaciente.xhtml')">
+                        <p:commandLink>
+                            <p:ajax listener="#{cadastroPacienteController.onNewPasta()}" oncomplete="window.location.replace('/Projeto2.0/faces/cadastroPaciente.xhtml')"/>
                             <h:graphicImage  value="img/adduser.png" width="50" height="50"/>
                         </p:commandLink>
                     </f:facet>
