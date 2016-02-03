@@ -62,8 +62,12 @@ public class SujeitoController  implements Serializable{
     }
     
     public void gravar(){
-        fileUpload();
-        sujeitoCon.save(sujeitoFile);
+        if(file != null){
+            if(file.getSize() != 0){
+                fileUpload();
+            }
+            sujeitoCon.save(sujeitoFile);
+        }
     }
     
     public void fileUpload(){ 

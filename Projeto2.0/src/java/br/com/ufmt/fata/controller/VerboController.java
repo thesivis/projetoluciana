@@ -61,8 +61,12 @@ public class VerboController implements Serializable{
     }
     
     public void gravar(){
-        fileUpload();
+         if(file != null){
+            if(file.getSize() != 0){
+                fileUpload();
+            }
         verboCon.save(verboFile);
+        }
     }
     
     public void fileUpload(){ 

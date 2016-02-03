@@ -66,8 +66,12 @@ public class ComplementoController implements Serializable{
     }
     
     public void gravar(){
-        fileUpload();
-        complementoCon.save(complementoFile);
+          if(file != null){
+            if(file.getSize() != 0){
+                fileUpload();
+            }
+            complementoCon.save(complementoFile);
+          }
     }
     
     public void fileUpload(){ 
