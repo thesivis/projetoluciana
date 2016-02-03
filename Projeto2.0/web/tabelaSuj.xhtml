@@ -40,7 +40,9 @@ and open the template in the editor.
                         </p:panelGrid>
                     </p:panelGrid>
                     <f:facet name="footer">
-                        <p:commandButton action="#{sujeitoController.gravar}" value="Gravar" update="messages" ajax="false"/>
+                        <p:commandButton value="Gravar" oncomplete="location.reload()">
+                            <f:ajax execute="@all" render=":#{p:component('tabela')}" listener="#{sujeitoController.gravar()}"/>
+                        </p:commandButton>
                         <p:commandButton type="reset" value="Limpar formulario"/>
                     </f:facet>
                 </p:dialog>

@@ -61,7 +61,9 @@ and open the template in the editor.
                             </p:fieldset>
 
                         <f:facet name="footer">
-                            <p:commandButton action="#{verboController.gravar}" value="Gravar" update="messages" ajax="false"/>
+                            <p:commandButton value="Gravar" oncomplete="location.reload()">
+                                <f:ajax execute="@all" render=":#{p:component('tabela')}" listener="#{verboController.gravar()}"/>
+                            </p:commandButton>
                             <p:commandButton type="reset" value="Limpar formulario"/>
                         </f:facet>
                     </p:panelGrid>
