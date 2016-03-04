@@ -26,7 +26,8 @@ import org.primefaces.model.UploadedFile;
  */
 @ViewScoped
 @ManagedBean
-public class ComplementoController implements Serializable{
+public class ComplementoController implements Serializable {
+
     private List<Complemento> complementoList;
     private List<Complemento> complementoListFiltred;
     private final ComplementoDaoImp complementoCon;
@@ -37,54 +38,58 @@ public class ComplementoController implements Serializable{
         this.complementoFile = new Complemento();
         this.complementoCon = new ComplementoDaoImp();
     }
-    
+
     @PostConstruct
-    public void init(){
+    public void init() {
         complementoList = complementoCon.list();
     }
-    
-    public void onRowEdit(RowEditEvent event){
-        complementoCon.update((Complemento)event.getObject());
-        FacesMessage message = new FacesMessage("Complemento id:",((Complemento)event.getObject()).getComplementoId() + " Alterado com Sucesso!");
+
+    public void onRowEdit(RowEditEvent event) {
+        complementoCon.update((Complemento) event.getObject());
+        FacesMessage message = new FacesMessage("Complemento id:", ((Complemento) event.getObject()).getComplementoId() + " Alterado com Sucesso!");
         FacesContext.getCurrentInstance().addMessage(null, message);
+        init();
     }
-    
-    public void onRowCancel(RowEditEvent event){
+
+    public void onRowCancel(RowEditEvent event) {
         FacesMessage message = new FacesMessage("Nenhum dado foi alterado!");
         FacesContext.getCurrentInstance().addMessage(null, message);
-    
+
     }
-    
-    public void onRowDelet(Complemento complemento){
-        FacesMessage message = new FacesMessage(complemento.getPalavra()+" foi removido");
+
+    public void onRowDelet(Complemento complemento) {
+        FacesMessage message = new FacesMessage(complemento.getPalavra() + " foi removido");
         FacesContext.getCurrentInstance().addMessage(null, message);
         complementoCon.remove(complemento);
+        init();
     }
-    
-    public void onNewComplemento(){
+
+    public void onNewComplemento() {
         this.complementoFile = new Complemento();
     }
-    
-    public void gravar(){
-          if(file != null){
-            if(file.getSize() != 0){
+
+    public void gravar() {
+        if (file != null) {
+            if (file.getSize() != 0) {
                 fileUpload();
             }
-            complementoCon.save(complementoFile);
-          }
+        }
+        complementoCon.save(complementoFile);
+        init();
+
     }
-    
-    public void fileUpload(){ 
+
+    public void fileUpload() {
         complementoFile.setUrl(removerAcentos(file.getFileName()));
-        FacesMessage msg = new FacesMessage("Enviado! ", file.getFileName() + " foi salvo com sucesso!.");  
-        FacesContext.getCurrentInstance().addMessage(null, msg);      
+        FacesMessage msg = new FacesMessage("Enviado! ", file.getFileName() + " foi salvo com sucesso!.");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
         try {
             copyFile(complementoFile.getUrl(), file.getInputstream());
         } catch (IOException e) {
         }
- 
-    }  
-    
+
+    }
+
     public List<Complemento> getComplementoList() {
         return complementoList;
     }
@@ -116,6 +121,5 @@ public class ComplementoController implements Serializable{
     public void setComplementoListFiltred(List<Complemento> complementoListFiltred) {
         this.complementoListFiltred = complementoListFiltred;
     }
-    
-    
+
 }

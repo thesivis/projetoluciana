@@ -132,7 +132,7 @@ $(document).ready(function () {
      * Evendo que é disparado quando o navegador retorna erro das imagens não 
      * encontradas, substituindo as src por uma imagem padrão de erro.
      */
-    $('img').error(function () {
-        $(this).attr("src", "img/erro.png");
-    });
+//    $('img').error(function () {
+//        $(this).attr("src", "img/erro.png");
+//    });
 });

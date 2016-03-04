@@ -25,7 +25,7 @@
                 </p:panelGrid>
                 <p:toolbar>
                     <p:toolbarGroup>
-                        <p:commandButton value="Gravar" onclick="PF('cadastro').hidden()" update="@all"  ajax="true" action="#{complementoController.gravar()}"/>
+                        <p:commandButton value="Gravar" oncomplete="PF('cadastro').hidden()" update=":#{p:component('tab')} @form"  ajax="true" action="#{complementoController.gravar()}"/>
                         <p:commandButton type="reset" value="Limpar formulario"/>
                     </p:toolbarGroup>
                 </p:toolbar>
@@ -44,7 +44,8 @@
                         <h:outputText value="#{list.complementoId}"/>
                     </p:column>
                     <p:column headerText="Figura" priority="2">
-                        <h:graphicImage value="#{principalController.path}#{list.url}" width="50" height="50"/>
+                        <h:graphicImage value="#{principalController.path}#{list.url}" width="50" height="50" rendered="#{list.url != null}"/>
+                        <h:graphicImage value="img/erro.png" width="50"  height="50" rendered="#{list.url == null}"/>
                     </p:column>
                     <p:column headerText="Palavra">
                         <h:outputText value="#{list.palavra}"/>

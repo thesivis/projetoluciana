@@ -26,60 +26,65 @@ import org.primefaces.model.UploadedFile;
  */
 @ViewScoped
 @ManagedBean
-public class VerboController implements Serializable{
+public class VerboController implements Serializable {
+
     private List<Verbo> verboList;
     private List<Verbo> verboListFiltred;
     private final VerboDaoImp verboCon = new VerboDaoImp();
     private UploadedFile file;
     private Verbo verboFile = new Verbo();
-     
+
     @PostConstruct
-    public void init(){
+    public void init() {
         verboList = verboCon.list();
     }
-    
-    public void onRowEdit(RowEditEvent event){
-        verboCon.update((Verbo)event.getObject());
-        FacesMessage message = new FacesMessage("Verbo id:",((Verbo)event.getObject()).getVerboId() + " Alterado com Sucesso!");
+
+    public void onRowEdit(RowEditEvent event) {
+        verboCon.update((Verbo) event.getObject());
+        FacesMessage message = new FacesMessage("Verbo id:", ((Verbo) event.getObject()).getVerboId() + " Alterado com Sucesso!");
         FacesContext.getCurrentInstance().addMessage(null, message);
+        init();
     }
-    
-    public void onRowCancel(RowEditEvent event){
+
+    public void onRowCancel(RowEditEvent event) {
         FacesMessage message = new FacesMessage("Nenhum dado foi alterado!");
         FacesContext.getCurrentInstance().addMessage(null, message);
-    
+
     }
-    
-    public void onRowDelet(Verbo verbo){
-        FacesMessage message = new FacesMessage(verbo.getPalavra()+" foi removido");
+
+    public void onRowDelet(Verbo verbo) {
+        FacesMessage message = new FacesMessage(verbo.getPalavra() + " foi removido");
         FacesContext.getCurrentInstance().addMessage(null, message);
         verboCon.remove(verbo);
+        init();
     }
-    
-    public void onNewVerbo(){
+
+    public void onNewVerbo() {
         this.verboFile = new Verbo();
     }
-    
-    public void gravar(){
-         if(file != null){
-            if(file.getSize() != 0){
+
+    public void gravar() {
+        if (file != null) {
+            if (file.getSize() != 0) {
                 fileUpload();
             }
-        verboCon.save(verboFile);
         }
+        verboCon.save(verboFile);
+        init();
+
     }
-    
-    public void fileUpload(){ 
+
+    public void fileUpload() {
         verboFile.setUrl(removerAcentos(file.getFileName()));
-        FacesMessage msg = new FacesMessage("Enviado! ", file.getFileName() + " foi salvo com sucesso!.");  
-        FacesContext.getCurrentInstance().addMessage(null, msg);      
+        FacesMessage msg = new FacesMessage("Enviado! ", file.getFileName() + " foi salvo com sucesso!.");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
         try {
             copyFile(verboFile.getUrl(), file.getInputstream());
         } catch (IOException e) {
         }
- 
-    }  
-    
+
+    }
+
     public List<Verbo> getVerboList() {
         return verboList;
     }
@@ -111,6 +116,5 @@ public class VerboController implements Serializable{
     public void setVerboListFiltred(List<Verbo> verboListFiltred) {
         this.verboListFiltred = verboListFiltred;
     }
-    
-    
+
 }

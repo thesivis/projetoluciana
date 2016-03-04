@@ -95,7 +95,7 @@ public class CadastroPacienteController implements Serializable {
             }
             ActiveUserController.userActive.getComplementos().addAll(complementoListAd);
         }
-        pastaComunicacaoDao.save(ActiveUserController.userActive);
+//        pastaComunicacaoDao.save(ActiveUserController.userActive);
         this.add = false;
     }
 

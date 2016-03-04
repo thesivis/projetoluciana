@@ -8,7 +8,6 @@ package br.com.ufmt.fata.ent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import org.hibernate.annotations.IndexColumn;
 
 /**
  *
@@ -38,14 +38,16 @@ public class PastaDeComunicacao implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "pastaSujeito",
             joinColumns = @JoinColumn(name = "pastaComunicacaoId"),
-            inverseJoinColumns = @JoinColumn(name = "sujeitoId"))
+            inverseJoinColumns = @JoinColumn(name = "sujeitoid"))
     private List<Sujeito> sujeitos;
     @ManyToMany(fetch = FetchType.EAGER ,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @IndexColumn(name = "verboid")
     @JoinTable(name = "pastaVerbo",
             joinColumns = @JoinColumn(name = "pastaComunicacaoId"),
             inverseJoinColumns = @JoinColumn(name = "verboId"))
     private List<Verbo> verbos;
     @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @IndexColumn(name = "complementoid")
     @JoinTable(name = "pastaComplemento",
             joinColumns = @JoinColumn(name = "pastaComunicacaoId"),
             inverseJoinColumns = @JoinColumn(name = "complementoId"))
