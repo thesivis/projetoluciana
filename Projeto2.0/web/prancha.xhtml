@@ -13,7 +13,7 @@ and open the template in the editor.
     <ui:composition template="/template.xhtml">
         <ui:define name="content">
             <p:fieldset id="painel-frase" style="float: left;width: 50%" rendered="#{not empty activeUserController.userActive}">
-                <p:panelGrid columns="4" layout="grid">
+                <p:panelGrid columns="4" layout="grid" style="ui-noborder">
                     <p:fieldset>
                         <p:panelGrid columns="1" rendered="#{not empty principalController.selectSujeito}">
                             <p:graphicImage  value="#{principalController.path}#{principalController.selectSujeito.url}" width="100%"/>
@@ -85,7 +85,7 @@ and open the template in the editor.
                                     <p:graphicImage value="img/Play.png" width="16%"/>
                                     <p:graphicImage value="img/Limpar.png" width="16%"/>
                                     <p:graphicImage value="img/Sair.png" width="16%"/>
-                               </div>
+                                </div>
                             <c:forEach end="#{activeUserController.userActive.complementos.size()/5}" varStatus="count" >
                                 <div>
                                     <c:forEach begin="#{(count.index)*5}" end="#{(count.index)*5+4}" var="comp" items="#{activeUserController.userActive.complementos}">

@@ -16,30 +16,29 @@ and open the template in the editor.
             
             <!-- Tabela que exibe pacientes cadastrados-->
             <h:form id="tabela">
+                <p:toolbar>
+                    <p:toolbarGroup>
+                        <p:commandButton value="Novo" action="#{cadastroPacienteController.onNewPasta()}" oncomplete="window.location.href = 'cadastroPaciente.xhtml'"/>
+                    </p:toolbarGroup>
+                </p:toolbar>
                 <p:growl id="messages" showDetail="true"/>
                 <p:messages autoUpdate="true"/>
                 <p:dataTable  id="tab" var="list" style="text-align: center" value="#{pastaComunicacaoController.list}"   rows="5">
-                    <f:facet name="header">
-                        <p:commandLink>
-                            <p:ajax listener="#{cadastroPacienteController.onNewPasta()}" oncomplete="window.location.replace('/Projeto2.0/faces/cadastroPaciente.xhtml')"/>
-                            <h:graphicImage  value="img/adduser.png" width="50" height="50"/>
-                        </p:commandLink>
-                    </f:facet>
-                    <p:column headerText="id" style="width: 42px" >
+                    <p:column headerText="id" style="width: 42px" priority="5" >
                         <h:outputText value="#{list.pastaComunicacaoId}"/>
                     </p:column>
-                    <p:column headerText="Img"  width="50">
+                    <p:column headerText="Img"  width="50" priority="2">
                         <p:graphicImage url="#{principalController.path}#{list.fotoUrl}" width="50" height="50" style="margin: 0 auto"/>
                     </p:column>
                     <p:column headerText="Nome" filterBy="#{list.nome}" filterMatchMode="contains">
                         <h:outputText value="#{list.nome}"/>   
                     </p:column>
-                    <p:column headerText="DataNasc" filterBy="#{list.dataNasc}" filterMatchMode="contains">
+                    <p:column headerText="DataNasc" filterBy="#{list.dataNasc}" filterMatchMode="contains" priority="4">
                         <h:outputText value="#{list.dataNasc}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>   
                     </p:column>
-                    <p:column headerText="Sexo" filterBy="#{list.sexo}" filterMatchMode="contains">
+                    <p:column headerText="Sexo" filterBy="#{list.sexo}" filterMatchMode="contains" priority="4">
                         <h:outputText value="#{list.sexo}"/>   
                     </p:column>  
                     <p:column  headerText="Página" style="width: 32px ; font-size:  10px">

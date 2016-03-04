@@ -24,8 +24,8 @@ import org.primefaces.model.UploadedFile;
  *
  * @author vicentejr
  */
-@ManagedBean
 @ViewScoped
+@ManagedBean
 public class CadastroPacienteController implements Serializable {
 
     private final PastaDeComunicacaoDaoImp pastaComunicacaoDao;
@@ -57,7 +57,7 @@ public class CadastroPacienteController implements Serializable {
     }
     
        public void gravar() {
-        if (file.getSize() != 0) {
+        if (file != null && file.getSize() != 0) {
             fileUpload();
         } else if (ActiveUserController.userActive.getFotoUrl() == null) {
             ActiveUserController.userActive.setFotoUrl("user.png");

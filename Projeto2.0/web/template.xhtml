@@ -14,42 +14,31 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link rel="shortcut icon" href="img/icon.jpg"/> 
-    </h:head>
+        <link rel="stylesheet" href="css/layout.css"/>
+      </h:head>
     <style>
         .ui-layout-north .ui-layout-unit-content {
             overflow: visible !important;
         }    
+        .panelColumns td {
+            vertical-align: top;
+        }
         
     </style>
     <h:body>
-        <p:layout fullPage="true">
-                 
-            <p:layoutUnit position="center" gutter="0">
-                <ui:insert name="content" />
-            </p:layoutUnit> 
-            
-            <p:layoutUnit position="north" style="overflow: visible;vertical-align: central">
-                <h:form>
-                    <p:menubar style="vertical-align: central">
-                        <p:menuitem value="Início" url="/faces/index.xhtml" icon="ui-icon-home"/>
-                        <p:menuitem value="Prancha" url="/faces/prancha.xhtml" icon="ui-icon-clipboard"/>
-                        <p:submenu label="Cadastro" icon="ui-icon-pencil">
-                            <p:menuitem  value="Sujeito" url="/faces/tabelaSuj.xhtml"/>
-                            <p:menuitem  value="Verbo" url="/faces/tabelaVerb.xhtml"/>
-                            <p:menuitem  value="Complemento" url="/faces/tabelaComp.xhtml"/>
-                        </p:submenu>
-                        <p:menuitem  value="Pacientes" url="/faces/pastaComunicacao.xhtml" icon="ui-icon-person"/>
-                        <p:menuitem  value="Contato" url="/faces/contatos.xhtml" icon="ui-icon-mail-closed"/>
-                        <f:facet name="options">
-                            <p:graphicImage  value="#{principalController.path}#{activeUserController.userActive.fotoUrl}" width="25"/>
-                            <h:outputText value=" #{activeUserController.userActive.nome}"/>
-                        </f:facet>
-                    </p:menubar>
-                </h:form>
-            </p:layoutUnit>
-       
-            
-        </p:layout>
-        <script src="js/script.js"/>
+        <div style="padding: 2px"> 
+            <header class="north-back"> <ui:include src="Menubar.xhtml"/></header>
+            <div class="ui-grid ui-grid-responsive">
+<!--                <aside class="ui-grid-col-2">
+                    <ui:include src="Menuleft.xhtml"/>
+                </aside> -->
+
+                <div class="ui-grid-col-12" style="float: right">
+                    <ui:insert name="content"/>
+                </div>
+            </div>
+
+            <script src="js/script.js"/>
+        </div> 
     </h:body>
 </html>

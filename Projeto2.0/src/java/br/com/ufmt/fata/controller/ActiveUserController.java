@@ -13,6 +13,7 @@ import br.com.ufmt.fata.ent.Verbo;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import org.primefaces.model.UploadedFile;
 
 /**
  *
@@ -23,6 +24,7 @@ import javax.faces.bean.SessionScoped;
 public class ActiveUserController implements Serializable {
     
     protected static boolean novaPasta;
+    protected static UploadedFile file;
     protected static PastaDeComunicacao userActive;
     private final PastaDeComunicacaoDaoImp comunicacaoDaoImp;
 
@@ -66,6 +68,7 @@ public class ActiveUserController implements Serializable {
     }
     
     public void onExit(){
+        System.out.println("Saiu");
         userActive = null;
     }
 
@@ -75,6 +78,14 @@ public class ActiveUserController implements Serializable {
 
     public void setUserActive(PastaDeComunicacao userActive) {
         ActiveUserController.userActive = userActive;
+    }
+
+    public UploadedFile getFile() {
+        return file;
+    }
+
+    public void setFile(UploadedFile file) {
+        this.file = file;
     }
 
 }
