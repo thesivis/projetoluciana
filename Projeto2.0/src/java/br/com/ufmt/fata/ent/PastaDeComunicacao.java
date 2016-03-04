@@ -17,7 +17,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import org.hibernate.annotations.IndexColumn;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 /**
  *
@@ -25,6 +26,7 @@ import org.hibernate.annotations.IndexColumn;
  */
 @Entity
 public class PastaDeComunicacao implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,21 +35,21 @@ public class PastaDeComunicacao implements Serializable {
     private String dataNasc;
     private String sexo;
     private String fotoUrl;
-    
-    
-    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "pastaSujeito",
             joinColumns = @JoinColumn(name = "pastaComunicacaoId"),
-            inverseJoinColumns = @JoinColumn(name = "sujeitoid"))
+            inverseJoinColumns = @JoinColumn(name = "sujeitoId"))
     private List<Sujeito> sujeitos;
-    @ManyToMany(fetch = FetchType.EAGER ,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @IndexColumn(name = "verboid")
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "pastaVerbo",
             joinColumns = @JoinColumn(name = "pastaComunicacaoId"),
             inverseJoinColumns = @JoinColumn(name = "verboId"))
     private List<Verbo> verbos;
-    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @IndexColumn(name = "complementoid")
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "pastaComplemento",
             joinColumns = @JoinColumn(name = "pastaComunicacaoId"),
             inverseJoinColumns = @JoinColumn(name = "complementoId"))
@@ -147,5 +149,5 @@ public class PastaDeComunicacao implements Serializable {
     public void setFotoUrl(String fotoUrl) {
         this.fotoUrl = fotoUrl;
     }
-    
+
 }

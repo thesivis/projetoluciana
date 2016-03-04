@@ -23,7 +23,7 @@ and open the template in the editor.
                 </p:toolbar>
                 <p:growl id="messages" showDetail="true"/>
                 <p:messages autoUpdate="true"/>
-                <p:dataTable  id="tab" var="list" style="text-align: center" value="#{pastaComunicacaoController.list}"   rows="5">
+                <p:dataTable  id="tab" var="list" style="text-align: center" value="#{pastaComunicacaoController.list}"  paginator="true"  rows="5">
                     <p:column headerText="id" style="width: 42px" priority="5" >
                         <h:outputText value="#{list.pastaComunicacaoId}"/>
                     </p:column>
