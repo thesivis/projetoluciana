@@ -23,11 +23,8 @@ and open the template in the editor.
                 </p:toolbar>
                 <p:growl id="messages" showDetail="true"/>
                 <p:messages autoUpdate="true"/>
-                <p:dataTable  id="tab" var="list" style="text-align: center" value="#{pastaComunicacaoController.list}"  paginator="true"  rows="5">
-                    <p:column headerText="id" style="width: 42px" priority="5" >
-                        <h:outputText value="#{list.pastaComunicacaoId}"/>
-                    </p:column>
-                    <p:column headerText="Img"  width="50" priority="2">
+                <p:dataTable  id="tab" widgetVar="tabComu" var="list" style="text-align: center" value="#{pastaComunicacaoController.list}" filteredValue="#{pastaComunicacaoController.pastaListFiltred}"  paginator="true"  rows="5">
+                   <p:column headerText="Img"  width="50" priority="2">
                         <p:graphicImage url="#{principalController.path}#{list.fotoUrl}" width="50" height="50" style="margin: 0 auto"/>
                     </p:column>
                     <p:column headerText="Nome" filterBy="#{list.nome}" filterMatchMode="contains">
@@ -38,7 +35,14 @@ and open the template in the editor.
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>   
                     </p:column>
-                    <p:column headerText="Sexo" filterBy="#{list.sexo}" filterMatchMode="contains" priority="4">
+                    <p:column headerText="Sexo" filterBy="#{list.sexo}" filterMatchMode="exact" priority="4">
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('tabComu').filter()" >
+                                <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                                <f:selectItem itemLabel="Feminino" itemValue="F"/>
+                            </p:selectOneMenu>
+                        </f:facet>
                         <h:outputText value="#{list.sexo}"/>   
                     </p:column>  
                     <p:column  headerText="Página" style="width: 32px ; font-size:  10px">
