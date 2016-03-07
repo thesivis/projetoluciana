@@ -20,6 +20,7 @@ import javax.faces.bean.ManagedBean;
 public class PastaComunicacaoController implements Serializable {
 
     private List<PastaDeComunicacao> list;
+    private List<PastaDeComunicacao> pastaListFiltred;
     private PastaDeComunicacaoDaoImp pastaComunicacaoDao;
 
     public PastaComunicacaoController() {
@@ -43,4 +44,13 @@ public class PastaComunicacaoController implements Serializable {
     public void setList(List<PastaDeComunicacao> list) {
         this.list = list;
     }
+
+    public List<PastaDeComunicacao> getPastaListFiltred() {
+        return pastaListFiltred;
+    }
+
+    public void setPastaListFiltred(List<PastaDeComunicacao> pastaListFiltred) {
+        this.pastaListFiltred = pastaListFiltred;
+    }
+    
 }
