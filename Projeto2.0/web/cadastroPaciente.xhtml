@@ -6,7 +6,7 @@
                     xmlns:p="http://primefaces.org/ui" template="/template.xhtml">
         <ui:define name="content">
             <h:form id="formulario" enctype="multipart/form-data"  acceptcharset="iso-8859-1,utf-8">
-                <p:wizard nextLabel="Próximo">
+                <p:wizard nextLabel="Próximo" backLabel="Voltar">
                     <p:tab title="Pessoal">
                         <p:panel header="Pessoal">
                             <p:panelGrid columns="1" columnClasses="label, value">
@@ -28,9 +28,9 @@
                     <p:tab title="Sujeito">
                         <p:panel header="Sujeito">
                             <p:panelGrid columns="2">
-
-                                <f:facet name="footer">
-                                    <p:commandButton rendered="#{not empty activeUserController.userActive.nome}" icon="ui-icon-arrow-1-s" action="#{cadastroPacienteController.onClickAdicionar()}" update="#{p:component('sujAct')}"/>
+                                <f:facet name="header">
+                                    <p:commandButton rendered="#{not empty activeUserController.userActive.nome}" icon="ui-icon-plus" value="Adicionar" action="#{cadastroPacienteController.onClickAdicionar()}" update="#{p:component('sujAct')}"/>
+                                    <h:outputText  value="Sujeitos Cadastrados"/>
                                 </f:facet>
 
                                 <p:dataGrid value="#{sujeitoController.sujeitoList}" var="suj" columns="5" rows="12" paginator="true" layout="grid" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -48,11 +48,9 @@
 
                             </p:panelGrid>
                             <p:panelGrid id="sujAct" columns="1" rendered="#{not empty activeUserController.userActive.nome}">
-                                <f:facet name="header">
+                                <f:facet name="header">   
+                                    <p:commandButton icon="ui-icon-minus" value="Remover" action="#{cadastroPacienteController.onClickRemover()}" update="#{p:component('sujAct')}"/>
                                     <h:outputText  value="Sujeitos utilizados por #{activeUserController.userActive.nome}  "/>
-                                </f:facet>
-                                <f:facet name="footer" >    
-                                    <p:commandButton icon="ui-icon-trash" action="#{cadastroPacienteController.onClickRemover()}" update="#{p:component('sujAct')}"/>
                                 </f:facet>
                                 <p:dataGrid value="#{activeUserController.userActive.sujeitos}" var="suj"  columns="5" rows="12" paginator="true" layout="grid" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                     rowsPerPageTemplate="6,12,16">
