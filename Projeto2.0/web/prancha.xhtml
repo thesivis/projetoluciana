@@ -62,6 +62,11 @@ and open the template in the editor.
                         </h:panelGroup>
                         
                         <h:panelGroup id="verbo" class="painel" rendered="#{not empty activeUserController.userActive.verbos}">
+                            <div>
+                                <p:graphicImage value="img/Play.png" width="16%"/>
+                                <p:graphicImage value="img/Limpar.png" width="16%"/>
+                                <p:graphicImage value="img/Sair.png" width="16%"/>
+                            </div>
                             <c:forEach end="#{activeUserController.userActive.verbos.size()/5}" varStatus="count" >
                                 <div>
                                     <c:forEach begin="#{(count.index)*5}" end="#{(count.index)*5+4}" var="verb" items="#{activeUserController.userActive.verbos}">

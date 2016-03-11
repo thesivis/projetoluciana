@@ -105,17 +105,29 @@ $(document).ready(function () {
         } else{
             if($("#col").val() > 0 && $("#col").val() <= $($images).children().size()){
                 clearInterval(timeCol)
-                if (sec == 3) {
+                if (sec == 1) {
                     if($("#row").val() == 1){
                         if($("#col").val() == 2){
                             window.location.reload();
                         }else if($("#col").val() == 3){
                             window.location.replace("/Projeto2.0/faces/index.xhtml");
                         }
+                    }else{
+                        sec ++;
                     }
-                    sec = 3;
                 }else{
-                    sec++;
+                    if (sec == 3) {
+                        if($("#row").val() == 1){
+                            if($("#col").val() == 2){
+                                window.location.reload();
+                            }else if($("#col").val() == 3){
+                                window.location.replace("/Projeto2.0/faces/index.xhtml");
+                            }
+                        }
+                        sec = 3;
+                    }else{
+                        sec++;
+                    }
                 }
                 init();
             }

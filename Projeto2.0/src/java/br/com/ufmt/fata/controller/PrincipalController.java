@@ -160,14 +160,34 @@ public class PrincipalController implements Serializable {
         System.err.println("row:" + this.row + " col:" + this.col);
         if (this.row != 0 && this.col != 0) {
             int position = (this.row - 1) * 5 + this.col-1 ;
-            System.out.println("Position: "+position);
-            System.out.println("Imagem Selecionada");
             if (selectSujeito == null && position < sujeitoList.size()) {
                 this.selectSujeito = ActiveUserController.userActive.getSujeitos().get(position);
                 System.out.println(this.selectSujeito.getPalavra());
-            } else if (selectVerbo == null && position < verboList.size()) {
-                this.selectVerbo = ActiveUserController.userActive.getVerbos().get(position);
-                System.out.println(this.selectVerbo.getPalavra());
+            }else if (selectVerbo == null) {
+                System.out.println("Verbos row:"+this.row);
+                if (this.row == 1) {
+                    if (this.col == 1) {
+                        System.out.println("Falar");
+                        falar();
+                    }else if(this.col == 2){
+                        System.out.println("Limpar");
+                    }else{
+                        System.out.println("Sair");
+                    }
+                } else{
+
+                    /**
+                     * O calculo da posição é realizado novamente levando em
+                     * conta uma nova linha que possui funçõe a serem executadas
+                     * no sistema de varredura.
+                     */
+                    position = (this.row - 2) * 5 + this.col - 1;
+                    System.out.println("new position: "+position);
+                    this.selectVerbo = ActiveUserController.userActive.getVerbos().get(position); 
+                    System.out.println("Posição: "+position+" Max: "+ActiveUserController.userActive.getVerbos().size());
+                    System.out.println("Verb: "+ActiveUserController.userActive.getVerbos().get(position).getPalavra());
+                    
+                }
             } else if (selectTempo == null && position < tempoList.size()) {
                 this.selectTempo = tempoList.get(position);
                 System.out.println(this.selectTempo);
@@ -196,7 +216,6 @@ public class PrincipalController implements Serializable {
                 }
             }
         }
-        System.err.println("Imagem não Selecionada");
     }
 
     /**
@@ -206,35 +225,37 @@ public class PrincipalController implements Serializable {
      */
     public String frase() {
         String fraseFala = selectSujeito.getPalavra();
-        if ("Primeira".equals(selectSujeito.getPronome())) {
-            if ("Passado".equals(this.selectTempo)) {
-                fraseFala = fraseFala + " " + this.selectVerbo.getPasprimpessoa();
-            }
-            if ("Presente".equals(this.selectTempo)) {
-                fraseFala = fraseFala + " " + this.selectVerbo.getPreprimpessoa();
-            }
-            if ("Futuro".equals(this.selectTempo)) {
-                fraseFala = fraseFala + " " + this.selectVerbo.getFutprimpessoa();
-            }
-        } else if ("Segunda".equals(selectSujeito.getPronome())) {
-            if ("Passado".equals(this.selectTempo)) {
-                fraseFala = fraseFala + " " + this.selectVerbo.getPassegpessoa();
-            }
-            if ("Presente".equals(this.selectTempo)) {
-                fraseFala = fraseFala + " " + this.selectVerbo.getPresegpessoa();
-            }
-            if ("Futuro".equals(this.selectTempo)) {
-                fraseFala = fraseFala + " " + this.selectVerbo.getFutsegpessoa();
-            }
-        } else {
-            if ("Passado".equals(this.selectTempo)) {
-                fraseFala = fraseFala + " " + this.selectVerbo.getPastercpessoa();
-            }
-            if ("Presente".equals(this.selectTempo)) {
-                fraseFala = fraseFala + " " + this.selectVerbo.getPretercpessoa();
-            }
-            if ("Futuro".equals(this.selectTempo)) {
-                fraseFala = fraseFala + " " + this.selectVerbo.getFuttercpessoa();
+        if(selectVerbo != null){
+            if ("Primeira".equals(selectSujeito.getPronome())) {
+                if ("Passado".equals(this.selectTempo)) {
+                    fraseFala = fraseFala + " " + this.selectVerbo.getPasprimpessoa();
+                }
+                if ("Presente".equals(this.selectTempo)) {
+                    fraseFala = fraseFala + " " + this.selectVerbo.getPreprimpessoa();
+                }
+                if ("Futuro".equals(this.selectTempo)) {
+                    fraseFala = fraseFala + " " + this.selectVerbo.getFutprimpessoa();
+                }
+            } else if ("Segunda".equals(selectSujeito.getPronome())) {
+                if ("Passado".equals(this.selectTempo)) {
+                    fraseFala = fraseFala + " " + this.selectVerbo.getPassegpessoa();
+                }
+                if ("Presente".equals(this.selectTempo)) {
+                    fraseFala = fraseFala + " " + this.selectVerbo.getPresegpessoa();
+                }
+                if ("Futuro".equals(this.selectTempo)) {
+                    fraseFala = fraseFala + " " + this.selectVerbo.getFutsegpessoa();
+                }
+            } else {
+                if ("Passado".equals(this.selectTempo)) {
+                    fraseFala = fraseFala + " " + this.selectVerbo.getPastercpessoa();
+                }
+                if ("Presente".equals(this.selectTempo)) {
+                    fraseFala = fraseFala + " " + this.selectVerbo.getPretercpessoa();
+                }
+                if ("Futuro".equals(this.selectTempo)) {
+                    fraseFala = fraseFala + " " + this.selectVerbo.getFuttercpessoa();
+                }
             }
         }
         return fraseFala;
@@ -247,8 +268,8 @@ public class PrincipalController implements Serializable {
      */
     public void falar() {
         try {
-            if (selectSujeito != null && selectVerbo != null && selectTempo != null) {
-                StrTextToSpeech = frase();
+            if (selectSujeito != null) {
+                    StrTextToSpeech = frase();
                 if (selectComplemento.size() > 0) {
                     for (int i = 0; i < selectComplemento.size(); i++) {
                         StrTextToSpeech += " " + selectComplemento.get(i).getPalavra();
