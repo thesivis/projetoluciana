@@ -35,6 +35,7 @@ public class PastaDeComunicacao implements Serializable {
     private String dataNasc;
     private String sexo;
     private String fotoUrl;
+    private int velocidadeVoz;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @Fetch(FetchMode.SUBSELECT)
@@ -150,4 +151,11 @@ public class PastaDeComunicacao implements Serializable {
         this.fotoUrl = fotoUrl;
     }
 
+    public int getVelocidadeVoz() {
+        return velocidadeVoz;
+    }
+
+    public void setVelocidadeVoz(int velocidadeVoz) {
+        this.velocidadeVoz = velocidadeVoz;
+    }
 }
