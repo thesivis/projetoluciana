@@ -117,7 +117,7 @@ public class PrincipalController implements Serializable {
      * @param sound Ojeto <b>InputStream</b> do audio.
      */
     public void fileUpload(String nomeArq, InputStream sound) {
-        copyFile(nomeArq + ".mp3", sound);
+        copyFile(nomeArq +"VEL"+ActiveUserController.userActive.getVelocidadeVoz()+".mp3", sound);
     }
 
     /**
@@ -276,11 +276,13 @@ public class PrincipalController implements Serializable {
                     }
 
                 }
-                if (!ArquivoController.existeArquivo(StrTextToSpeech + ".mp3")) {
+                
+                if (!ArquivoController.existeArquivo(StrTextToSpeech+"VEL"+ActiveUserController.userActive.getVelocidadeVoz()+".mp3")) {
                     System.out.println(StrTextToSpeech);
+                    sv.setSpeed(ActiveUserController.userActive.getVelocidadeVoz()*2/100.0);
                     fileUpload(StrTextToSpeech, sv.getMP3Data(StrTextToSpeech));
                 } else {
-                    System.out.println(StrTextToSpeech + " Já existe!");
+                    System.out.println(StrTextToSpeech+"VEL"+ActiveUserController.userActive.getVelocidadeVoz()+" Já existe!");
                 }
 
             }

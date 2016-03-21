@@ -42,7 +42,7 @@ and open the template in the editor.
                     </c:forEach>
                 </p:panelGrid>
                 <p:fieldset style="visibility: hidden" rendered="#{not empty principalController.selectVerbo and (not empty activeUserController.userActive)}">
-                    <audio controls="" src="#{principalController.path}#{principalController.textToSpeech}.mp3" autoplay="true" style="width: 10px;" ></audio>
+                    <audio controls="" src="#{principalController.path}#{principalController.textToSpeech}VEL#{activeUserController.userActive.velocidadeVoz}.mp3" autoplay="true" style="width: 10px;" ></audio>
                 </p:fieldset>
             </p:fieldset>
             <p:fieldset id="center" rendered="#{not empty activeUserController.userActive}">
