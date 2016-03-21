@@ -6,11 +6,11 @@
                     xmlns:p="http://primefaces.org/ui" template="/template.xhtml">
         <ui:define name="content">
             <h:form id="formulario" enctype="multipart/form-data"  acceptcharset="iso-8859-1,utf-8">
+                <br/>
                 <p:wizard nextLabel="Próximo" backLabel="Voltar">
                     <p:tab title="Pessoal">
                         <p:panel header="Pessoal">
-                            <p:panelGrid columns="1" columnClasses="label, value">
-                                
+                            <p:panelGrid columns="1" columnClasses="label, value" layout="grid">
                                 <p:panelGrid id="grid" columns="2" style="margin: auto;border: none !important">
                                     <h:outputText value="Nome"/>
                                     <p:inputText id="nome" value="#{activeUserController.userActive.nome}"/>
@@ -21,16 +21,21 @@
                                         <f:selectItem itemLabel="Masculino" itemValue="M"/>
                                         <f:selectItem itemLabel="Feminino" itemValue="F"/>
                                     </p:selectOneRadio>
+                                    <h:outputText id="out" value="Veocidade da fala: #{activeUserController.userActive.velocidadeVoz}"/>
+                                    <p:slider for="vel" step="1" display="out" displayTemplate="Veocidade da fala: {value}"/>
+                                    <h:inputHidden id="vel" value="#{activeUserController.userActive.velocidadeVoz}"/>
                                 </p:panelGrid>
                             </p:panelGrid>
                         </p:panel>
                     </p:tab>
                     <p:tab title="Sujeito">
                         <p:panel header="Sujeito">
-                            <p:panelGrid columns="2">
+                            <div class="ui-grid-col-12" style="padding: 10px; background: rgba(228, 16, 16, 0.32);">
+                                <h:outputText  value="Sujeitos Cadastrados"/>
+                            </div>
+                            <p:panelGrid columns="1" layout="grid">
                                 <f:facet name="header">
                                     <p:commandButton rendered="#{not empty activeUserController.userActive.nome}" icon="ui-icon-plus" value="Adicionar" action="#{cadastroPacienteController.onClickAdicionar()}" update="#{p:component('sujAct')}"/>
-                                    <h:outputText  value="Sujeitos Cadastrados"/>
                                 </f:facet>
 
                                 <p:dataGrid value="#{sujeitoController.sujeitoList}" var="suj" columns="5" rows="12" paginator="true" layout="grid" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -38,26 +43,26 @@
                                     <p:panel header="#{suj.palavra}" style=" text-align: center">
                                         <p:panelGrid columns="1" style="width: 100%">
                                             <p:graphicImage value="#{principalController.path}#{suj.url}" width="100%" style="max-width: 100px"/>
-                                            <h:outputText value="#{suj.palavra}"/>
                                             <p:selectBooleanCheckbox value="#{cadastroPacienteController.add}">
                                                 <p:ajax listener="#{cadastroPacienteController.onAddSuj(suj)}"/>
                                             </p:selectBooleanCheckbox>
                                         </p:panelGrid>
                                     </p:panel>
                                 </p:dataGrid>
-
                             </p:panelGrid>
-                            <p:panelGrid id="sujAct" columns="1" rendered="#{not empty activeUserController.userActive.nome}">
+                            <br/>
+                            <div class="ui-grid-col-12" style="padding: 10px; background: rgba(16, 228, 42, 0.32);">
+                                <h:outputText  value="Sujeitos utilizados por #{activeUserController.userActive.nome}  "/>
+                            </div>
+                            <p:panelGrid layout="grid" id="sujAct" columns="1" rendered="#{not empty activeUserController.userActive.nome}">
                                 <f:facet name="header">   
                                     <p:commandButton icon="ui-icon-minus" value="Remover" action="#{cadastroPacienteController.onClickRemover()}" update="#{p:component('sujAct')}"/>
-                                    <h:outputText  value="Sujeitos utilizados por #{activeUserController.userActive.nome}  "/>
                                 </f:facet>
                                 <p:dataGrid value="#{activeUserController.userActive.sujeitos}" var="suj"  columns="5" rows="12" paginator="true" layout="grid" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                     rowsPerPageTemplate="6,12,16">
                                     <p:panel header="#{suj.palavra}" style=" text-align: center">
                                         <p:panelGrid columns="1" style="width: 100%;">
                                             <p:graphicImage value="#{principalController.path}#{suj.url}"  width="100%" style="max-width: 100px"/>
-                                            <h:outputText value="#{suj.palavra}"/>
                                             <p:selectBooleanCheckbox value="#{cadastroPacienteController.add}">
                                                 <f:ajax listener="#{cadastroPacienteController.onRemSuj(suj)}"/>
                                             </p:selectBooleanCheckbox>
@@ -69,40 +74,47 @@
                     </p:tab>
                     <p:tab title="Verbo">
                         <p:panel header="Verbo">
-                            <p:panelGrid columns="2">
+                            <div class="ui-grid-col-12" style="padding: 10px; background: rgba(228, 16, 16, 0.32);">
+                                <h:outputText  value="Verbos Cadastrados"/>
+                            </div>
+                            <p:panelGrid columns="1" layout="grid">
                                 <f:facet name="header">
                                     <p:commandButton rendered="#{not empty activeUserController.userActive.nome}" action="#{cadastroPacienteController.onClickAdicionar()}" icon="ui-icon-plus" value="Adicionar" update="#{p:component('verbAct')}"/>
-                                    <h:outputText  value="Verbos Cadastrados"/>
                                 </f:facet>
-                                <p:dataGrid value="#{verboController.verboList}"  var="verb" columns="5" layout="grid">
+                                <p:dataGrid value="#{verboController.verboList}"  var="verb" columns="5" rows="12" paginator="true" layout="grid" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                    rowsPerPageTemplate="6,12,16">
                                     <p:panel>
                                         <f:facet name="header">
-                                            <p:selectBooleanCheckbox value="#{cadastroPacienteController.add}">
-                                                <f:ajax listener="#{cadastroPacienteController.onAddVerb(verb)}"/>
-                                            </p:selectBooleanCheckbox>
                                             <h:outputText value="#{verb.palavra}"/>
                                         </f:facet>
                                         <h:panelGrid columns="1" style="width: 100%;text-align: center">
-                                            <p:graphicImage value="#{principalController.path}#{verb.url}" width="50"/> 
+                                            <p:graphicImage value="#{principalController.path}#{verb.url}" width="100%" style="max-width: 100px"/> 
+                                            <p:selectBooleanCheckbox value="#{cadastroPacienteController.add}">
+                                                <f:ajax listener="#{cadastroPacienteController.onAddVerb(verb)}"/>
+                                            </p:selectBooleanCheckbox>
                                         </h:panelGrid>
                                     </p:panel>
                                 </p:dataGrid>
                             </p:panelGrid>
-                            <p:panelGrid columns="2" id="verbAct" rendered="#{not empty activeUserController.userActive.nome}">
+                            <br/>
+                            <div class="ui-grid-col-12" style="padding: 10px; background: rgba(16, 228, 42, 0.32);">
+                                <h:outputText  value="Verbos utilizador por #{activeUserController.userActive.nome}"/>
+                            </div>
+                            <p:panelGrid layout="grid" columns="1" id="verbAct" rendered="#{not empty activeUserController.userActive.nome}">
                                 <f:facet name="header">
                                     <p:commandButton icon="ui-icon-minus" value="Remover" action="#{cadastroPacienteController.onClickRemover()}" update="#{p:component('verbAct')}"/>
-                                    <h:outputText  value="Verbos utilizador por #{activeUserController.userActive.nome}"/>
                                 </f:facet>
-                                <p:dataGrid value="#{activeUserController.userActive.verbos}"  var="verb" columns="5" layout="grid">
+                                <p:dataGrid value="#{activeUserController.userActive.verbos}"  var="verb" columns="5" rows="12" paginator="true" layout="grid" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                    rowsPerPageTemplate="6,12,16">
                                     <p:panel>
                                         <f:facet name="header">
-                                            <p:selectBooleanCheckbox value="#{cadastroPacienteController.add}">
-                                                <f:ajax listener="#{cadastroPacienteController.onRemVerb(verb)}"/>
-                                            </p:selectBooleanCheckbox>
                                             <h:outputText value="#{verb.palavra}"/>
                                         </f:facet>
                                         <h:panelGrid columns="1" style="width: 100%;text-align: center">
-                                            <p:graphicImage value="#{principalController.path}#{verb.url}" width="50"/>
+                                            <p:graphicImage value="#{principalController.path}#{verb.url}" width="100%" style="max-width: 100px"/>
+                                            <p:selectBooleanCheckbox value="#{cadastroPacienteController.add}">
+                                                <f:ajax listener="#{cadastroPacienteController.onRemVerb(verb)}"/>
+                                            </p:selectBooleanCheckbox>
                                         </h:panelGrid>
                                     </p:panel>
                                 </p:dataGrid>
@@ -110,42 +122,48 @@
                         </p:panel>
                     </p:tab>
                     <p:tab title="Complemento">
-                        <h:outputText value="#{cadastroPacienteController.file.fileName}"/>
                         <p:panel header="Complemento">
-                            <p:panelGrid columns="2">
+                            <div class="ui-grid-col-12" style="padding: 10px; background: rgba(228, 16, 16, 0.32);">
+                                <h:outputText value="Complementos cadastrados"/>
+                            </div>
+                            <p:panelGrid columns="1" layout="grid">
                                 <f:facet name="header">
                                     <p:commandButton rendered="#{not empty activeUserController.userActive.nome}" value="Adicionar" icon="ui-icon-plus" action="#{cadastroPacienteController.onClickAdicionar()}" update="#{p:component('compAct')}"/>
-                                    <h:outputText value="Complementos cadastrados"/>
                                 </f:facet>
-                                <p:dataGrid value="#{complementoController.complementoList}" var="comp" columns="5" layout="grid">
+                                <p:dataGrid value="#{complementoController.complementoList}" var="comp" columns="5" rows="12" paginator="true" layout="grid" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                    rowsPerPageTemplate="6,12,16">
                                     <p:panel>
                                         <f:facet name="header">
-                                            <p:selectBooleanCheckbox value="#{cadastroPacienteController.add}">
-                                                <f:ajax listener="#{cadastroPacienteController.onAddComp(comp)}"/>
-                                            </p:selectBooleanCheckbox>
                                             <h:outputText value=" #{comp.palavra}"/>
                                         </f:facet>
                                         <h:panelGrid columns="1" style="width: 100%;text-align: center">
-                                            <p:graphicImage value="#{principalController.path}#{comp.url}" width="50"/>
+                                            <p:graphicImage value="#{principalController.path}#{comp.url}" width="100%" style="max-width: 100px"/>
+                                            <p:selectBooleanCheckbox value="#{cadastroPacienteController.add}">
+                                                <f:ajax listener="#{cadastroPacienteController.onAddComp(comp)}"/>
+                                            </p:selectBooleanCheckbox>
                                         </h:panelGrid>
                                     </p:panel>
                                 </p:dataGrid>
                             </p:panelGrid>
-                            <p:panelGrid  id="compAct" columns="2" rendered="#{not empty activeUserController.userActive.nome}">
+                            <br/>
+                            <div class="ui-grid-col-12" style="padding: 10px; background: rgba(16, 228, 42, 0.32);">
+                                <h:outputText value="Complementos utilizados por #{activeUserController.userActive.nome}"/>
+                            </div>
+                            <p:panelGrid layout="grid"  id="compAct" columns="1" rendered="#{not empty activeUserController.userActive.nome}">
                                 <f:facet name="header">
                                     <p:commandButton  value="Remover" icon="ui-icon-minus" action="#{cadastroPacienteController.onClickRemover()}" update="#{p:component('compAct')}"/>
-                                    <h:outputText value="Complementos utilizados por #{activeUserController.userActive.nome}"/>
                                 </f:facet>
-                                <p:dataGrid value="#{activeUserController.userActive.complementos}"  var="comp" columns="5" layout="grid">
+                                <p:dataGrid value="#{activeUserController.userActive.complementos}"  var="comp" columns="5" rows="12" paginator="true" layout="grid" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                    rowsPerPageTemplate="6,12,16">
                                     <p:panel>
                                         <f:facet name="header">
-                                            <p:selectBooleanCheckbox value="#{cadastroPacienteController.add}">
-                                                <f:ajax listener="#{cadastroPacienteController.onRemComp(comp)}"/>
-                                            </p:selectBooleanCheckbox>
                                             <h:outputText value="#{comp.palavra}"/>
                                         </f:facet>
                                         <h:panelGrid columns="1" style="width: 100%;text-align: center">
-                                            <p:graphicImage value="#{principalController.path}#{comp.url}" width="50"/>
+                                            <p:graphicImage value="#{principalController.path}#{comp.url}" width="100%" style="max-width: 100px"/>
+                                            <p:selectBooleanCheckbox value="#{cadastroPacienteController.add}">
+                                                <f:ajax listener="#{cadastroPacienteController.onRemComp(comp)}"/>
+                                            </p:selectBooleanCheckbox>
                                         </h:panelGrid>
                                     </p:panel>
                                 </p:dataGrid>
@@ -154,10 +172,14 @@
                     </p:tab>
                     <p:tab title="Imagem / Confirmação">
                         <p:panel header="Confirmação">
-                            <p:panelGrid columns="1">
+                            <p:panelGrid columns="1" layout="grid" style="text-align: center">
                                 <h:graphicImage rendered="#{not empty activeUserController.userActive.fotoUrl}" value="#{principalController.path}#{activeUserController.userActive.fotoUrl}" width="100" height="120"/>
                                 <h:graphicImage rendered="#{empty activeUserController.userActive.fotoUrl}" value="img/user.png" width="100" height="120"/>
                                 <p:fileUpload label="Selecionar" mode="simple" skinSimple="true" value="#{cadastroPacienteController.file}"  required="true" allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/" invalidFileMessage="Formato invalido"/>
+                                <h:outputText value="#{activeUserController.userActive.nome}"/>
+                                <h:outputText value="#{activeUserController.userActive.sexo}"/>
+                                <h:outputText value="#{activeUserController.userActive.dataNasc}"/>
+                                <h:outputText value="#{activeUserController.userActive.velocidadeVoz}"/>
                             </p:panelGrid>
                             <h:outputText value="deseja salvar novo paciente?"/><br/>
                             <p:commandButton id="saveForm" action="#{cadastroPacienteController.gravar()}" value="Salvar" update="@all"  ajax="false"/>
