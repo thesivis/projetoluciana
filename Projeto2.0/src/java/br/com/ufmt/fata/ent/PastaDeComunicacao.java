@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -35,7 +36,10 @@ public class PastaDeComunicacao implements Serializable {
     private String dataNasc;
     private String sexo;
     private String fotoUrl;
+    @Column(nullable = false, columnDefinition = "not null default 50")
     private int velocidadeVoz;
+    @Column(nullable = false, columnDefinition = "not null default 50")
+    private int velocidadeSelecao;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @Fetch(FetchMode.SUBSELECT)
@@ -158,4 +162,13 @@ public class PastaDeComunicacao implements Serializable {
     public void setVelocidadeVoz(int velocidadeVoz) {
         this.velocidadeVoz = velocidadeVoz;
     }
+
+    public int getVelocidadeSelecao() {
+        return velocidadeSelecao;
+    }
+
+    public void setVelocidadeSelecao(int velocidadeSelecao) {
+        this.velocidadeSelecao = velocidadeSelecao;
+    }
+    
 }

@@ -48,12 +48,15 @@ public class CadastroPacienteController implements Serializable {
         this.complementoListAd = new ArrayList<>();
         this.verboListAd = new ArrayList<>();
         this.sujeitoListAd = new ArrayList<>();
-
+        
     }
 
     public void onNewPasta() {
         ActiveUserController.userActive = new PastaDeComunicacao();
         ActiveUserController.novaPasta = true;
+        //Valor padrão para uma velocidade normal da API.
+        ActiveUserController.userActive.setVelocidadeVoz(50);
+        ActiveUserController.userActive.setVelocidadeSelecao(50);
     }
 
     public String gravar() {

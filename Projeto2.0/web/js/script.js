@@ -68,7 +68,7 @@ $(document).ready(function () {
                 $($rows[row - 1]).css("border", "solid 4px rgba(255,200,0,0.8)");
                 row++;
             }
-        }, 1500);
+        }, $('#velocidade').val()*20);
     }
     
     /**
@@ -88,7 +88,7 @@ $(document).ready(function () {
                 $($cols[col - 1]).css("border", "solid 4px rgba(0,0,200,0.8)");
                 col++;
             }
-        }, 1500);
+        }, $('#velocidade').val()*20);
     }
 
     /**

@@ -50,6 +50,7 @@ and open the template in the editor.
                     <p:commandLink action="#{principalController.onClickPage()}" update=":#{p:component('painel-frase')}">
                         <h:inputHidden id="row" value="#{principalController.row}"  immediate="true"/>
                         <h:inputHidden id="col" value="#{principalController.col}"  immediate="true"/>
+                        <h:inputHidden rendered="#{not empty activeUserController.userActive}" id="velocidade" value="#{activeUserController.userActive.velocidadeSelecao}" immediate="true"/>
                         
                         <h:panelGroup id="sujeito" class="painel" rendered="#{not empty activeUserController.userActive.sujeitos}">
                             <c:forEach end="#{activeUserController.userActive.sujeitos.size()/5}" varStatus="count" >

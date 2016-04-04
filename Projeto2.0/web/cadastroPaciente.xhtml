@@ -21,9 +21,15 @@
                                         <f:selectItem itemLabel="Masculino" itemValue="M"/>
                                         <f:selectItem itemLabel="Feminino" itemValue="F"/>
                                     </p:selectOneRadio>
-                                    <h:outputText id="out" value="Veocidade da fala: #{activeUserController.userActive.velocidadeVoz}"/>
-                                    <p:slider for="vel" step="1" display="out" displayTemplate="Veocidade da fala: {value}"/>
+                                    
+                                    <h:outputText id="out" value="Velocidade da fala: #{activeUserController.userActive.velocidadeVoz}"/>
+                                    <p:slider for="vel" step="1" display="out" displayTemplate="Velocidade da fala: {value}"/>
+                                    
+                                    <h:outputText id="outs" value="Velocidade de Seleção: #{activeUserController.userActive.velocidadeSelecao}"/>
+                                    <p:slider for="sel" step="1" display="outs" displayTemplate="Velocidade da Seleção: {value}"/>
+                                    
                                     <h:inputHidden id="vel" value="#{activeUserController.userActive.velocidadeVoz}"/>
+                                    <h:inputHidden id="sel" value="#{activeUserController.userActive.velocidadeSelecao}"/>
                                 </p:panelGrid>
                             </p:panelGrid>
                         </p:panel>
@@ -181,7 +187,7 @@
                                 <h:outputText value="#{activeUserController.userActive.dataNasc}"/>
                                 <h:outputText value="#{activeUserController.userActive.velocidadeVoz}"/>
                             </p:panelGrid>
-                            <h:outputText value="deseja salvar novo paciente?"/><br/>
+                            <h:outputText value="Deseja salvar novo paciente?"/><br/>
                             <p:commandButton id="saveForm" action="#{cadastroPacienteController.gravar()}" value="Salvar" update="@all"  ajax="false"/>
                             <p:commandButton  value="Cancelar" onclick="window.location.replace('/Projeto2.0/faces/pastaComunicacao.xhtml')"/>
                         </p:panel>
