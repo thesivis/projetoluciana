@@ -6,8 +6,8 @@
     <h:form>
 <!--                <h:link><i class="fa  fa-fw  fa-home"></i>Dashboard</h:link>-->
         <f:facet name="options">
-            <p:graphicImage  value="#{principalController.path}#{activeUserController.userActive.fotoUrl}" width="25"/>
-            <h:outputText value=" #{activeUserController.userActive.nome}"/>
+            <p:graphicImage  value="#{principalController.path}#{principalController.activeUserController.userActive.fotoUrl}" width="25"/>
+            <h:outputText value=" #{principalController.activeUserController.userActive.nome}"/>
         </f:facet>
         <p:panelMenu style="width: 100%">
             <p:submenu label="Cadastro de Palavras" expanded="true">

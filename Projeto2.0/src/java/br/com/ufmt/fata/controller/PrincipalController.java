@@ -24,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
@@ -69,6 +70,9 @@ public class PrincipalController implements Serializable {
 
     //Frase que será montada
     private String StrTextToSpeech;
+    
+    @ManagedProperty(value="#{activeUserController}")
+    private ActiveUserController activeUserController;
 
     static {
         FATA_DIR = System.getenv("FATA_DIR");
@@ -92,6 +96,7 @@ public class PrincipalController implements Serializable {
         this.complementoController = new ComplementoDaoImp();
         this.tempoList = new ArrayList();
         this.listaPronome = new ArrayList<>();
+        this.activeUserController = new ActiveUserController();
     }
 
     public String getFataDir() {
@@ -108,6 +113,22 @@ public class PrincipalController implements Serializable {
         tempoList.add("Presente");
         tempoList.add("Futuro");
     }
+    
+    public void onClickSelecionar(){
+        try {
+            if(activeUserController.userActive != null){
+                FacesContext.getCurrentInstance().getExternalContext().redirect("faces/prancha.xhtml");
+                System.out.println("Usuário já ativo");
+            }else{
+                FacesContext.getCurrentInstance().getExternalContext().redirect("faces/pastaComunicacao.xhtml");
+                System.out.println("Usuário não ativo");
+            }
+
+        } catch (IOException ex) {
+            Logger.getLogger(PastaComunicacaoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+ 
+    }
 
     /**
      * Método para criar arquivo de um objeto InpurStream e salvar em formato de
@@ -117,7 +138,7 @@ public class PrincipalController implements Serializable {
      * @param sound Ojeto <b>InputStream</b> do audio.
      */
     public void fileUpload(String nomeArq, InputStream sound) {
-        copyFile(nomeArq +"VEL"+ActiveUserController.userActive.getVelocidadeVoz()+".mp3", sound);
+        copyFile(nomeArq +"VEL"+activeUserController.userActive.getVelocidadeVoz()+".mp3", sound);
     }
 
     /**
@@ -161,7 +182,7 @@ public class PrincipalController implements Serializable {
         if (this.row != 0 && this.col != 0) {
             int position = (this.row - 1) * 5 + this.col-1 ;
             if (selectSujeito == null && position < sujeitoList.size()) {
-                this.selectSujeito = ActiveUserController.userActive.getSujeitos().get(position);
+                this.selectSujeito = activeUserController.userActive.getSujeitos().get(position);
                 System.out.println(this.selectSujeito.getPalavra());
             }else if (selectVerbo == null) {
                 System.out.println("Verbos row:"+this.row);
@@ -183,9 +204,9 @@ public class PrincipalController implements Serializable {
                      */
                     position = (this.row - 2) * 5 + this.col - 1;
                     System.out.println("new position: "+position);
-                    this.selectVerbo = ActiveUserController.userActive.getVerbos().get(position); 
-                    System.out.println("Posição: "+position+" Max: "+ActiveUserController.userActive.getVerbos().size());
-                    System.out.println("Verb: "+ActiveUserController.userActive.getVerbos().get(position).getPalavra());
+                    this.selectVerbo = activeUserController.userActive.getVerbos().get(position); 
+                    System.out.println("Posição: "+position+" Max: "+activeUserController.userActive.getVerbos().size());
+                    System.out.println("Verb: "+activeUserController.userActive.getVerbos().get(position).getPalavra());
                     
                 }
             } else if (selectTempo == null && position < tempoList.size()) {
@@ -209,9 +230,9 @@ public class PrincipalController implements Serializable {
                      * no sistema de varredura.
                      */
                     position = (this.row - 2) * 5 + this.col - 1;
-                    System.out.println("Posição: "+position+" Max: "+ActiveUserController.userActive.getComplementos().size());
-                    System.out.println("Comp: "+ActiveUserController.userActive.getComplementos().get(position).getPalavra());
-                    this.selectComplemento.add(ActiveUserController.userActive.getComplementos().get(position));
+                    System.out.println("Posição: "+position+" Max: "+activeUserController.userActive.getComplementos().size());
+                    System.out.println("Comp: "+activeUserController.userActive.getComplementos().get(position).getPalavra());
+                    this.selectComplemento.add(activeUserController.userActive.getComplementos().get(position));
                     
                 }
             }
@@ -277,12 +298,12 @@ public class PrincipalController implements Serializable {
 
                 }
                 
-                if (!ArquivoController.existeArquivo(StrTextToSpeech+"VEL"+ActiveUserController.userActive.getVelocidadeVoz()+".mp3")) {
+                if (!ArquivoController.existeArquivo(StrTextToSpeech+"VEL"+activeUserController.userActive.getVelocidadeVoz()+".mp3")) {
                     System.out.println(StrTextToSpeech);
-                    sv.setSpeed(ActiveUserController.userActive.getVelocidadeVoz()*2/100.0);
+                    sv.setSpeed(activeUserController.userActive.getVelocidadeVoz()*2/100.0);
                     fileUpload(StrTextToSpeech, sv.getMP3Data(StrTextToSpeech));
                 } else {
-                    System.out.println(StrTextToSpeech+"VEL"+ActiveUserController.userActive.getVelocidadeVoz()+" Já existe!");
+                    System.out.println(StrTextToSpeech+"VEL"+activeUserController.userActive.getVelocidadeVoz()+" Já existe!");
                 }
 
             }
@@ -411,4 +432,12 @@ public class PrincipalController implements Serializable {
         this.col = col;
     }
 
+    public ActiveUserController getActiveUserController() {
+        return activeUserController;
+    }
+
+    public void setActiveUserController(ActiveUserController activeUserController) {
+        this.activeUserController = activeUserController;
+    }
+    
 }

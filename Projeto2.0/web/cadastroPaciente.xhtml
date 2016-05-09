@@ -13,25 +13,28 @@
                             <p:panelGrid columns="1" columnClasses="label, value" layout="grid">
                                 <p:panelGrid id="grid" columns="2" style="margin: auto;border: none !important">
                                     <h:outputText value="Nome"/>
-                                    <p:inputText id="nome" value="#{activeUserController.userActive.nome}"/>
+                                    <p:inputText id="nome" value="#{cadastroPacienteController.activeUserController.userActive.nome}"/>
                                     <h:outputText value="Data Nascimento"/>
-                                    <p:inputMask mask="99/99/9999" value="#{activeUserController.userActive.dataNasc}"/>
+                                    <p:inputMask mask="99/99/9999" value="#{cadastroPacienteController.activeUserController.userActive.dataNasc}"/>
                                     <h:outputText value="Sexo:"/>
-                                    <p:selectOneRadio value="#{activeUserController.userActive.sexo}" required="true">
+                                    <p:selectOneRadio value="#{cadastroPacienteController.activeUserController.userActive.sexo}" required="true">
                                         <f:selectItem itemLabel="Masculino" itemValue="M"/>
                                         <f:selectItem itemLabel="Feminino" itemValue="F"/>
                                     </p:selectOneRadio>
                                     
-                                    <h:outputText id="out" value="Velocidade da fala: #{activeUserController.userActive.velocidadeVoz}"/>
+                                    <h:outputText id="out" value="Velocidade da fala: #{cadastroPacienteController.activeUserController.userActive.velocidadeVoz}"/>
                                     <p:slider for="vel" step="1" display="out" displayTemplate="Velocidade da fala: {value}"/>
                                     
-                                    <h:outputText id="outs" value="Velocidade de Seleção: #{activeUserController.userActive.velocidadeSelecao}"/>
+                                    <h:outputText id="outs" value="Velocidade de Seleção: #{cadastroPacienteController.activeUserController.userActive.velocidadeSelecao}"/>
                                     <p:slider for="sel" step="1" display="outs" displayTemplate="Velocidade da Seleção: {value}"/>
                                     
-                                    <h:inputHidden id="vel" value="#{activeUserController.userActive.velocidadeVoz}"/>
-                                    <h:inputHidden id="sel" value="#{activeUserController.userActive.velocidadeSelecao}"/>
+                                    <h:inputHidden id="vel" value="#{cadastroPacienteController.activeUserController.userActive.velocidadeVoz}"/>
+                                    <h:inputHidden id="sel" value="#{cadastroPacienteController.activeUserController.userActive.velocidadeSelecao}"/>
                                 </p:panelGrid>
                             </p:panelGrid>
+                            <f:facet name="footer">
+                                <p:commandButton action="#{cadastroPacienteController.gravar()}" value="Salvar" update="@all"  ajax="false"/>
+                            </f:facet>
                         </p:panel>
                     </p:tab>
                     <p:tab title="Sujeito">
@@ -41,7 +44,7 @@
                             </div>
                             <p:panelGrid columns="1" layout="grid">
                                 <f:facet name="header">
-                                    <p:commandButton rendered="#{not empty activeUserController.userActive.nome}" icon="ui-icon-plus" value="Adicionar" action="#{cadastroPacienteController.onClickAdicionar()}" update="#{p:component('sujAct')}"/>
+                                    <p:commandButton rendered="#{not empty cadastroPacienteController.activeUserController.userActive.nome}" icon="ui-icon-plus" value="Adicionar" action="#{cadastroPacienteController.onClickAdicionar()}" update="#{p:component('sujAct')}"/>
                                 </f:facet>
 
                                 <p:dataGrid value="#{sujeitoController.sujeitoList}" var="suj" columns="5" rows="12" paginator="true" layout="grid" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -58,13 +61,13 @@
                             </p:panelGrid>
                             <br/>
                             <div class="ui-grid-col-12" style="padding: 10px; background: rgba(16, 228, 42, 0.32);">
-                                <h:outputText  value="Sujeitos utilizados por #{activeUserController.userActive.nome}  "/>
+                                <h:outputText  value="Sujeitos utilizados por #{cadastroPacienteController.activeUserController.userActive.nome}  "/>
                             </div>
-                            <p:panelGrid layout="grid" id="sujAct" columns="1" rendered="#{not empty activeUserController.userActive.nome}">
+                            <p:panelGrid layout="grid" id="sujAct" columns="1" rendered="#{not empty cadastroPacienteController.activeUserController.userActive.nome}">
                                 <f:facet name="header">   
                                     <p:commandButton icon="ui-icon-minus" value="Remover" action="#{cadastroPacienteController.onClickRemover()}" update="#{p:component('sujAct')}"/>
                                 </f:facet>
-                                <p:dataGrid value="#{activeUserController.userActive.sujeitos}" var="suj"  columns="5" rows="12" paginator="true" layout="grid" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                <p:dataGrid value="#{cadastroPacienteController.activeUserController.userActive.sujeitos}" var="suj"  columns="5" rows="12" paginator="true" layout="grid" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                     rowsPerPageTemplate="6,12,16">
                                     <p:panel header="#{suj.palavra}" style=" text-align: center">
                                         <p:panelGrid columns="1" style="width: 100%;">
@@ -85,7 +88,7 @@
                             </div>
                             <p:panelGrid columns="1" layout="grid">
                                 <f:facet name="header">
-                                    <p:commandButton rendered="#{not empty activeUserController.userActive.nome}" action="#{cadastroPacienteController.onClickAdicionar()}" icon="ui-icon-plus" value="Adicionar" update="#{p:component('verbAct')}"/>
+                                    <p:commandButton rendered="#{not empty cadastroPacienteController.activeUserController.userActive.nome}" action="#{cadastroPacienteController.onClickAdicionar()}" icon="ui-icon-plus" value="Adicionar" update="#{p:component('verbAct')}"/>
                                 </f:facet>
                                 <p:dataGrid value="#{verboController.verboList}"  var="verb" columns="5" rows="12" paginator="true" layout="grid" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                     rowsPerPageTemplate="6,12,16">
@@ -104,13 +107,13 @@
                             </p:panelGrid>
                             <br/>
                             <div class="ui-grid-col-12" style="padding: 10px; background: rgba(16, 228, 42, 0.32);">
-                                <h:outputText  value="Verbos utilizador por #{activeUserController.userActive.nome}"/>
+                                <h:outputText  value="Verbos utilizador por #{cadastroPacienteController.activeUserController.userActive.nome}"/>
                             </div>
-                            <p:panelGrid layout="grid" columns="1" id="verbAct" rendered="#{not empty activeUserController.userActive.nome}">
+                            <p:panelGrid layout="grid" columns="1" id="verbAct" rendered="#{not empty cadastroPacienteController.activeUserController.userActive.nome}">
                                 <f:facet name="header">
                                     <p:commandButton icon="ui-icon-minus" value="Remover" action="#{cadastroPacienteController.onClickRemover()}" update="#{p:component('verbAct')}"/>
                                 </f:facet>
-                                <p:dataGrid value="#{activeUserController.userActive.verbos}"  var="verb" columns="5" rows="12" paginator="true" layout="grid" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                <p:dataGrid value="#{cadastroPacienteController.activeUserController.userActive.verbos}"  var="verb" columns="5" rows="12" paginator="true" layout="grid" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                     rowsPerPageTemplate="6,12,16">
                                     <p:panel>
                                         <f:facet name="header">
@@ -134,7 +137,7 @@
                             </div>
                             <p:panelGrid columns="1" layout="grid">
                                 <f:facet name="header">
-                                    <p:commandButton rendered="#{not empty activeUserController.userActive.nome}" value="Adicionar" icon="ui-icon-plus" action="#{cadastroPacienteController.onClickAdicionar()}" update="#{p:component('compAct')}"/>
+                                    <p:commandButton rendered="#{not empty cadastroPacienteController.activeUserController.userActive.nome}" value="Adicionar" icon="ui-icon-plus" action="#{cadastroPacienteController.onClickAdicionar()}" update="#{p:component('compAct')}"/>
                                 </f:facet>
                                 <p:dataGrid value="#{complementoController.complementoList}" var="comp" columns="5" rows="12" paginator="true" layout="grid" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                     rowsPerPageTemplate="6,12,16">
@@ -153,13 +156,13 @@
                             </p:panelGrid>
                             <br/>
                             <div class="ui-grid-col-12" style="padding: 10px; background: rgba(16, 228, 42, 0.32);">
-                                <h:outputText value="Complementos utilizados por #{activeUserController.userActive.nome}"/>
+                                <h:outputText value="Complementos utilizados por #{cadastroPacienteController.activeUserController.userActive.nome}"/>
                             </div>
-                            <p:panelGrid layout="grid"  id="compAct" columns="1" rendered="#{not empty activeUserController.userActive.nome}">
+                            <p:panelGrid layout="grid"  id="compAct" columns="1" rendered="#{not empty cadastroPacienteController.activeUserController.userActive.nome}">
                                 <f:facet name="header">
                                     <p:commandButton  value="Remover" icon="ui-icon-minus" action="#{cadastroPacienteController.onClickRemover()}" update="#{p:component('compAct')}"/>
                                 </f:facet>
-                                <p:dataGrid value="#{activeUserController.userActive.complementos}"  var="comp" columns="5" rows="12" paginator="true" layout="grid" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                <p:dataGrid value="#{cadastroPacienteController.activeUserController.userActive.complementos}"  var="comp" columns="5" rows="12" paginator="true" layout="grid" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                     rowsPerPageTemplate="6,12,16">
                                     <p:panel>
                                         <f:facet name="header">
@@ -179,13 +182,13 @@
                     <p:tab title="Imagem / Confirmação">
                         <p:panel header="Confirmação">
                             <p:panelGrid columns="1" layout="grid" style="text-align: center">
-                                <h:graphicImage rendered="#{not empty activeUserController.userActive.fotoUrl}" value="#{principalController.path}#{activeUserController.userActive.fotoUrl}" width="100" height="120"/>
-                                <h:graphicImage rendered="#{empty activeUserController.userActive.fotoUrl}" value="img/user.png" width="100" height="120"/>
+                                <h:graphicImage rendered="#{not empty cadastroPacienteController.activeUserController.userActive.fotoUrl}" value="#{principalController.path}#{cadastroPacienteController.activeUserController.userActive.fotoUrl}" width="100" height="120"/>
+                                <h:graphicImage rendered="#{empty cadastroPacienteController.activeUserController.userActive.fotoUrl}" value="img/user.png" width="100" height="120"/>
                                 <p:fileUpload label="Selecionar" mode="simple" skinSimple="true" value="#{cadastroPacienteController.file}"  required="true" allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/" invalidFileMessage="Formato invalido"/>
-                                <h:outputText value="#{activeUserController.userActive.nome}"/>
-                                <h:outputText value="#{activeUserController.userActive.sexo}"/>
-                                <h:outputText value="#{activeUserController.userActive.dataNasc}"/>
-                                <h:outputText value="#{activeUserController.userActive.velocidadeVoz}"/>
+                                <h:outputText value="#{cadastroPacienteController.activeUserController.userActive.nome}"/>
+                                <h:outputText value="#{cadastroPacienteController.activeUserController.userActive.sexo}"/>
+                                <h:outputText value="#{cadastroPacienteController.activeUserController.userActive.dataNasc}"/>
+                                <h:outputText value="#{cadastroPacienteController.activeUserController.userActive.velocidadeVoz}"/>
                             </p:panelGrid>
                             <h:outputText value="Deseja salvar novo paciente?"/><br/>
                             <p:commandButton id="saveForm" action="#{cadastroPacienteController.gravar()}" value="Salvar" update="@all"  ajax="false"/>

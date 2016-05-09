@@ -23,17 +23,20 @@ import org.primefaces.model.UploadedFile;
 @SessionScoped
 public class ActiveUserController implements Serializable {
     
-    protected static boolean novaPasta;
-    protected static UploadedFile file;
-    protected static PastaDeComunicacao userActive;
+    protected boolean novaPasta;
+    protected UploadedFile file;
+    protected PastaDeComunicacao userActive;
     private final PastaDeComunicacaoDaoImp comunicacaoDaoImp;
 
     public ActiveUserController() {
         this.comunicacaoDaoImp = new PastaDeComunicacaoDaoImp();
-        ActiveUserController.novaPasta = false;
+        this.novaPasta = false;
+        if(userActive == null){
+            this.userActive = new PastaDeComunicacao();
+        }
     }
 
-    public static void userSelect(PastaDeComunicacao pastaSelect) {
+    public void userSelect(PastaDeComunicacao pastaSelect) {
         userActive = pastaSelect;
     }
 
@@ -77,7 +80,7 @@ public class ActiveUserController implements Serializable {
     }
 
     public void setUserActive(PastaDeComunicacao userActive) {
-        ActiveUserController.userActive = userActive;
+        this.userActive = userActive;
     }
 
     public UploadedFile getFile() {
@@ -88,4 +91,11 @@ public class ActiveUserController implements Serializable {
         this.file = file;
     }
 
+    public boolean isNovaPasta() {
+        return novaPasta;
+    }
+
+    public void setNovaPasta(boolean novaPasta) {
+        this.novaPasta = novaPasta;
+    }
 }

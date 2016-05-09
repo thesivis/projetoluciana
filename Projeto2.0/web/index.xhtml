@@ -23,16 +23,19 @@ and open the template in the editor.
         }
     </style>
     <h:body>
-        <p:panelGrid columns="1" style="text-align: center;height: 100%">
-            <h:outputText  value="Bem vindo(a)!!!"/>
-            <p:commandLink onclick="window.location.replace('/Projeto2.0/faces/pastaComunicacao.xhtml')">
-                <p:graphicImage value="img/1438827739_hand_cursor.png"/><br/>
-                <h:outputText value="Click para selecionar / criar usuário!"/>
-            </p:commandLink>
-            <h:outputText value="Esta ferramenta foi desenvolvida pelo grupo de
-                          pesquisa FATA que tem por finalidade desenvolvimento 
-                          de ferramentas interativas e personalizadas em ambiente 
-                          de fábrica de software de alta tecnologia assistiva."/>
-        </p:panelGrid>
+       
+            <p:panelGrid columns="1" style="text-align: center;height: 100%">
+                <h:outputText  value="Bem vindo(a)!!!"/>
+                 <h:form >
+                    <p:commandLink action="#{principalController.onClickSelecionar()}">
+                        <p:graphicImage value="img/1438827739_hand_cursor.png"/><br/>
+                        <h:outputText value="Click para selecionar / criar usuário!"/>
+                    </p:commandLink>
+                </h:form>
+                <h:outputText value="Esta ferramenta foi desenvolvida pelo grupo de
+                              pesquisa FATA que tem por finalidade desenvolvimento 
+                              de ferramentas interativas e personalizadas em ambiente 
+                              de fábrica de software de alta tecnologia assistiva."/>
+            </p:panelGrid>
     </h:body>
 </html>

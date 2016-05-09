@@ -16,8 +16,8 @@
             <p:menuitem  value="Pacientes" url="/faces/pastaComunicacao.xhtml" icon="ui-icon-person"/>
             <p:menuitem  value="Contato" url="/faces/contatos.xhtml" icon="ui-icon-mail-closed"/>
             <f:facet name="options">
-                <p:graphicImage  rendered="#{not empty activeUserController.userActive}"  value="#{principalController.path}#{activeUserController.userActive.fotoUrl}" width="25"/>
-                <h:outputText rendered="#{not empty activeUserController.userActive}" value=" #{activeUserController.userActive.nome}"/>
+                <p:graphicImage  rendered="#{not empty principalController.activeUserController.userActive}"  value="#{principalController.path}#{principalController.activeUserController.userActive.fotoUrl}" width="25"/>
+                <h:outputText rendered="#{not empty principalController.activeUserController.userActive}" value=" #{principalController.activeUserController.userActive.nome}"/>
             </f:facet>
         </p:menubar>
     </h:form>

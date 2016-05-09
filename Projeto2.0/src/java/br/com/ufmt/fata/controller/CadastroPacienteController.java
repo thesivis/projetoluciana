@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import org.primefaces.model.UploadedFile;
 
@@ -36,6 +37,9 @@ public class CadastroPacienteController implements Serializable {
     private List<Sujeito> sujeitoListRem;
     private List<Verbo> verboListRem;
     private List<Complemento> complementoListRem;
+    
+    @ManagedProperty(value="#{activeUserController}")
+    private ActiveUserController activeUserController;
 
     private UploadedFile file;
     private boolean add;
@@ -48,28 +52,29 @@ public class CadastroPacienteController implements Serializable {
         this.complementoListAd = new ArrayList<>();
         this.verboListAd = new ArrayList<>();
         this.sujeitoListAd = new ArrayList<>();
+        this.activeUserController = new ActiveUserController();
         
     }
 
     public void onNewPasta() {
-        ActiveUserController.userActive = new PastaDeComunicacao();
-        ActiveUserController.novaPasta = true;
+        activeUserController.userActive = new PastaDeComunicacao();
+        activeUserController.novaPasta = true;
         //Valor padrão para uma velocidade normal da API.
-        ActiveUserController.userActive.setVelocidadeVoz(50);
-        ActiveUserController.userActive.setVelocidadeSelecao(50);
+        activeUserController.userActive.setVelocidadeVoz(50);
+        activeUserController.userActive.setVelocidadeSelecao(50);
     }
 
     public String gravar() {
         if (file != null && file.getSize() != 0) {
             fileUpload();
-        } else if (ActiveUserController.userActive.getFotoUrl() == null) {
-            ActiveUserController.userActive.setFotoUrl("user.png");
+        } else if (activeUserController.userActive.getFotoUrl() == null) {
+            activeUserController.userActive.setFotoUrl("user.png");
         }
 
-        pastaComunicacaoDao.save(ActiveUserController.userActive);
-        if (ActiveUserController.novaPasta) {
+        pastaComunicacaoDao.save(activeUserController.userActive);
+        if (activeUserController.novaPasta) {
             onClickAdicionar();
-            ActiveUserController.novaPasta = false;
+            activeUserController.novaPasta = false;
         }
         return "pastaComunicacao.xhtml";
     }
@@ -79,63 +84,63 @@ public class CadastroPacienteController implements Serializable {
             //Laço para verificar se o sujeito já existe na pasta do paciente
             for (int i = 0; i < sujeitoListAd.size(); i++) {
 //                System.out.println("Add:"+sujeitoListAd.get(i).getSujeitoId());
-                if (!ActiveUserController.userActive.getSujeitos().contains(sujeitoListAd.get(i))) {
+                if (!activeUserController.userActive.getSujeitos().contains(sujeitoListAd.get(i))) {
 //                    System.out.println("remove:"+sujeitoListAd.get(i).getSujeitoId());
 //                    sujeitoListAd.remove(i);
-                    ActiveUserController.userActive.getSujeitos().add(sujeitoListAd.get(i));
+                    activeUserController.userActive.getSujeitos().add(sujeitoListAd.get(i));
                 }
             }
-//            ActiveUserController.userActive.getSujeitos().addAll(sujeitoListAd);
+//            activeUserController.userActive.getSujeitos().addAll(sujeitoListAd);
         }
 
         if (!verboListAd.isEmpty()) {
             for (int i = 0; i < verboListAd.size(); i++) {
-                if (!ActiveUserController.userActive.getVerbos().contains(verboListAd.get(i))) {
+                if (!activeUserController.userActive.getVerbos().contains(verboListAd.get(i))) {
 //                    verboListAd.remove(i);
-                    ActiveUserController.userActive.getVerbos().add(verboListAd.get(i));
+                    activeUserController.userActive.getVerbos().add(verboListAd.get(i));
                 }
             }
-//            ActiveUserController.userActive.getVerbos().addAll(verboListAd);
+//            activeUserController.userActive.getVerbos().addAll(verboListAd);
         }
         if (!complementoListAd.isEmpty()) {
             for (int i = 0; i < complementoListAd.size(); i++) {
-                if (!ActiveUserController.userActive.getComplementos().contains(complementoListAd.get(i))) {
+                if (!activeUserController.userActive.getComplementos().contains(complementoListAd.get(i))) {
 //                    complementoListAd.remove(i);
-                    ActiveUserController.userActive.getComplementos().add(complementoListAd.get(i));
+                    activeUserController.userActive.getComplementos().add(complementoListAd.get(i));
                 }
             }
-//            ActiveUserController.userActive.getComplementos().addAll(complementoListAd);
+//            activeUserController.userActive.getComplementos().addAll(complementoListAd);
         }
-//        pastaComunicacaoDao.save(ActiveUserController.userActive);
+//        pastaComunicacaoDao.save(activeUserController.userActive);
         this.add = false;
     }
 
     public void onClickRemover() {
         if (!sujeitoListRem.isEmpty()) {
             for (int i = 0; i < sujeitoListAd.size(); i++) {
-                if (ActiveUserController.userActive.getSujeitos().contains(sujeitoListAd.get(i))) {
+                if (activeUserController.userActive.getSujeitos().contains(sujeitoListAd.get(i))) {
                     sujeitoListAd.remove(i);
                 }
             }
-            ActiveUserController.userActive.getSujeitos().removeAll(sujeitoListRem);
+            activeUserController.userActive.getSujeitos().removeAll(sujeitoListRem);
         }
         if (!verboListRem.isEmpty()) {
             for (int i = 0; i < verboListAd.size(); i++) {
-                if (ActiveUserController.userActive.getVerbos().contains(verboListAd.get(i))) {
+                if (activeUserController.userActive.getVerbos().contains(verboListAd.get(i))) {
                     verboListAd.remove(i);
                 }
             }
-            ActiveUserController.userActive.getVerbos().removeAll(verboListRem);
+            activeUserController.userActive.getVerbos().removeAll(verboListRem);
         }
         if (!complementoListRem.isEmpty()) {
             for (int i = 0; i < complementoListAd.size(); i++) {
-                if (ActiveUserController.userActive.getComplementos().contains(complementoListAd.get(i))) {
+                if (activeUserController.userActive.getComplementos().contains(complementoListAd.get(i))) {
                     complementoListAd.remove(i);
                 }
             }
-            ActiveUserController.userActive.getComplementos().removeAll(complementoListRem);
+            activeUserController.userActive.getComplementos().removeAll(complementoListRem);
         }
-        pastaComunicacaoDao.save(ActiveUserController.userActive);
+        pastaComunicacaoDao.save(activeUserController.userActive);
         this.add = false;
     }
 
@@ -195,9 +200,9 @@ public class CadastroPacienteController implements Serializable {
     }
 
     public void fileUpload() {
-        ActiveUserController.userActive.setFotoUrl(removerAcentos(file.getFileName()));
+        activeUserController.userActive.setFotoUrl(removerAcentos(file.getFileName()));
         try {
-            copyFile(ActiveUserController.userActive.getFotoUrl(), file.getInputstream());
+            copyFile(activeUserController.userActive.getFotoUrl(), file.getInputstream());
         } catch (IOException e) {
         }
 
@@ -267,4 +272,11 @@ public class CadastroPacienteController implements Serializable {
         this.add = add;
     }
 
+    public ActiveUserController getActiveUserController() {
+        return activeUserController;
+    }
+
+    public void setActiveUserController(ActiveUserController activeUserController) {
+        this.activeUserController = activeUserController;
+    }
 }

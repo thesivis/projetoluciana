@@ -46,16 +46,16 @@ and open the template in the editor.
                         <h:outputText value="#{list.sexo}"/>   
                     </p:column>  
                     <p:column  headerText="Página" style="width: 32px ; font-size:  10px">
-                        <p:commandButton  icon="ui-icon-triangle-1-e" actionListener="#{activeUserController.userSelect(list)}" oncomplete="window.location.href = '/Projeto2.0/faces/prancha.xhtml'"/>
+                        <p:commandButton  icon="ui-icon-triangle-1-e" actionListener="#{principalController.activeUserController.userSelect(list)}" oncomplete="window.location.href = '/Projeto2.0/faces/prancha.xhtml'"/>
                     </p:column>
                      <p:column headerText="Editar" style="width: 32px;  font-size: 10px">
                          <p:commandButton icon="ui-icon-pencil" oncomplete="window.location.replace('/Projeto2.0/faces/cadastroPaciente.xhtml')">
-                             <f:setPropertyActionListener value="#{list}" target="#{activeUserController.userActive}"/>
+                             <f:setPropertyActionListener value="#{list}" target="#{principalController.activeUserController.userActive}"/>
                          </p:commandButton>
                     </p:column>
                     <p:column headerText="Excluir" style="width: 32px ; font-size:  10px">
                         <p:commandButton  icon="ui-icon-trash" >
-                            <p:ajax listener="#{activeUserController.userSelect(null)}"/>
+                            <p:ajax listener="#{principalController.activeUserController.userSelect(null)}"/>
                             <p:ajax listener="#{pastaComunicacaoController.onRowDelete(list)}"  update="#{p:component('tabela')}"/>
                         </p:commandButton>
                     </p:column>

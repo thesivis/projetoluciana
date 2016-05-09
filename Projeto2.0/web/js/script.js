@@ -68,13 +68,13 @@ $(document).ready(function () {
                 $($rows[row - 1]).css("border", "solid 4px rgba(255,200,0,0.8)");
                 row++;
             }
-        }, $('#velocidade').val()*20);
+        }, 3000 / (1 + ($('#velocidade').val()*3/100)));
     }
     
     /**
      * 
      * @param {type} $cols  - Array de divs que representam colunas da tela de
-     *  varredura.
+     *  varredura. ( + 1)
      * @returns {undefined}
      */
     function searchCol($cols) {
@@ -88,7 +88,7 @@ $(document).ready(function () {
                 $($cols[col - 1]).css("border", "solid 4px rgba(0,0,200,0.8)");
                 col++;
             }
-        }, $('#velocidade').val()*20);
+         }, 3000 / (1 + ($('#velocidade').val()*3/100)));
     }
 
     /**

@@ -8,6 +8,7 @@ package br.com.ufmt.fata.ent;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.faces.bean.ManagedBean;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,6 +26,7 @@ import org.hibernate.annotations.FetchMode;
  *
  * @author vicentejr
  */
+@ManagedBean
 @Entity
 public class PastaDeComunicacao implements Serializable {
 
