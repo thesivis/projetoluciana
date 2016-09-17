@@ -15,28 +15,44 @@ and open the template in the editor.
             <p:fieldset id="painel-frase" style="float: left;width: 50%" rendered="#{not empty activeUserController.userActive}">
                 <p:panelGrid columns="4" layout="grid" style="ui-noborder">
                     <p:fieldset>
-                        <p:panelGrid columns="1" rendered="#{not empty principalController.selectSujeito}">
+                        <div class="ui-grid-col-12" style="padding: 10px; background: rgba(16, 228, 42, 0.32);">
+                                <h:outputText  value="SUJEITO"/>
+                        </div>
+                        <p:panelGrid columns="1" rendered="#{not empty principalController.selectSujeito}" style="text-align: center">
                             <p:graphicImage  value="#{principalController.path}#{principalController.selectSujeito.url}" width="100%"/>
                             <h:outputText value="#{principalController.selectSujeito.palavra}"/>
+                            <p:graphicImage value="img/delete-128.png" width="10" height="10"/>
                         </p:panelGrid>
                     </p:fieldset>
                     <p:fieldset>
-                        <p:panelGrid columns="1" rendered="#{not empty principalController.selectVerbo}">
+                        <div class="ui-grid-col-12" style="padding: 10px; background: rgba(16, 228, 42, 0.32);">
+                                <h:outputText  value="VERBO"/>
+                        </div>
+                        <p:panelGrid columns="1" rendered="#{not empty principalController.selectVerbo}" style="text-align: center">
                             <p:graphicImage  value="#{principalController.path}#{principalController.selectVerbo.url}" width="100%"/>
                             <h:outputText value="#{principalController.selectVerbo.palavra}"/>
+                            <p:graphicImage value="img/delete-128.png" width="10" height="10"/>
                         </p:panelGrid>
                     </p:fieldset>
                     <p:fieldset>
-                        <p:panelGrid columns="1" rendered="#{not empty principalController.selectTempo}">
+                        <div class="ui-grid-col-12" style="padding: 10px; background: rgba(16, 228, 42, 0.32);">
+                                <h:outputText  value="TEMPO"/>
+                        </div>
+                        <p:panelGrid columns="1" rendered="#{not empty principalController.selectTempo}" style="text-align: center">
                             <p:graphicImage  value="img/#{principalController.selectTempo}.png" width="100%"/>
                             <h:outputText value="#{principalController.selectTempo}"/>
+                            <p:graphicImage value="img/delete-128.png" width="10" height="10"/>
                         </p:panelGrid>
                     </p:fieldset>
-                    <c:forEach var="comp" items="#{principalController.selectComplemento}" begin="0" end="#{principalController.selectComplemento.size()-1}">
+                    <c:forEach var="comp" items="#{principalController.selectComplemento}" begin="0" end="#{principalController.selectComplemento.size()-1}" >
                         <p:fieldset>
-                            <p:panelGrid columns="1" rendered="#{not empty principalController.selectTempo}">
+                             <div class="ui-grid-col-12" style="padding: 10px; background: rgba(16, 228, 42, 0.32);">
+                                <h:outputText  value="COMP"/>
+                            </div>
+                            <p:panelGrid columns="1" rendered="#{not empty principalController.selectTempo}" style="text-align: center">
                                 <p:graphicImage width="100%" value="#{principalController.path}#{comp.url}"/>
                                 <h:outputText value="#{comp.palavra}"/>
+                                <p:graphicImage value="img/delete-128.png" width="10" height="10"/>
                             </p:panelGrid>
                         </p:fieldset>
                     </c:forEach>
@@ -64,12 +80,10 @@ and open the template in the editor.
                         </h:panelGroup>
                         
                         <h:panelGroup id="verbo" class="painel" rendered="#{not empty activeUserController.userActive.verbos}">
-                            <h:outputText value="Verbo"/>
-                            <div>
-                                <p:graphicImage value="img/Play.png" width="16%"/>
-                                <p:graphicImage value="img/Limpar.png" width="16%"/>
-                                <p:graphicImage value="img/Sair.png" width="16%"/>
+                            <div class="ui-grid-col-12" style="padding: 10px; background: rgba(16, 228, 42, 0.32);">
+                                <h:outputText  value="VERBOS"/>
                             </div>
+                            
                             <c:forEach end="#{activeUserController.userActive.verbos.size()/5}" varStatus="count" >
                                 <div>
                                     <c:forEach begin="#{(count.index)*5}" end="#{(count.index)*5+4}" var="verb" items="#{activeUserController.userActive.verbos}">
@@ -77,6 +91,14 @@ and open the template in the editor.
                                     </c:forEach>
                                 </div>
                             </c:forEach>
+                            <div class="ui-grid-col-12" style="padding: 10px; background: rgba(16, 228, 42, 0.32);">
+                                <h:outputText  value="CONTROLES"/>
+                            </div>
+                            <div style="text-align: right">
+                                <p:graphicImage value="img/Play.png" width="16%"/>
+                                <p:graphicImage value="img/Sair.png" width="16%"/>
+                                <p:graphicImage value="img/undo-512.png" width="16%"/>
+                            </div>
                         </h:panelGroup>
                         
                         <h:panelGroup id="tempo" class="painel"  >
@@ -90,12 +112,10 @@ and open the template in the editor.
                             </c:forEach>
                         </h:panelGroup>
                         <h:panelGroup id="complemento" class="painel" rendered="#{not empty activeUserController.userActive.complementos}">
-                            <h:outputText value="Complementos"/>    
-                                <div>
-                                    <p:graphicImage value="img/Play.png" width="16%"/>
-                                    <p:graphicImage value="img/Limpar.png" width="16%"/>
-                                    <p:graphicImage value="img/Sair.png" width="16%"/>
-                                </div>
+                            <div class="ui-grid-col-12" style="padding: 10px; background: rgba(16, 228, 42, 0.32);">
+                                <h:outputText  value="COMPLEMENTOS"/>
+                            </div>
+                               
                             <c:forEach end="#{activeUserController.userActive.complementos.size()/5}" varStatus="count" >
                                 <div>
                                     <c:forEach begin="#{(count.index)*5}" end="#{(count.index)*5+4}" var="comp" items="#{activeUserController.userActive.complementos}">
@@ -103,6 +123,14 @@ and open the template in the editor.
                                     </c:forEach>
                                 </div>
                             </c:forEach>
+                            <div class="ui-grid-col-12" style="padding: 10px; background: rgba(16, 228, 42, 0.32);">
+                                <h:outputText  value="CONTROLES"/>
+                            </div>
+                            <div style="text-align: right">
+                                <p:graphicImage value="img/Play.png" width="16%"/>
+                                <p:graphicImage value="img/Sair.png" width="16%"/>
+                                <p:graphicImage value="img/undo-512.png" width="16%"/>
+                            </div>
                         </h:panelGroup>
                     </p:commandLink>
                 </h:form>

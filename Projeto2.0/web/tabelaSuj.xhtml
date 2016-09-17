@@ -58,7 +58,7 @@
                         <h:graphicImage value="#{principalController.path}#{list.url}" width="50"  height="50" rendered="#{list.url != null}"/>
                         <h:graphicImage value="img/erro.png" width="50"  height="50" rendered="#{list.url == null}"/>
                     </p:column>
-                    <p:column headerText="Palavra" filterBy="#{list.palavra}">
+                    <p:column headerText="Sujeito" filterBy="#{list.palavra}">
                         <h:outputText value="#{list.palavra}"/>
                     </p:column>
 
