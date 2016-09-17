@@ -39,12 +39,16 @@ public class PrincipalController implements Serializable {
 
     //Sintetizador de Voz
     private SynthesiserV2 sv;
-    private static final String key = "AIzaSyD3dIbXBFb_Ftd3DWZEsIeGEZ7HnMrGVa0";
+    private static final String key = "AIzaSyByJC5bT6IZT2fosRQk6f_4wnnyTc3me6M";
     
     //Linha e coluna do sistema de varredura 
     private int row;
     private int col;
 
+    
+    //Frase que será montada
+    private String strTextToSpeech;
+    
     //Palavras Selecionadas
     private Sujeito selectSujeito;
     private Verbo selectVerbo;
@@ -68,8 +72,6 @@ public class PrincipalController implements Serializable {
     //Diretório do Projeto
     public static String FATA_DIR;
 
-    //Frase que será montada
-    private String StrTextToSpeech;
     
     @ManagedProperty(value="#{activeUserController}")
     private ActiveUserController activeUserController;
@@ -116,11 +118,11 @@ public class PrincipalController implements Serializable {
     
     public void onClickSelecionar(){
         try {
-            if(activeUserController.userActive != null){
-                FacesContext.getCurrentInstance().getExternalContext().redirect("faces/prancha.xhtml");
+            if(activeUserController.userActive.getNome() == null || activeUserController.userActive == null){
+                FacesContext.getCurrentInstance().getExternalContext().redirect("faces/pastaComunicacao.xhtml");
                 System.out.println("Usuário já ativo");
             }else{
-                FacesContext.getCurrentInstance().getExternalContext().redirect("faces/pastaComunicacao.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("faces/prancha.xhtml");
                 System.out.println("Usuário não ativo");
             }
 
@@ -177,7 +179,7 @@ public class PrincipalController implements Serializable {
      * palavras.
      */
     public void onClickPage() {
-        StrTextToSpeech = null;
+        strTextToSpeech = null;
         System.err.println("row:" + this.row + " col:" + this.col);
         if (this.row != 0 && this.col != 0) {
             int position = (this.row - 1) * 5 + this.col-1 ;
@@ -290,20 +292,20 @@ public class PrincipalController implements Serializable {
     public void falar() {
         try {
             if (selectSujeito != null) {
-                    StrTextToSpeech = frase();
+                    this.strTextToSpeech = frase();
                 if (selectComplemento.size() > 0) {
                     for (int i = 0; i < selectComplemento.size(); i++) {
-                        StrTextToSpeech += " " + selectComplemento.get(i).getPalavra();
+                        this.strTextToSpeech += " " + selectComplemento.get(i).getPalavra();
                     }
 
                 }
                 
-                if (!ArquivoController.existeArquivo(StrTextToSpeech+"VEL"+activeUserController.userActive.getVelocidadeVoz()+".mp3")) {
-                    System.out.println(StrTextToSpeech);
+                if (!ArquivoController.existeArquivo(this.strTextToSpeech+"VEL"+activeUserController.userActive.getVelocidadeVoz()+".mp3")) {
+                    System.out.println(this.strTextToSpeech);
                     sv.setSpeed(activeUserController.userActive.getVelocidadeVoz()*2/100.0);
-                    fileUpload(StrTextToSpeech, sv.getMP3Data(StrTextToSpeech));
+                    fileUpload(this.strTextToSpeech, sv.getMP3Data(this.strTextToSpeech));         
                 } else {
-                    System.out.println(StrTextToSpeech+"VEL"+activeUserController.userActive.getVelocidadeVoz()+" Já existe!");
+                    System.out.println(this.strTextToSpeech+"VEL"+activeUserController.userActive.getVelocidadeVoz()+" Já existe!");
                 }
 
             }
@@ -409,11 +411,11 @@ public class PrincipalController implements Serializable {
     }
 
     public String getTextToSpeech() {
-        return StrTextToSpeech;
+        return this.strTextToSpeech;
     }
 
     public void setTextToSpeech(String textToSpeech) {
-        this.StrTextToSpeech = textToSpeech;
+        this.strTextToSpeech = textToSpeech;
     }
 
     public int getRow() {
@@ -439,5 +441,5 @@ public class PrincipalController implements Serializable {
     public void setActiveUserController(ActiveUserController activeUserController) {
         this.activeUserController = activeUserController;
     }
-    
+  
 }
