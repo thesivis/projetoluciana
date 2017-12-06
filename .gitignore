@@ -202,6 +202,10 @@ dist/
 nbdist/
 .nb-gradle/
 
+# Unnecessary when using Maven
+nbproject/
+
+
 ### Windows ###
 # Windows thumbnail cache files
 Thumbs.db
