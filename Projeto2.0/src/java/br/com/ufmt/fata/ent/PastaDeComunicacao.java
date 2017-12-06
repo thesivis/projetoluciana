@@ -5,22 +5,16 @@
  */
 package br.com.ufmt.fata.ent;
 
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.faces.bean.ManagedBean;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import javax.persistence.*;
 
 /**
  *
@@ -38,9 +32,11 @@ public class PastaDeComunicacao implements Serializable {
     private String dataNasc;
     private String sexo;
     private String fotoUrl;
-    @Column(nullable = false, columnDefinition = "not null default 50")
+    @Column(nullable = false)
+    @ColumnDefault("50")
     private int velocidadeVoz;
-    @Column(nullable = false, columnDefinition = "not null default 50")
+    @Column(nullable = false)
+    @ColumnDefault("50")
     private int velocidadeSelecao;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
