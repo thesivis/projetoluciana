@@ -21,7 +21,6 @@
         <!-- WildFly Version-->
         <version.jboss.bom>11.0.0.Final</version.jboss.bom>
         <version.wildfly.maven.plugin>1.2.1.Final</version.wildfly.maven.plugin>
-    
     </properties>
     
     <dependencyManagement>
@@ -38,22 +37,7 @@
     </dependencyManagement>
     
     <dependencies>
-        <!--&lt;!&ndash; Java EE 7.0 Web profile dependency &ndash;&gt;-->
-        <!--<dependency>-->
-        <!--<groupId>javax</groupId>-->
-        <!--<artifactId>javaee-web-api</artifactId>-->
-        <!--<version>7.0</version>-->
-        <!--<scope>provided</scope>-->
-        <!--</dependency>-->
-        
-        <!--POSSIBLE DEPENDENCY. IF SO, REMOVE WEB API ABOVE-->
-        <!--<dependency>-->
-        <!--<groupId>javax</groupId>-->
-        <!--<artifactId>javaee-api</artifactId>-->
-        <!--<version>7.0</version>-->
-        <!--</dependency>-->
-        <!---->
-        
+    
         <!-- Hibernate with JPA -->
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -67,15 +51,16 @@
             <artifactId>postgresql</artifactId>
             <version>42.1.4.jre7</version>
         </dependency>
-        
-        <!-- JSF -->
+    
+        <!-- Java ServerFaces API -->
         <dependency>
             <groupId>javax.faces</groupId>
             <artifactId>javax.faces-api</artifactId>
             <version>2.2</version>
             <scope>provided</scope>
         </dependency>
-        
+    
+        <!-- Java Servlet API -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
