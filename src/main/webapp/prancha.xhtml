@@ -51,39 +51,44 @@ and open the template in the editor.
                         <h:inputHidden id="col" value="#{principalController.col}"  immediate="true"/>
                         <h:inputHidden rendered="#{not empty activeUserController.userActive}" id="velocidade" value="#{activeUserController.userActive.velocidadeSelecao}" immediate="true"/>
                         
-                        <h:panelGroup id="sujeito" class="painel" rendered="#{not empty activeUserController.userActive.sujeitos}">
-                            <h:outputText value="Sujeito"/>
+                        <h:panelGrid columns="5" id="sujeito" class="painel" rendered="#{not empty activeUserController.userActive.sujeitos}">
                             <c:forEach end="#{activeUserController.userActive.sujeitos.size()/5}" varStatus="count" >
-                                <div>
-                                    <c:forEach begin="#{(count.index)*5}" end="#{(count.index)*5+4}" var="suj" items="#{activeUserController.userActive.sujeitos}">
-                                            <p:graphicImage value="#{principalController.path}#{suj.url}" width="16%"/>
-                                    </c:forEach>
-                                </div>
+                                <c:forEach begin="#{(count.index)*5}" end="#{(count.index)*5+4}" var="suj" items="#{activeUserController.userActive.sujeitos}">
+                                    <h:panelGrid columns="1" style="text-align: center">    
+                                        <p:graphicImage value="#{principalController.path}#{suj.url}" width="50%"/>
+                                        <h:outputText value="#{suj.palavra}"/>
+                                    </h:panelGrid>
+                                </c:forEach>
                             </c:forEach>
-                        </h:panelGroup>
+<!--                            <f:facet name="header">
+                                <h:outputText value="Sujeito"/>
+                            </f:facet>-->
+                        </h:panelGrid>
                         
-                        <h:panelGroup id="verbo" class="painel" rendered="#{not empty activeUserController.userActive.verbos}">
-                            <h:outputText value="Verbo"/>
+                        <h:panelGrid columns="5" id="verbo" class="painel" rendered="#{not empty activeUserController.userActive.verbos}">
+<!--                        <h:outputText value="Verbo"/>-->
                             <div>
                                 <p:graphicImage value="img/Play.png" width="16%"/>
                                 <p:graphicImage value="img/Limpar.png" width="16%"/>
                                 <p:graphicImage value="img/Sair.png" width="16%"/>
                             </div>
                             <c:forEach end="#{activeUserController.userActive.verbos.size()/5}" varStatus="count" >
-                                <div>
-                                    <c:forEach begin="#{(count.index)*5}" end="#{(count.index)*5+4}" var="verb" items="#{activeUserController.userActive.verbos}">
+                                <c:forEach begin="#{(count.index)*5}" end="#{(count.index)*5+4}" var="verb" items="#{activeUserController.userActive.verbos}">
+                                    <p:panelGrid columns="1">
                                         <p:graphicImage value="#{principalController.path}#{verb.url}" width="16%"/>
-                                    </c:forEach>
-                                </div>
+                                        <h:outputText value="#{verb.palavra}"/>
+                                    </p:panelGrid>
+                                </c:forEach>
                             </c:forEach>
-                        </h:panelGroup>
+                        </h:panelGrid>
                         
-                        <h:panelGroup id="tempo" class="painel"  >
+                        <h:panelGroup id="tempo" class="painel"  >r
                             <h:outputText value="Tempo verbal"/>
                             <c:forEach end="#{principalController.tempoList.size()/5}" varStatus="count" >
                                 <div>
                                     <c:forEach begin="#{(count.index)*5}" end="#{(count.index)*5+4}" var="img" items="#{principalController.tempoList}">
                                         <p:graphicImage value="img/#{img}.png" width="16%"/>
+                                        <h:outputText value="#{img}"/>
                                     </c:forEach>
                                 </div>
                             </c:forEach>
@@ -96,12 +101,20 @@ and open the template in the editor.
                                     <p:graphicImage value="img/Sair.png" width="16%"/>
                                 </div>
                             <c:forEach end="#{activeUserController.userActive.complementos.size()/5}" varStatus="count" >
-                                <div>
+                                <div class="center">
                                     <c:forEach begin="#{(count.index)*5}" end="#{(count.index)*5+4}" var="comp" items="#{activeUserController.userActive.complementos}">
-                                        <p:graphicImage value="#{principalController.path}#{comp.url}" width="16%"/>
+                                        <!--<h:panelGroup id="selecomp" class="painel">-->
+                                        
+                                                <p:graphicImage value="#{principalController.path}#{comp.url}" width="16%"/>
+                                                <span>#{comp.palavra}</span>
+<!--                                                <h:outputText value="#{comp.palavra}" />-->
+                                             
+                                        <!--</h:panelGroup>-->
                                     </c:forEach>
-                                </div>
+                                    </div>
+                                    
                             </c:forEach>
+                            
                         </h:panelGroup>
                     </p:commandLink>
                 </h:form>

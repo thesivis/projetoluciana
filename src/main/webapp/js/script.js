@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     //Array para controlar os paineis de imagens a serem exibidas para o usuário
-    section = ["sujeito", "verbo", "tempo", "complemento"];
+    section = ["sujeito", "verbo", "tempo", "complemento", "selecomp"];
 
     //Variavel para controle de paineis
     sec = 0;
@@ -46,7 +46,7 @@ $(document).ready(function () {
             } else {
                 $($div).show();
                 $($div).children().css("border", "solid 4px transparent");
-                searchRow($($div).children());
+                searchRow($(document.getElementById(section[sec]).firstElementChild).children());
             }
         }
     }
@@ -59,6 +59,7 @@ $(document).ready(function () {
      */
     function searchRow($rows) {
         row = 1;
+      
         timeRow = setInterval(function () {
             if (row > $rows.size() + 1) {
                 row = 1;
@@ -99,8 +100,8 @@ $(document).ready(function () {
         if ($("#col").val() == 0) {
             if($("#row").val() > 0 && $("#row").val() <= $($div).children().size()){
                 clearInterval(timeRow);
-                $images = $("#"+section[sec]).children()[row - 2];
-                searchCol($($images).children("img"));
+                $images = $(document.getElementById(section[sec]).firstElementChild).children()[row - 2];
+                searchCol($($images).children());
             } 
         } else{
             if($("#col").val() > 0 && $("#col").val() <= $($images).children().size()){

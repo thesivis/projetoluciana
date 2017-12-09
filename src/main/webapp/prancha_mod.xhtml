@@ -71,9 +71,15 @@ and open the template in the editor.
                             <h:outputText value="Sujeito"/>
                             <c:forEach end="#{activeUserController.userActive.sujeitos.size()/5}" varStatus="count" >
                                 <div>
-                                    <c:forEach begin="#{(count.index)*5}" end="#{(count.index)*5+4}" var="suj" items="#{activeUserController.userActive.sujeitos}">
+                                  
+                                        <c:forEach begin="#{(count.index)*5}" end="#{(count.index)*5+4}" var="suj" items="#{activeUserController.userActive.sujeitos}">
+                                            
                                             <p:graphicImage value="#{principalController.path}#{suj.url}" width="16%"/>
-                                    </c:forEach>
+                                            <h:outputText value="#{suj.palavra}" style="margin: 0 auto"/>
+                                              
+                                            
+                                        </c:forEach>
+                                    
                                 </div>
                             </c:forEach>
                         </h:panelGroup>

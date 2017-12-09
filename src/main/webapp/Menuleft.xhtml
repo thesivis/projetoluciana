@@ -10,18 +10,18 @@
             <h:outputText value=" #{principalController.activeUserController.userActive.nome}"/>
         </f:facet>
         <p:panelMenu style="width: 100%">
-            <p:submenu label="Cadastro de Palavras" expanded="true">
-                <p:menuitem value="Sujeito" url="/faces/tabelaSuj.xhtml" icon="ui-icon-disk" />
-                <p:menuitem value="Verbo" url="/faces/tabelaVerb.xhtml" icon="ui-icon-disk" />
-                <p:menuitem value="Complemento" url="/faces/tabelaComp.xhtml" icon="ui-icon-disk" />
+            <p:submenu label="CADASTRO DE PALAVRAS" expanded="true">
+                <p:menuitem value="SUJEITO" url="/faces/tabelaSuj.xhtml" icon="ui-icon-disk" />
+                <p:menuitem value="VERBO" url="/faces/tabelaVerb.xhtml" icon="ui-icon-disk" />
+                <p:menuitem value="COMPLEMENTO" url="/faces/tabelaComp.xhtml" icon="ui-icon-disk" />
             </p:submenu>
-            <p:submenu label="Cadastro de Pacientes"  expanded="true">
-                <p:menuitem value="Novo usuário"  action="#{cadastroPacienteController.onNewPasta()}" url="/faces/cadastroPaciente.xhtml" icon="ui-icon-disk"/>
-                <p:menuitem value="Usuários cadastrados" url="/faces/pastaComunicacao.xhtml" icon="ui-icon-disk"/>
+            <p:submenu label="CADASTRO DE PACIENTES"  expanded="true">
+                <p:menuitem value="NOVO USUÁRIO"  action="#{cadastroPacienteController.onNewPasta()}" url="/faces/cadastroPaciente.xhtml" icon="ui-icon-disk"/>
+                <p:menuitem value="USUÁRIOS CADASTRADOS" url="/faces/pastaComunicacao.xhtml" icon="ui-icon-disk"/>
             </p:submenu>
-            <p:submenu label="Usuário"  expanded="true">
-                <p:menuitem value="Sair" icon="ui-icon-exit"/>
-                <p:menuitem value="Prancha" url="/faces/prancha.xhtml" icon="ui-icon-clipboard"/>
+            <p:submenu label="USUÁRIO"  expanded="true">
+                <p:menuitem value="SAIR" icon="ui-icon-exit"/>
+                <p:menuitem value="PRANCHA" url="/faces/prancha.xhtml" icon="ui-icon-clipboard"/>
             </p:submenu>
         </p:panelMenu>
     </h:form>
