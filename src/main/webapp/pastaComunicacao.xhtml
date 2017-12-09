@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="content">
+            
+            <!-- Tabela que exibe pacientes cadastrados-->
+            <h:form id="tabela">
+                <p:toolbar>
+                    <p:toolbarGroup>
+                        <p:commandButton value="Novo" action="#{cadastroPacienteController.onNewPasta()}" oncomplete="window.location.href = 'cadastroPaciente.xhtml'"/>
+                    </p:toolbarGroup>
+                </p:toolbar>
+                <p:growl id="messages" showDetail="true"/>
+                <p:messages autoUpdate="true"/>
+                <p:dataTable  id="tab" widgetVar="tabComu" var="list" style="text-align: center" value="#{pastaComunicacaoController.list}" filteredValue="#{pastaComunicacaoController.pastaListFiltred}"  paginator="true"  rows="5">
+                   <p:column headerText="Img"  width="50" priority="2">
+                        <p:graphicImage url="#{principalController.path}#{list.fotoUrl}" width="50" height="50" style="margin: 0 auto"/>
+                    </p:column>
+                    <p:column headerText="Nome" filterBy="#{list.nome}" filterMatchMode="contains">
+                        <h:outputText value="#{list.nome}"/>   
+                    </p:column>
+                    <p:column headerText="DataNasc" filterBy="#{list.dataNasc}" filterMatchMode="contains" priority="4">
+                        <h:outputText value="#{list.dataNasc}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>   
+                    </p:column>
+                    <p:column headerText="Sexo" filterBy="#{list.sexo}" filterMatchMode="exact" priority="4">
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('tabComu').filter()" >
+                                <f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItem itemLabel="Masculino" itemValue="M"/>
+                                <f:selectItem itemLabel="Feminino" itemValue="F"/>
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <h:outputText value="#{list.sexo}"/>   
+                    </p:column>  
+                    <p:column  headerText="Página" style="width: 32px ; font-size:  10px">
+                        <p:commandButton  icon="ui-icon-triangle-1-e" actionListener="#{principalController.activeUserController.userSelect(list)}" oncomplete="window.location.href = '/Comunicador/faces/prancha.xhtml'"/>
+                    </p:column>
+                     <p:column headerText="Editar" style="width: 32px;  font-size: 10px">
+                         <p:commandButton icon="ui-icon-pencil" oncomplete="window.location.replace('/Comunicador/faces/cadastroPaciente.xhtml')">
+                             <f:setPropertyActionListener value="#{list}" target="#{principalController.activeUserController.userActive}"/>
+                         </p:commandButton>
+                    </p:column>
+                    <p:column headerText="Excluir" style="width: 32px ; font-size:  10px">
+                        <p:commandButton  icon="ui-icon-trash" >
+                            <p:ajax listener="#{principalController.activeUserController.userSelect(null)}"/>
+                            <p:ajax listener="#{pastaComunicacaoController.onRowDelete(list)}"  update="#{p:component('tabela')}"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable> 
+            </h:form>  
+        </ui:define>
+    </ui:composition>
+</html>
+
