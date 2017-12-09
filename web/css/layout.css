@@ -1,0 +1,32 @@
+body{
+   background: #696969;
+   
+   
+}
+
+#container {
+
+    height: 700px;
+    width: 1020px;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    float: left;
+}
+
+h5 {
+    color: black;
+    font-size: 0.9em;
+    position: relative;
+    left: 10px;
+    top: 5px;
+    margin: 0px;
+    padding: 0
+        
+}
+
+.painel{
+    border-collapse: collapse;
+    padding: 10px;
+   
+}

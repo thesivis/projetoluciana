@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <ui:composition template="/template.xhtml">
+        <ui:define name="content">
+            <p:fieldset id="painel-frase" style="float: left;width: 50%" rendered="#{not empty activeUserController.userActive}">
+                <p:panelGrid columns="4" layout="grid" style="ui-noborder">
+                    <p:fieldset>
+                        <div class="ui-grid-col-12" style="padding: 10px; background: rgba(16, 228, 42, 0.32);">
+                                <h:outputText  value="SUJEITO"/>
+                        </div>
+                        <p:panelGrid columns="1" rendered="#{not empty principalController.selectSujeito}" style="text-align: center">
+                            <p:graphicImage  value="#{principalController.path}#{principalController.selectSujeito.url}" width="100%"/>
+                            <h:outputText value="#{principalController.selectSujeito.palavra}"/>
+                            <p:graphicImage value="img/delete-128.png" width="10" height="10"/>
+                        </p:panelGrid>
+                    </p:fieldset>
+                    <p:fieldset>
+                        <div class="ui-grid-col-12" style="padding: 10px; background: rgba(16, 228, 42, 0.32);">
+                                <h:outputText  value="VERBO"/>
+                        </div>
+                        <p:panelGrid columns="1" rendered="#{not empty principalController.selectVerbo}" style="text-align: center">
+                            <p:graphicImage  value="#{principalController.path}#{principalController.selectVerbo.url}" width="100%"/>
+                            <h:outputText value="#{principalController.selectVerbo.palavra}"/>
+                            <p:graphicImage value="img/delete-128.png" width="10" height="10"/>
+                        </p:panelGrid>
+                    </p:fieldset>
+                    <p:fieldset>
+                        <div class="ui-grid-col-12" style="padding: 10px; background: rgba(16, 228, 42, 0.32);">
+                                <h:outputText  value="TEMPO"/>
+                        </div>
+                        <p:panelGrid columns="1" rendered="#{not empty principalController.selectTempo}" style="text-align: center">
+                            <p:graphicImage  value="img/#{principalController.selectTempo}.png" width="100%"/>
+                            <h:outputText value="#{principalController.selectTempo}"/>
+                            <p:graphicImage value="img/delete-128.png" width="10" height="10"/>
+                        </p:panelGrid>
+                    </p:fieldset>
+                    <c:forEach var="comp" items="#{principalController.selectComplemento}" begin="0" end="#{principalController.selectComplemento.size()-1}" >
+                        <p:fieldset>
+                             <div class="ui-grid-col-12" style="padding: 10px; background: rgba(16, 228, 42, 0.32);">
+                                <h:outputText  value="COMP"/>
+                            </div>
+                            <p:panelGrid columns="1" rendered="#{not empty principalController.selectTempo}" style="text-align: center">
+                                <p:graphicImage width="100%" value="#{principalController.path}#{comp.url}"/>
+                                <h:outputText value="#{comp.palavra}"/>
+                                <p:graphicImage value="img/delete-128.png" width="10" height="10"/>
+                            </p:panelGrid>
+                        </p:fieldset>
+                    </c:forEach>
+                </p:panelGrid>
+                <p:fieldset style="visibility: hidden" rendered="#{not empty principalController.selectSujeito and (not empty activeUserController.userActive)}">
+                    <audio controls="" src="#{principalController.path}#{principalController.textToSpeech}VEL#{activeUserController.userActive.velocidadeVoz}.mp3" autoplay="true" style="width: 10px;"></audio>
+                </p:fieldset>
+            </p:fieldset>
+            <p:fieldset id="center" rendered="#{not empty activeUserController.userActive}">
+                <h:form id="form" prependId="false" rendered="#{not empty activeUserController.userActive}">
+                    <p:commandLink actionListener="#{principalController.onClickPage()}" update=":#{p:component('painel-frase')}">
+                        <h:inputHidden id="row" value="#{principalController.row}"  immediate="true"/>
+                        <h:inputHidden id="col" value="#{principalController.col}"  immediate="true"/>
+                        <h:inputHidden rendered="#{not empty activeUserController.userActive}" id="velocidade" value="#{activeUserController.userActive.velocidadeSelecao}" immediate="true"/>
+                        
+                        <h:panelGroup id="sujeito" class="painel" rendered="#{not empty activeUserController.userActive.sujeitos}">
+                            <h:outputText value="Sujeito"/>
+                            <c:forEach end="#{activeUserController.userActive.sujeitos.size()/5}" varStatus="count" >
+                                <div>
+                                  
+                                        <c:forEach begin="#{(count.index)*5}" end="#{(count.index)*5+4}" var="suj" items="#{activeUserController.userActive.sujeitos}">
+                                            
+                                            <p:graphicImage value="#{principalController.path}#{suj.url}" width="16%"/>
+                                            <h:outputText value="#{suj.palavra}" style="margin: 0 auto"/>
+                                              
+                                            
+                                        </c:forEach>
+                                    
+                                </div>
+                            </c:forEach>
+                        </h:panelGroup>
+                        
+                        <h:panelGroup id="verbo" class="painel" rendered="#{not empty activeUserController.userActive.verbos}">
+                            <div class="ui-grid-col-12" style="padding: 10px; background: rgba(16, 228, 42, 0.32);">
+                                <h:outputText  value="VERBOS"/>
+                            </div>
+                            
+                            <c:forEach end="#{activeUserController.userActive.verbos.size()/5}" varStatus="count" >
+                                <div>
+                                    <c:forEach begin="#{(count.index)*5}" end="#{(count.index)*5+4}" var="verb" items="#{activeUserController.userActive.verbos}">
+                                        <p:graphicImage value="#{principalController.path}#{verb.url}" width="16%"/>
+                                    </c:forEach>
+                                </div>
+                            </c:forEach>
+                            <div class="ui-grid-col-12" style="padding: 10px; background: rgba(16, 228, 42, 0.32);">
+                                <h:outputText  value="CONTROLES"/>
+                            </div>
+                            <div style="text-align: right">
+                                <p:graphicImage value="img/Play.png" width="16%"/>
+                                <p:graphicImage value="img/Sair.png" width="16%"/>
+                                <p:graphicImage value="img/undo-512.png" width="16%"/>
+                            </div>
+                        </h:panelGroup>
+                        
+                        <h:panelGroup id="tempo" class="painel"  >
+                            <h:outputText value="Tempo verbal"/>
+                            <c:forEach end="#{principalController.tempoList.size()/5}" varStatus="count" >
+                                <div>
+                                    <c:forEach begin="#{(count.index)*5}" end="#{(count.index)*5+4}" var="img" items="#{principalController.tempoList}">
+                                        <p:graphicImage value="img/#{img}.png" width="16%"/>
+                                    </c:forEach>
+                                </div>
+                            </c:forEach>
+                        </h:panelGroup>
+                        <h:panelGroup id="complemento" class="painel" rendered="#{not empty activeUserController.userActive.complementos}">
+                            <div class="ui-grid-col-12" style="padding: 10px; background: rgba(16, 228, 42, 0.32);">
+                                <h:outputText  value="COMPLEMENTOS"/>
+                            </div>
+                               
+                            <c:forEach end="#{activeUserController.userActive.complementos.size()/5}" varStatus="count" >
+                                <div>
+                                    <c:forEach begin="#{(count.index)*5}" end="#{(count.index)*5+4}" var="comp" items="#{activeUserController.userActive.complementos}">
+                                        <p:graphicImage value="#{principalController.path}#{comp.url}" width="16%"/>
+                                    </c:forEach>
+                                </div>
+                            </c:forEach>
+                            <div class="ui-grid-col-12" style="padding: 10px; background: rgba(16, 228, 42, 0.32);">
+                                <h:outputText  value="CONTROLES"/>
+                            </div>
+                            <div style="text-align: right">
+                                <p:graphicImage value="img/Play.png" width="16%"/>
+                                <p:graphicImage value="img/Sair.png" width="16%"/>
+                                <p:graphicImage value="img/undo-512.png" width="16%"/>
+                            </div>
+                        </h:panelGroup>
+                    </p:commandLink>
+                </h:form>
+            </p:fieldset>
+        </ui:define>
+    </ui:composition>
+</html>

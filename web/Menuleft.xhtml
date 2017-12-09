@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"  
+        xmlns:h="http://java.sun.com/jsf/html"  
+        xmlns:f="http://java.sun.com/jsf/core"  
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets"> 
+    <h:form>
+<!--                <h:link><i class="fa  fa-fw  fa-home"></i>Dashboard</h:link>-->
+        <f:facet name="options">
+            <p:graphicImage  value="#{principalController.path}#{principalController.activeUserController.userActive.fotoUrl}" width="25"/>
+            <h:outputText value=" #{principalController.activeUserController.userActive.nome}"/>
+        </f:facet>
+        <p:panelMenu style="width: 100%">
+            <p:submenu label="CADASTRO DE PALAVRAS" expanded="true">
+                <p:menuitem value="SUJEITO" url="/faces/tabelaSuj.xhtml" icon="ui-icon-disk" />
+                <p:menuitem value="VERBO" url="/faces/tabelaVerb.xhtml" icon="ui-icon-disk" />
+                <p:menuitem value="COMPLEMENTO" url="/faces/tabelaComp.xhtml" icon="ui-icon-disk" />
+            </p:submenu>
+            <p:submenu label="CADASTRO DE PACIENTES"  expanded="true">
+                <p:menuitem value="NOVO USUÁRIO"  action="#{cadastroPacienteController.onNewPasta()}" url="/faces/cadastroPaciente.xhtml" icon="ui-icon-disk"/>
+                <p:menuitem value="USUÁRIOS CADASTRADOS" url="/faces/pastaComunicacao.xhtml" icon="ui-icon-disk"/>
+            </p:submenu>
+            <p:submenu label="USUÁRIO"  expanded="true">
+                <p:menuitem value="SAIR" icon="ui-icon-exit"/>
+                <p:menuitem value="PRANCHA" url="/faces/prancha.xhtml" icon="ui-icon-clipboard"/>
+            </p:submenu>
+        </p:panelMenu>
+    </h:form>
+</ui:composition>    
