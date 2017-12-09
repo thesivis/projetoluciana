@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+>
+    <h:head>
+        <title>Prancha de Comunicação - IC UFMT</title>
+        <link rel="shortcut icon" href="img/icon.jpg"/>
+    </h:head>
+    <style>
+        body{
+            position: absolute;
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+        }
+    </style>
+    <h:body>
+       
+            <p:panelGrid columns="1" style="text-align: center;height: 100%">
+                <h:outputText  value="Bem vindo(a)!!!"/>
+                 <h:form >
+                    <p:commandLink action="#{principalController.onClickSelecionar()}">
+                        <p:graphicImage value="img/1438827739_hand_cursor.png"/><br/>
+                        <h:outputText value="Click para selecionar / criar usuário!"/>
+                    </p:commandLink>
+                </h:form>
+                <h:outputText value="Esta ferramenta foi desenvolvida pelo grupo de
+                              pesquisa FATA que tem por finalidade desenvolvimento 
+                              de ferramentas interativas e personalizadas em ambiente 
+                              de fábrica de software de alta tecnologia assistiva."/>
+            </p:panelGrid>
+    </h:body>
+</html>
