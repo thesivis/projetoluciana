@@ -20,7 +20,7 @@ and open the template in the editor.
                         <p:panelGrid columns="1" rendered="#{not empty principalController.selectSujeito}" style="text-align: center">
                             <p:graphicImage  value="#{principalController.path}#{principalController.selectSujeito.url}" width="100%"/>
                             <h:outputText value="#{principalController.selectSujeito.palavra}"/>
-                            <p:graphicImage value="img/delete-128.png" width="10" height="10"/>
+                            <p:graphicImage value="/img/delete-128.png" width="10" height="10"/>
                         </p:panelGrid>
                     </p:fieldset>
                     <p:fieldset>
@@ -30,7 +30,7 @@ and open the template in the editor.
                         <p:panelGrid columns="1" rendered="#{not empty principalController.selectVerbo}" style="text-align: center">
                             <p:graphicImage  value="#{principalController.path}#{principalController.selectVerbo.url}" width="100%"/>
                             <h:outputText value="#{principalController.selectVerbo.palavra}"/>
-                            <p:graphicImage value="img/delete-128.png" width="10" height="10"/>
+                            <p:graphicImage value="/img/delete-128.png" width="10" height="10"/>
                         </p:panelGrid>
                     </p:fieldset>
                     <p:fieldset>
@@ -38,9 +38,9 @@ and open the template in the editor.
                                 <h:outputText  value="TEMPO"/>
                         </div>
                         <p:panelGrid columns="1" rendered="#{not empty principalController.selectTempo}" style="text-align: center">
-                            <p:graphicImage  value="img/#{principalController.selectTempo}.png" width="100%"/>
+                            <p:graphicImage  value="/img/#{principalController.selectTempo}.png" width="100%"/>
                             <h:outputText value="#{principalController.selectTempo}"/>
-                            <p:graphicImage value="img/delete-128.png" width="10" height="10"/>
+                            <p:graphicImage value="/img/delete-128.png" width="10" height="10"/>
                         </p:panelGrid>
                     </p:fieldset>
                     <c:forEach var="comp" items="#{principalController.selectComplemento}" begin="0" end="#{principalController.selectComplemento.size()-1}" >
@@ -51,7 +51,7 @@ and open the template in the editor.
                             <p:panelGrid columns="1" rendered="#{not empty principalController.selectTempo}" style="text-align: center">
                                 <p:graphicImage width="100%" value="#{principalController.path}#{comp.url}"/>
                                 <h:outputText value="#{comp.palavra}"/>
-                                <p:graphicImage value="img/delete-128.png" width="10" height="10"/>
+                                <p:graphicImage value="/img/delete-128.png" width="10" height="10"/>
                             </p:panelGrid>
                         </p:fieldset>
                     </c:forEach>
@@ -94,9 +94,9 @@ and open the template in the editor.
                                 <h:outputText  value="CONTROLES"/>
                             </div>
                             <div style="text-align: right">
-                                <p:graphicImage value="img/Play.png" width="16%"/>
-                                <p:graphicImage value="img/Sair.png" width="16%"/>
-                                <p:graphicImage value="img/undo-512.png" width="16%"/>
+                                <p:graphicImage value="/img/Play.png" width="16%"/>
+                                <p:graphicImage value="/img/Sair.png" width="16%"/>
+                                <p:graphicImage value="/img/undo-512.png" width="16%"/>
                             </div>
                         </h:panelGroup>
                         
@@ -105,7 +105,7 @@ and open the template in the editor.
                             <c:forEach end="#{principalController.tempoList.size()/5}" varStatus="count" >
                                 <div>
                                     <c:forEach begin="#{(count.index)*5}" end="#{(count.index)*5+4}" var="img" items="#{principalController.tempoList}">
-                                        <p:graphicImage value="img/#{img}.png" width="16%"/>
+                                        <p:graphicImage value="/img/#{img}.png" width="16%"/>
                                     </c:forEach>
                                 </div>
                             </c:forEach>
@@ -126,9 +126,9 @@ and open the template in the editor.
                                 <h:outputText  value="CONTROLES"/>
                             </div>
                             <div style="text-align: right">
-                                <p:graphicImage value="img/Play.png" width="16%"/>
-                                <p:graphicImage value="img/Sair.png" width="16%"/>
-                                <p:graphicImage value="img/undo-512.png" width="16%"/>
+                                <p:graphicImage value="/img/Play.png" width="16%"/>
+                                <p:graphicImage value="/img/Sair.png" width="16%"/>
+                                <p:graphicImage value="/img/undo-512.png" width="16%"/>
                             </div>
                         </h:panelGroup>
                     </p:commandLink>

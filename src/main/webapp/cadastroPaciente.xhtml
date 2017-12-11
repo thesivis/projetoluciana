@@ -183,7 +183,7 @@
                         <p:panel header="Confirmação">
                             <p:panelGrid columns="1" layout="grid" style="text-align: center">
                                 <h:graphicImage rendered="#{not empty cadastroPacienteController.activeUserController.userActive.fotoUrl}" value="#{principalController.path}#{cadastroPacienteController.activeUserController.userActive.fotoUrl}" width="100" height="120"/>
-                                <h:graphicImage rendered="#{empty cadastroPacienteController.activeUserController.userActive.fotoUrl}" value="img/user.png" width="100" height="120"/>
+                                <h:graphicImage rendered="#{empty cadastroPacienteController.activeUserController.userActive.fotoUrl}" value="/img/user.png" width="100" height="120"/>
                                 <p:fileUpload label="Selecionar" mode="simple" skinSimple="true" value="#{cadastroPacienteController.file}"  required="true" allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/" invalidFileMessage="Formato invalido"/>
                                 <h:outputText value="#{cadastroPacienteController.activeUserController.userActive.nome}"/>
                                 <h:outputText value="#{cadastroPacienteController.activeUserController.userActive.sexo}"/>

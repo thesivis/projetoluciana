@@ -27,7 +27,7 @@ and open the template in the editor.
                     </p:fieldset>
                     <p:fieldset>
                         <p:panelGrid columns="1" rendered="#{not empty principalController.selectTempo}">
-                            <p:graphicImage  value="img/#{principalController.selectTempo}.png" width="100%"/>
+                            <p:graphicImage  value="/img/#{principalController.selectTempo}.png" width="100%"/>
                             <h:outputText value="#{principalController.selectTempo}"/>
                         </p:panelGrid>
                     </p:fieldset>
@@ -65,9 +65,9 @@ and open the template in the editor.
                         <h:panelGroup id="verbo" class="painel" rendered="#{not empty activeUserController.userActive.verbos}">
                             <h:outputText value="Verbo"/>
                             <div>
-                                <p:graphicImage value="img/Play.png" width="16%"/>
-                                <p:graphicImage value="img/Limpar.png" width="16%"/>
-                                <p:graphicImage value="img/Sair.png" width="16%"/>
+                                <p:graphicImage value="/img/Play.png" width="16%"/>
+                                <p:graphicImage value="/img/Limpar.png" width="16%"/>
+                                <p:graphicImage value="/img/Sair.png" width="16%"/>
                             </div>
                             <c:forEach end="#{activeUserController.userActive.verbos.size()/5}" varStatus="count" >
                                 <div>
@@ -83,7 +83,7 @@ and open the template in the editor.
                             <c:forEach end="#{principalController.tempoList.size()/5}" varStatus="count" >
                                 <div>
                                     <c:forEach begin="#{(count.index)*5}" end="#{(count.index)*5+4}" var="img" items="#{principalController.tempoList}">
-                                        <p:graphicImage value="img/#{img}.png" width="16%"/>
+                                        <p:graphicImage value="/img/#{img}.png" width="16%"/>
                                     </c:forEach>
                                 </div>
                             </c:forEach>
@@ -91,9 +91,9 @@ and open the template in the editor.
                         <h:panelGroup id="complemento" class="painel" rendered="#{not empty activeUserController.userActive.complementos}">
                             <h:outputText value="Complementos"/>    
                                 <div>
-                                    <p:graphicImage value="img/Play.png" width="16%"/>
-                                    <p:graphicImage value="img/Limpar.png" width="16%"/>
-                                    <p:graphicImage value="img/Sair.png" width="16%"/>
+                                    <p:graphicImage value="/img/Play.png" width="16%"/>
+                                    <p:graphicImage value="/img/Limpar.png" width="16%"/>
+                                    <p:graphicImage value="/img/Sair.png" width="16%"/>
                                 </div>
                             <c:forEach end="#{activeUserController.userActive.complementos.size()/5}" varStatus="count" >
                                 <div>
