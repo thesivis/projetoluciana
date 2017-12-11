@@ -17,27 +17,25 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 
 /**
- *
  * @author raphael
  */
 @WebFilter(urlPatterns = {"*"})
 public class EncodingFilter implements Filter {
-
+    
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response,
-            FilterChain chain) throws IOException, ServletException {
+    public void init(FilterConfig config) throws ServletException {
+    
+    }
+    
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         request.setCharacterEncoding("UTF-8");
         chain.doFilter(request, response);
     }
-
+    
     @Override
     public void destroy() {
-
+    
     }
-
-    @Override
-    public void init(FilterConfig config) throws ServletException {
-
-    }
-
+    
 }
