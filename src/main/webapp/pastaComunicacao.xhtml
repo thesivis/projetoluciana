@@ -48,11 +48,11 @@ and open the template in the editor.
                     <p:column  headerText="Página" style="width: 32px ; font-size:  10px">
                         <p:commandButton icon="ui-icon-triangle-1-e"
                                          actionListener="#{principalController.activeUserController.userSelect(list)}"
-                                         oncomplete="window.location.href = '/Comunicador/prancha.xhtml'"/>
+                                         oncomplete="window.location.href = 'prancha.xhtml'"/>
                     </p:column>
                      <p:column headerText="Editar" style="width: 32px;  font-size: 10px">
                          <p:commandButton icon="ui-icon-pencil"
-                                          oncomplete="window.location.replace('/Comunicador/cadastroPaciente.xhtml')">
+                                          oncomplete="window.location.replace('cadastroPaciente.xhtml')">
                              <f:setPropertyActionListener value="#{list}" target="#{principalController.activeUserController.userActive}"/>
                          </p:commandButton>
                     </p:column>

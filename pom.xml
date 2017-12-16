@@ -118,7 +118,8 @@
     </dependencies>
     
     <build>
-        <finalName>${project.artifactId}</finalName>
+        <!--<finalName>${project.artifactId}</finalName>-->
+        <finalName>ROOT</finalName>
     
         <plugins>
             <plugin>
