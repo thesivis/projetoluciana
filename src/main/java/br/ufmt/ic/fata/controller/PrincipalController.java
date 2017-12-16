@@ -123,17 +123,18 @@ public class PrincipalController implements Serializable {
     public void onClickSelecionar(){
         try {
             if(activeUserController.userActive.getNome() == null || activeUserController.userActive == null){
-                FacesContext.getCurrentInstance().getExternalContext().redirect("faces/pastaComunicacao.xhtml");
+                FacesContext.getCurrentInstance()
+                            .getExternalContext()
+                            .redirect("pastaComunicacao.xhtml");
                 System.out.println("Usuário já ativo");
             }else{
-                FacesContext.getCurrentInstance().getExternalContext().redirect("faces/prancha.xhtml");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("prancha.xhtml");
                 System.out.println("Usuário não ativo");
             }
-
+    
         } catch (IOException ex) {
             Logger.getLogger(PastaComunicacaoController.class.getName()).log(Level.SEVERE, null, ex);
         }
- 
     }
 
     /**

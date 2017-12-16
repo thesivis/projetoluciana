@@ -110,7 +110,7 @@ $(document).ready(function () {
                         if($("#col").val() == 2){
                             window.location.reload();
                         }else if($("#col").val() == 3){
-                            window.location.replace("/Comunicador/faces/index.xhtml");
+                            window.location.replace("/Comunicador/index.xhtml");
                         }
                     }else{
                         sec ++;
@@ -121,7 +121,7 @@ $(document).ready(function () {
                             if($("#col").val() == 2){
                                 window.location.reload();
                             }else if($("#col").val() == 3){
-                                window.location.replace("/Comunicador/faces/index.xhtml");
+                                window.location.replace("/Comunicador/index.xhtml");
                             }
                         }
                         sec = 3;

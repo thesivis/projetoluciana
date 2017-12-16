@@ -11,17 +11,19 @@
         </f:facet>
         <p:panelMenu style="width: 100%">
             <p:submenu label="Cadastro de Palavras" expanded="true">
-                <p:menuitem value="Sujeito" url="/faces/tabelaSuj.xhtml" icon="ui-icon-disk" />
-                <p:menuitem value="Verbo" url="/faces/tabelaVerb.xhtml" icon="ui-icon-disk" />
-                <p:menuitem value="Complemento" url="/faces/tabelaComp.xhtml" icon="ui-icon-disk" />
+                <p:menuitem value="Sujeito" url="/tabelaSuj.xhtml" icon="ui-icon-disk"/>
+                <p:menuitem value="Verbo" url="/tabelaVerb.xhtml" icon="ui-icon-disk"/>
+                <p:menuitem value="Complemento" url="/tabelaComp.xhtml" icon="ui-icon-disk"/>
             </p:submenu>
             <p:submenu label="Cadastro de Pacientes"  expanded="true">
-                <p:menuitem value="Novo usuário"  action="#{cadastroPacienteController.onNewPasta()}" url="/faces/cadastroPaciente.xhtml" icon="ui-icon-disk"/>
-                <p:menuitem value="Usuários cadastrados" url="/faces/pastaComunicacao.xhtml" icon="ui-icon-disk"/>
+                <p:menuitem value="Novo usuário" action="#{cadastroPacienteController.onNewPasta()}"
+                            url="/cadastroPaciente.xhtml" icon="ui-icon-disk"/>
+                <p:menuitem value="Usuários cadastrados" url="/pastaComunicacao.xhtml"
+                            icon="ui-icon-disk"/>
             </p:submenu>
             <p:submenu label="Usuário"  expanded="true">
                 <p:menuitem value="Sair" icon="ui-icon-exit"/>
-                <p:menuitem value="Prancha" url="/faces/prancha.xhtml" icon="ui-icon-clipboard"/>
+                <p:menuitem value="Prancha" url="/prancha.xhtml" icon="ui-icon-clipboard"/>
             </p:submenu>
         </p:panelMenu>
     </h:form>

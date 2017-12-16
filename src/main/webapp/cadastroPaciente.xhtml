@@ -193,7 +193,8 @@
                                 <h:outputText value="#{cadastroPacienteController.activeUserController.userActive.velocidadeVoz}"/>
                             </p:panelGrid>
                             <p:commandButton id="saveForm" action="#{cadastroPacienteController.gravar()}" value="Salvar" update="@all"  ajax="false"/>
-                            <p:commandButton  value="Cancelar" onclick="window.location.replace('/Comunicador/faces/pastaComunicacao.xhtml')"/>
+                            <p:commandButton value="Cancelar"
+                                             onclick="window.location.replace('/Comunicador/pastaComunicacao.xhtml')"/>
                         </p:panel>
                     </p:tab>
                 </p:wizard>

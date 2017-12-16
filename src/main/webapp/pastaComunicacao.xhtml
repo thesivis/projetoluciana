@@ -46,10 +46,13 @@ and open the template in the editor.
                         <h:outputText value="#{list.sexo}"/>   
                     </p:column>  
                     <p:column  headerText="Página" style="width: 32px ; font-size:  10px">
-                        <p:commandButton  icon="ui-icon-triangle-1-e" actionListener="#{principalController.activeUserController.userSelect(list)}" oncomplete="window.location.href = '/Comunicador/faces/prancha.xhtml'"/>
+                        <p:commandButton icon="ui-icon-triangle-1-e"
+                                         actionListener="#{principalController.activeUserController.userSelect(list)}"
+                                         oncomplete="window.location.href = '/Comunicador/prancha.xhtml'"/>
                     </p:column>
                      <p:column headerText="Editar" style="width: 32px;  font-size: 10px">
-                         <p:commandButton icon="ui-icon-pencil" oncomplete="window.location.replace('/Comunicador/faces/cadastroPaciente.xhtml')">
+                         <p:commandButton icon="ui-icon-pencil"
+                                          oncomplete="window.location.replace('/Comunicador/cadastroPaciente.xhtml')">
                              <f:setPropertyActionListener value="#{list}" target="#{principalController.activeUserController.userActive}"/>
                          </p:commandButton>
                     </p:column>

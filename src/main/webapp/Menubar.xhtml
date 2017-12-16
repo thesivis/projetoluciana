@@ -6,15 +6,15 @@
     
     <h:form id="formmenu">
         <p:menubar style="vertical-align: central">
-            <p:menuitem value="INÍCIO" url="/faces/index.xhtml" icon="ui-icon-home"/>
-            <p:menuitem value="PRANCHA" url="/faces/prancha.xhtml" icon="ui-icon-clipboard"/>
+            <p:menuitem value="INÍCIO" url="/index.xhtml" icon="ui-icon-home"/>
+            <p:menuitem value="PRANCHA" url="/prancha.xhtml" icon="ui-icon-clipboard"/>
             <p:submenu label="CADASTRO" icon="ui-icon-pencil">
-                <p:menuitem  value="Sujeito" url="/faces/tabelaSuj.xhtml"/>
-                <p:menuitem  value="Verbo" url="/faces/tabelaVerb.xhtml"/>
-                <p:menuitem  value="Complemento" url="/faces/tabelaComp.xhtml"/>
+                <p:menuitem value="Sujeito" url="/tabelaSuj.xhtml"/>
+                <p:menuitem value="Verbo" url="/tabelaVerb.xhtml"/>
+                <p:menuitem value="Complemento" url="/tabelaComp.xhtml"/>
             </p:submenu>
-            <p:menuitem  value="PACIENTES" url="/faces/pastaComunicacao.xhtml" icon="ui-icon-person"/>
-            <p:menuitem  value="CONTATO" url="/faces/contatos.xhtml" icon="ui-icon-mail-closed"/>
+            <p:menuitem value="PACIENTES" url="/pastaComunicacao.xhtml" icon="ui-icon-person"/>
+            <p:menuitem value="CONTATO" url="/contatos.xhtml" icon="ui-icon-mail-closed"/>
             <f:facet name="options">
                 <p:graphicImage  rendered="#{not empty principalController.activeUserController.userActive.nome}"  value="#{principalController.path}#{principalController.activeUserController.userActive.fotoUrl}" width="25"/>
                 <h:outputText rendered="#{not empty principalController.activeUserController.userActive.nome}" value=" #{principalController.activeUserController.userActive.nome}"/>
