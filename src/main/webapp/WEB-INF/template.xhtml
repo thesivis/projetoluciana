@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+    <title>UFMT - IC - Instituto de Computação</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <h:outputStylesheet name="css/layout.css"/>
+    <link rel="shortcut icon" type="image/x-icon" href="#{resource['images/favicon_azul.png']}"/>
+</h:head>
+
+<style>
+    .ui-layout-north .ui-layout-unit-content {
+        overflow: visible !important;
+    }
+
+    .panelColumns td {
+        vertical-align: top;
+    }
+
+</style>
+
+<h:body>
+    <div style="padding: 2px">
+        <header class="north-back">
+            <ui:include src="../Menubar.xhtml"/>
+        </header>
+        <div class="ui-grid ui-grid-responsive">
+            <!--                <aside class="ui-grid-col-2">
+                                <ui:include src="Menuleft.xhtml"/>
+                            </aside> -->
+
+            <div class="ui-grid-col-12" style="float: right">
+                <ui:insert name="content"/>
+            </div>
+        </div>
+
+        <h:outputScript name="js/script.js" target="body"/>
+    </div>
+</h:body>
+
+</html>

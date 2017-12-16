@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                    xmlns:h="http://xmlns.jcp.org/jsf/html"
-                    xmlns:f="http://java.sun.com/jsf/core"
-                    xmlns:ui="http://java.sun.com/jsf/facelets"
-                    xmlns:p="http://primefaces.org/ui" template="/template.xhtml">
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
         <ui:define name="content">
             <h:form id="formulario" enctype="multipart/form-data"  acceptcharset="iso-8859-1,utf-8">
                 <br/>
@@ -183,7 +183,9 @@
                         <p:panel header="Confirmação">
                             <p:panelGrid columns="1" layout="grid" style="text-align: center">
                                 <h:graphicImage rendered="#{not empty cadastroPacienteController.activeUserController.userActive.fotoUrl}" value="#{principalController.path}#{cadastroPacienteController.activeUserController.userActive.fotoUrl}" width="100" height="120"/>
-                                <h:graphicImage rendered="#{empty cadastroPacienteController.activeUserController.userActive.fotoUrl}" value="/img/user.png" width="100" height="120"/>
+                                <h:graphicImage
+                                        rendered="#{empty cadastroPacienteController.activeUserController.userActive.fotoUrl}"
+                                        value="images/user.png" width="100" height="120"/>
                                 <p:fileUpload label="Selecionar" mode="simple" skinSimple="true" value="#{cadastroPacienteController.file}"  required="true" allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/" invalidFileMessage="Formato invalido"/>
                                 <h:outputText value="#{cadastroPacienteController.activeUserController.userActive.nome}"/>
                                 <h:outputText value="#{cadastroPacienteController.activeUserController.userActive.sexo}"/>

@@ -104,7 +104,7 @@ $(document).ready(function () {
             } 
         } else{
             if($("#col").val() > 0 && $("#col").val() <= $($images).children().size()){
-                clearInterval(timeCol)
+                clearInterval(timeCol);
                 if (sec == 1) {
                     if($("#row").val() == 1){
                         if($("#col").val() == 2){

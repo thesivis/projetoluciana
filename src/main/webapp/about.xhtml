@@ -6,13 +6,16 @@ and open the template in the editor.
 -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
 >
-    
-    <ui:composition template="/template.xhtml">
+
+<ui:composition template="/WEB-INF/template.xhtml">
         <ui:define name="content">
             <section id="corpo">
-                <h1>Sobre</h1> 
-                <h1><img src="/img/1438837264_administrator.png"/></h1>
+                <h1>Sobre</h1>
+                <h1>
+                    <h:graphicImage name="images/1438837264_administrator.png"/>
+                </h1>
                 
             </section>
         </ui:define>

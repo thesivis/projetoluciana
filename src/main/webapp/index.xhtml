@@ -1,9 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -11,13 +5,14 @@ and open the template in the editor.
 >
     <h:head>
         <title>Prancha de Comunicação - IC UFMT</title>
-        <link rel="shortcut icon" href="/img/icon.jpg"/>
+        <link rel="shortcut icon" type="image/x-icon"
+              href="#{resource['images/favicon_azul.png']}"/>
     </h:head>
     <style>
         body{
             position: absolute;
-            margin: 0px;
-            padding: 0px;
+            margin: 0;
+            padding: 0;
             height: 100%;
         }
     </style>
@@ -27,7 +22,7 @@ and open the template in the editor.
                 <h:outputText  value="Bem vindo(a)!!!"/>
                  <h:form >
                     <p:commandLink action="#{principalController.onClickSelecionar()}">
-                        <p:graphicImage value="/img/1438827739_hand_cursor.png"/><br/>
+                        <p:graphicImage name="images/1438827739_hand_cursor.png"/><br/>
                         <h:outputText value="Click para selecionar / criar usuário!"/>
                     </p:commandLink>
                 </h:form>
