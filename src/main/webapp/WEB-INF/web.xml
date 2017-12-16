@@ -3,32 +3,45 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     
+    <!-- Definição do estágio atual do projeto-->
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
     
+    <!-- Interpretar strings vazias como null -->
+    <context-param>
+        <param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    
+    <!-- Definição do Faces Servlet-->
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     
+    <!-- Padrão de URL que será gerenciado pelo Faces Servlet-->
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
     
+    <!-- Tempo de duração de uma sessão em minutos -->
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
     
+    <!-- Página a ser servida quando uma página específica não é indicada pelo usuário -->
     <welcome-file-list>
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
     
+    <!-- Tema do Primefaces (ATENÇÃO: Se trata apenas da aparência!) -->
+    <!-- O tema Bootstrap não inclui as funcionalidades da biblioteca front-end Bootstrap -->
     <context-param>
         <param-name>primefaces.THEME</param-name>
         <param-value>bootstrap</param-value>
