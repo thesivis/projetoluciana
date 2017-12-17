@@ -4,7 +4,9 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
     <ui:define name="content">
+
         <h:form enctype="multipart/form-data" acceptcharset="utf-8">
             <p:dialog id="dial" header="Cadastrar Complemento" modal="true" widgetVar="cadastro">
                 <p:panelGrid columns="2" style="margin: auto">
@@ -13,8 +15,13 @@
                         <h:graphicImage name="images/1445035813_image_file.png"
                                         rendered="#{empty complementoController.complementoFile.url}"
                                         width="100" height="100"/>
-                        <p:fileUpload   mode="simple" value="#{complementoController.file}"  required="true" allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/" invalidFileMessage="Formato invalido"/>
+
+                        <p:fileUpload value="#{complementoController.file}" required="true"
+                                      allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/"
+                                      invalidFileMessage="Formato inválido" label="Escolher Imagem"
+                                      mode="simple" skinSimple="true"/>
                     </p:panelGrid>
+
                     <p:panelGrid columns="2">
                         <h:outputText value="Palavra:"/>
                         <h:inputText value="#{complementoController.complementoFile.palavra}" />
@@ -25,21 +32,26 @@
                         </p:selectOneRadio>
                     </p:panelGrid>
                 </p:panelGrid>
+
                 <p:toolbar>
                     <p:toolbarGroup>
                         <p:commandButton value="Gravar" oncomplete="PF('cadastro').hidden()" update=":#{p:component('tab')} @form"  ajax="false" action="#{complementoController.gravar()}"/>
-                        <p:commandButton type="reset" value="Limpar formulario"/>
+                        <p:commandButton type="reset" value="Limpar formulário"/>
                     </p:toolbarGroup>
                 </p:toolbar>
+
             </p:dialog>
         </h:form>
+
         <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+
         <h:form id="tabela">
             <p:toolbar>
                 <p:toolbarGroup>
                     <p:commandButton value="Novo" oncomplete="PF('cadastro').show()" action="#{complementoController.onNewComplemento()}" update="#{p:component('dial')}"/>
                 </p:toolbarGroup>
             </p:toolbar>
+
             <h:panelGrid class="ui-noborder">
                 <p:dataTable  id="tab" var="list" widgetVar="tabComp" style="text-align: center" value="#{complementoController.complementoList}" filteredValue="#{complementoController.complementoListFiltred}" paginator="true" rows="6" editable="true">
                     <p:column headerText="Figura" priority="2">
@@ -47,29 +59,35 @@
                         <h:graphicImage name="images/erro.png" width="50" height="50"
                                         rendered="#{list.url == null}"/>
                     </p:column>
+
                     <p:column headerText="Complemento" filterBy="#{list.palavra}">
                         <h:outputText value="#{list.palavra}"/>
                     </p:column>
+
                     <p:column headerText="Sexo" filterBy="#{list.sexo}" filterMatchMode="exact" priority="3">
                         <f:facet name="filter">
                             <p:selectOneMenu onchange="PF('tabComp').filter()" >
-                                <f:selectItem itemLabel="Select One" itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItem itemLabel="Escolha um" itemValue="#{null}"
+                                              noSelectionOption="true"/>
                                 <f:selectItem itemLabel="Masculino" itemValue="M"/>
                                 <f:selectItem itemLabel="Feminino" itemValue="F"/>
                             </p:selectOneMenu>
                         </f:facet>
                         <h:outputText value="#{list.sexo}"/>
                     </p:column>
+
                     <p:column headerText="Editar" style="width: 32px;  font-size: 10px">
                         <p:commandButton icon="ui-icon-pencil" oncomplete="PF('cadastro').show()" update="#{p:component('dial')}">
                             <f:setPropertyActionListener value="#{list}" target="#{complementoController.complementoFile}" />
                         </p:commandButton>
                     </p:column>
-                     <p:column headerText="Excluir" style="width: 32px ; font-size:  10px">
+
+                    <p:column headerText="Excluir" style="width: 32px ; font-size:  10px">
                         <p:commandButton icon="ui-icon-trash" update="tabela" actionListener="#{complementoController.onRowDelet(list)}"/>
                     </p:column>
-                </p:dataTable> '
+                </p:dataTable>
             </h:panelGrid>
+
         </h:form>
     </ui:define>
 </ui:composition>
